@@ -19,9 +19,14 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: chrscmpbll
 github_username:  chrispcampbell
 
+google_analytics: UA-3872301-4
+
 theme: minima
 plugins:
   - jekyll-feed
+
+minima:
+  date_format: "%B %-d, %Y"
 
 header_pages:
   - pages/music.md

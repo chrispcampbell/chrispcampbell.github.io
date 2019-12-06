@@ -1,0 +1,32 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+
+@import "minima";
+
+$brand-color: #33bb33;
+
+/**
+ * Links
+ */
+a {
+  color: $brand-color;
+  text-decoration: none;
+
+  &:visited {
+    color: $brand-color;
+  }
+
+  &:hover {
+    color: #339933;
+    text-decoration: none;
+  }
+
+  .social-media-list &:hover {
+    text-decoration: none;
+  
+    .username {
+      text-decoration: none;
+    }
+  }
+}
