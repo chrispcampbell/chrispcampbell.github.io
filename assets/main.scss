@@ -75,3 +75,19 @@ a {
   float: left;
   clear: both;
 }
+
+/**
+ * Code formatting
+ */
+pre,
+code {
+  border: 1px solid $grey-color-light;
+  border-radius: 3px;
+  background-color: #eee;
+}
+
+.highlight {
+  .highlighter-rouge & {
+    background: #eee;
+  }
+}
