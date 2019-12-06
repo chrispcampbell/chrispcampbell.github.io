@@ -28,6 +28,8 @@ plugins:
 minima:
   date_format: "%B %-d, %Y"
 
+# paginate: 1
+
 header_pages:
   - pages/music.md
   - pages/photos.md

@@ -4,7 +4,17 @@
     {%- assign default_paths = site.pages | map: "path" -%}
     {%- assign page_paths = site.header_pages | default: default_paths -%}
     {%- assign titles_size = site.pages | map: 'title' | join: '' | size -%}
-    <a class="site-title" rel="author" href="{{ "/" | relative_url }}">[la bonne soupe]</a>
+    {%- if page.show_subtitle -%}
+      <div style="float: left;">
+        <a class="site-title-with-subtitle" rel="author" href="{{ "/" | relative_url }}">[la bonne soupe]</a>
+        <span class="site-header-subtitle">digital things from chris campbell</span>
+      </div>
+    {% else %}
+      <a class="site-title" rel="author" href="{{ "/" | relative_url }}">[la bonne soupe]</a>
+    {%- endif -%}
+    {%- if page.show_subtitle -%}
+      <span class="site-header-page-title">{{ page.title }}</span>
+    {%- endif -%}
 
     {%- if titles_size > 0 -%}
       <nav class="site-nav">

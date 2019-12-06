@@ -1,0 +1,208 @@
+Subj:  WLD: Walk in the Park
+File:  PARKWLD.ZIP (32725 bytes)
+
+AUTHOR:    Joe Gradecki
+EQUIPMENT: 386 or Better, VGA
+NEEDS:     An UnZIPing Program and REND386
+
+RELEASED WITH THE PERMISSION OF THE AUTHORS. MAY BE REDISTRIBUTED ONLY IF PROPER CREDIT IS GIVEN
+
+A Walk in the Park is a REND386 .WLD file from Chapter 15 of the book The
+Virtual Reality Contruct Kit by Joe Gradecki. It is a park setting with
+trees, grass, a sculpture, benches and a sidewalk.
+
+The chapter in the book uses this world to discuss how to interface this
+world with a Treadmill or Bicycle.  While you won't find that information in
+this upload, all of the C source, .PLG's and .WLD are there.
+
+You need REND386 to view this world!
+
+Uploaded with permission from the author.
+
+=====================================
+Subj:  WLD: 3D Man, Robot & Dragon
+File:  FIGURES.ZIP (25832 bytes)
+AUTHOR:    Dennis McKenzie - DennisM357@aol.com
+
+
+3 figures created for use with the Rend family. 3Dman, Dragon, and Robot.
+They are shown going though a range of motions to show what they are capable
+of. The dragon was built for a fantasy world created with the 2Morrow World
+Builder. The robot is being used in a game of lazer tag that is currently
+under construction. Feel free to use these figures in your own creations. Use
+-d to unzip and run figures.wld to view them.
+
+
+=====================================
+Subj:  WLD: Rend386 Valley
+File:  VALLEY.ZIP (15604 bytes)
+AUTHOR:    Dennis McKenzie - DennisM357@aol.com
+
+
+This is the first animated world I attempted.( I plan on redoing it someday)
+Use -d to unzip and run valley.wld. It will not run with vr386 due to the
+depth sorting types.
+
+NOTE: This is a datafile for REND386, AVRIL or VR-386 available for
+downloading at Keyword VR. Instructions are located in these program's
+documentation for loading this file.
+
+=====================================
+Subj:  WLD: Virtual Scuba
+File:  SCUBA.ZIP (21080 bytes)
+AUTHOR:    Dennis McKenzie - DennisM357@aol.com
+
+Virtual SCUBA .  Underwater world with lots of denizens and currents.
+Requires a fairly fast machine to run well.  I am still in the learning phase
+and would appreciate comments/suggestions. The speed of the animations was
+gauged on a P90, but I tried to make them fast enough for a 486.
+
+Thanks,
+Dennis McKenzie
+
+=====================================
+Subj:  WLD: AOL Community World #2 - Halfway Point!
+AUTHOR:    AOL Community World Building Team
+
+
+Here is Community World #2 at its halfway point. Look for the finished
+product in October.   The AOL Community World Project is an ad-hoc group of World Builders on America Online.  This world is a freeform world that gets passed from member to member each week.  This file is the result of the first round!  For more information on CommWld, please contact Jon Neill (pcrvrjon@aol.com or Dennis McKensie (dennism357@aol.com).
+
+=====================================
+Subj:  WLD: Fireworks
+File:  4THJULY.ZIP (8358 bytes)
+AUTHOR:    Res Ipso@aol.com and DennisM357@aol.com
+
+A collaborative effort by AOL community worlds members Res Ipso and DennisM357in
+honor of July 4th!. Select the buttons to set off various fireworks.
+
+=====================================
+Subj:  WLD: Kingme
+File:  KINGME.ZIP (92954 bytes)
+AUTHOR:    Dennis McKenzie - DennisM357@aol.com
+
+A virtual fantasy adventure with many things to see, places to go and things
+to do. As far as I know this is the largest and most complex world created
+with VR386 to date. 
+NOTES: You MUST have an expanded memory manager and 520K free RAM to run this
+program. Do NOT use the menus or the program will terminate. View the readme
+file before playing. Use -d to unzip.
+
+To play, type: vr386  -k  -emm  kingme.wld
+
+Comments are welcome via e-mail to DennisM357@aol.com
+
+=====================================
+Subj:  WLD: Layout Of College Campus
+File:  PSUWLD.ZIP (8920 bytes)
+
+AUTHOR:    Paul Summitt
+NEEDS:     Rend386
+
+
+A layout of Pittsburg State University in Pittsburg,KS. Contact author Paul
+Summitt at 76270.551@compuserve.com with comments.
+
+=====================================
+Subj:  WLD: AOL Community World #1
+Date:  May 7, 1995
+File:  DZZYLAND.ZIP (41298 bytes)
+AUTHOR:    Comwlders
+
+An amusement park with various rides and attractions.The first effort of the
+community world project here on AOL. Use -d to unzip and run in VR386 by
+typing VR386  -k  dzzyland.wld
+
+The AOL Community World Project is an ad-hoc group of World Builders on America Online.  This world is was divided up into quadrants and each member was given his own area in which to design an amusement park type ride.   For more information on CommWld, please contact Jon Neill (pcrvrjon@aol.com or Dennis McKensie (dennism357@aol.com).
+
+
+Commwlders for comwld#1 
+ChrisC4149@aol.com
+DennisM357@aol.com
+Galba@aol.com
+PCRVRJon@aol.com
+Steph46031@aol.com
+
+
+=====================================
+Subj:  WLD: Ringworld
+File:  RINGWR.ZIP (20885 bytes)
+
+
+Larry Niven's Ringworld.
+
+
+=====================================
+Subj:  WLD: Towers of Hanoi
+File:  HANOI.ZIP (6791 bytes)
+AUTHOR:     Unknown
+
+
+A robot solves the Towers of Hanoi puzzle.
+
+
+=====================================
+Subj:  WLD: Car Ride
+File:  CAR.ZIP (22059 bytes)
+AUTHOR:    James F. Moon-Dupree
+
+
+Take a car ride!
+
+=====================================
+Subj:  WLD: Virtual Chessboard
+File:  CHESS.ZIP (4352 bytes)
+AUTHOR:    Todd Porter
+
+A Rend386 world of a virtual chessboard.
+
+
+=====================================
+Subj:  WLD: Buildings at Fairground
+File:  FAIR.ZIP (14619 bytes)
+AUTHOR:     Unknown
+
+Buildings at the fairgrounds. Has a very nice room in it.
+
+
+=====================================
+Subj:  WLD: Dream House
+File:  DREAM.ZIP (25526 bytes)
+AUTHOR:    Tom Bulatewicz
+
+This is an entire house that could theoretically be built.  I designed it and
+made it into a virtual world.  It is really cool to walk through it and look
+around in each room - fromthe ceiling fans to the knife in the kitchen. 
+
+The glove works exceptionally well to pick up things.
+
+Thanks,
+BISHOP11@aol.com
+
+=====================================
+Subj:  FIG: Rend386 Animated Man
+File:  3DMAN.ZIP (7335 bytes)
+AUTHOR:    Dennis McKenzie
+
+An animated man for Rend386 version5 (I haven't tried it on any other
+versions). Three men going through various motions to show the possibilities.
+
+
+Use -d to unzip and run tests.wld to view. 
+
+This  .fig file will be used as the basis for future rendering of human
+figures in my worlds. Use him freely in your own.
+
+dennism357@aol.com
+
+
+=====================================
+Subj:  PLG: Letters+, PLG Files
+File:  LETTERS.ZIP (53357 bytes)
+AUTHOR:    Dennis McKenzie
+
+Over 200 letter/number/characters. All in *.plg file format. Shareware.
+This is the first of many object libraries aimed at freeing the Rend386 world
+creator from the tedium of object creation. Use -d to unzip.
+
+dennism357@aol.com
