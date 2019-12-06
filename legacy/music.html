@@ -1,0 +1,534 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml' lang='en' xml:lang='en'>
+<head>
+<title>[la bonne soupe] music</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<link rel="stylesheet" href="../style.css" type="text/css" />
+<link rel="stylesheet" href="../jquery-ui/css/smoothness/jquery-ui-1.7.2.custom.css" type="text/css" />
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+<!--<script type="text/javascript" src="../js/jquery-1.3.min.js"></script>-->
+<script type="text/javascript" src="../js/jquery.jplayer.min.js"></script>
+<script>
+
+$(document).ready(function(){
+
+    var urlprefix = "http://labonnesoupe.org/static/music/files/";
+    //var urlprefix = "files/";
+    var playItem = -1;
+    var globalIndex = 0;
+
+    var scottishPlayList = [
+        {name:"Nana, Girl From Hungary",mp3:"Nana%2C%20Girl%20From%20Hungary.mp3"},
+        {name:"Mouth I",mp3:"Mouth%20I.mp3"},
+        {name:"H&auml;h",mp3:"Hah.mp3"},
+        {name:"I'm Cold And I Want To Go Home",mp3:"I%27m%20Cold%20And%20I%20Want%20To%20Go%20Home.mp3"},
+        {name:"Guaranteed Tremendous",mp3:"Guaranteed%20Tremendous.mp3"},
+        {name:"Mouth II",mp3:"Mouth%20II.mp3"},
+        {name:"Not For Pleasure Alone",mp3:"Not%20For%20Pleasure%20Alone.mp3"}
+    ];
+
+    var edmontonPlayList = [
+        {name:"Good Day Things Can Change",mp3:"Good%20Day%20Things%20Can%20Change.mp3"},
+        {name:"I Guess, Amen",mp3:"I%20Guess%2C%20Amen.mp3"}
+    ];
+
+    var literaryPlayList = [
+        {name:"The Stone Speaks",mp3:"The%20Stone%20Speaks.mp3"},
+        {name:"Cousins At Once",mp3:"Cousins%20At%20Once.mp3"},
+        {name:"A Mirror For The Romantic",mp3:"A%20Mirror%20For%20The%20Romantic.mp3"},
+        {name:"Xi-feng, Holy Terror",mp3:"Xi-feng%2C%20Holy%20Terror.mp3"},
+        {name:"Couplets Rejected (Naming The Garden)",mp3:"Couplets%20Rejected%20%28Naming%20The%20Garden%29.mp3"},
+        {name:"The Praises Of Literary Gentlemen",mp3:"The%20Praises%20Of%20Literary%20Gentlemen.mp3"},
+        {name:"Wistful Thinking (Red Inkstone)",mp3:"Wistful%20Thinking%20%28Red%20Inkstone%29.mp3"},
+        {name:"Chattering 19 To The 12",mp3:"Chattering%2019%20To%20The%2012.mp3"},
+        {name:"Oaf King, Again",mp3:"Oaf%20King%2C%20Again.mp3"},
+        {name:"Fool Conditioning (Our Grannie Liu)",mp3:"Fool%20Conditioning%20%28Our%20Grannie%20Liu%29.mp3"},
+        {name:"Wistful Thinking (Odd Tablet)",mp3:"Wistful%20Thinking%20%28Odd%20Tablet%29.mp3"},
+        {name:"Sister Two / Sister Three",mp3:"Sister%20Two%20_%20Sister%20Three.mp3"},
+        {name:"Delusion",mp3:"Delusion.mp3"},
+        {name:"Curses And Hearses (Dai-yu Passes)",mp3:"Curses%20And%20Hearses%20%28Dai-yu%20Passes%29.mp3"},
+        {name:"And So The Taoist Says To The Monk...",mp3:"And%20So%20The%20Taoist%20Says%20To%20The%20Monk....mp3"},
+        {name:"The Earthly Fortunes Of Family Jia",mp3:"The%20Earthly%20Fortunes%20Of%20Family%20Jia.mp3"},
+        {name:"The Stone Returns",mp3:"The%20Stone%20Returns.mp3"}
+    ];
+
+    var forwardPlayList = [
+        {name:"Mr. Sinister",mp3:"Mr.%20Sinister.mp3"},
+        {name:"Man, If You Got To Run For It",mp3:"Man%2C%20If%20You%20Got%20To%20Run%20For%20It.mp3"},
+        {name:"When You Were Zero (Pt. I)",mp3:"When%20You%20Were%20Zero%20%28Pt.%20I%29.mp3"},
+        {name:"Flash Flood Participant",mp3:"Flash%20Flood%20Participant.mp3"},
+        {name:"Semolina Spaghetti Western",mp3:"Semolina%20Spaghetti%20Western.mp3"},
+        {name:"Marshbird Fiesta Sitdown",mp3:"Marshbird%20Fiesta%20Sitdown.mp3"},
+        {name:"Eins Zwei Suppe",mp3:"Eins%20Zwei%20Suppe.mp3"},
+        {name:"When You Were Zero (Pt. II)",mp3:"When%20You%20Were%20Zero%20%28Pt.%20II%29.mp3"},
+        {name:"Ellowen Deeowen",mp3:"Ellowen%20Deeowen.mp3"}
+    ];
+
+    var playLists = [
+        scottishPlayList,
+        edmontonPlayList,
+        literaryPlayList,
+        forwardPlayList
+    ];
+
+    var playListNames = [
+        "scottish",
+        "edmonton",
+        "literary",
+        "forward"
+    ];
+
+    var totalItems = 0;
+    for (i = 0; i < playLists.length; i++) {
+        totalItems += playLists[i].length;
+    }
+
+    $("#jquery_jplayer").jPlayer({
+        ready: function() {
+            displayPlayList(scottishPlayList, "scottish");
+            displayPlayList(edmontonPlayList, "edmonton");
+            displayPlayList(literaryPlayList, "literary");
+            displayPlayList(forwardPlayList, "forward");
+            playListInit(false); // Parameter is a boolean for autoplay.
+        },
+        //swfPath: "http://labonnesoupe.org/static/js",
+        swfPath: "../js",
+        //nativeSupport: false,
+        //errorAlerts: true,
+        //warningAlerts: true,
+        oggSupport: false,
+        customCssIds: true
+    })
+    .jPlayer("cssId", "play", "player_play")
+    .jPlayer("cssId", "pause", "player_pause")
+    .jPlayer("cssId", "stop", "player_stop")
+    .jPlayer("cssId", "loadBar", "player_progress_load_bar")
+    .jPlayer("cssId", "playBar", "player_progress_play_bar")
+    .jPlayer("cssId", "volumeMin", "player_volume_min")
+    .jPlayer("cssId", "volumeMax", "player_volume_max")
+    .jPlayer("cssId", "volumeBar", "player_volume_bar")
+    .jPlayer("cssId", "volumeBarValue", "player_volume_bar_value")
+    .jPlayer("onProgressChange", function(loadPercent, playedPercentRelative, playedPercentAbsolute, playedTime, totalTime) {
+        var myPlayedTime = new Date(playedTime);
+        var ptMin = (myPlayedTime.getUTCMinutes() < 10) ? "0" + myPlayedTime.getUTCMinutes() : myPlayedTime.getUTCMinutes();
+        var ptSec = (myPlayedTime.getUTCSeconds() < 10) ? "0" + myPlayedTime.getUTCSeconds() : myPlayedTime.getUTCSeconds();
+        $("#play_time").text(ptMin+":"+ptSec);
+
+        var myTotalTime = new Date(totalTime);
+        var ttMin = (myTotalTime.getUTCMinutes() < 10) ? "0" + myTotalTime.getUTCMinutes() : myTotalTime.getUTCMinutes();
+        var ttSec = (myTotalTime.getUTCSeconds() < 10) ? "0" + myTotalTime.getUTCSeconds() : myTotalTime.getUTCSeconds();
+        $("#total_time").text(ttMin+":"+ttSec);
+    })
+    .jPlayer("onSoundComplete", function() {
+        playListNext();
+    });
+
+    $("#player_play").click( function() {
+        if (playItem < 0) playListNext();
+        return false;
+    });
+
+    $("#ctrl_prev").click( function() {
+        playListPrev();
+        return false;
+    });
+
+    $("#ctrl_next").click( function() {
+        playListNext();
+        return false;
+    });
+
+    function displayPlayList(playList, listName) {
+        for (i=0; i < playList.length; i++, globalIndex++) {
+            var num = (i+1);
+            var numstr = (num < 10) ? "0"+num : ""+num;
+            var numcode = "<span style='color:#aaaaaa;font-size:70%;'>"+numstr+"&nbsp;</span>";
+            $("#playlist_list_"+listName+" ul").append("<li class='playlist_list_li' id='playlist_item_"+globalIndex+"'>"+ numcode + " " + playList[i].name +"</li>");
+            $("#playlist_item_"+globalIndex).data("index", globalIndex).hover(
+                function() {
+                    if (playItem != $(this).data("index")) {
+                        $(this).addClass("playlist_hover");
+                    }
+                },
+                function() {
+                    $(this).removeClass("playlist_hover");
+                }
+            ).click( function() {
+                var index = $(this).data("index");
+                if (playItem != index) {
+                    playListChange(index);
+                } else {
+                    $("#jquery_jplayer").jPlayer("play");
+                }
+            });
+        }
+    }
+
+    function playListInit(autoplay) {
+        if (autoplay) {
+            playListChange(playItem);
+        } else {
+            playListConfig(playItem);
+        }
+    }
+
+    function setFileUsingGlobalIndex(index) {
+        if (index < 0) return;
+        var currentOffset = 0;
+        for (i=0; i < playLists.length; i++) {
+            var currentLength = playLists[i].length;
+            if (index < currentOffset+currentLength) {
+                var localIndex = index-currentOffset;
+                var num = (localIndex+1);
+                var numstr = (num < 10) ? "0"+num : ""+num;
+                var mp3 = urlprefix + playListNames[i] +
+                          "/" + numstr + " " + playLists[i][localIndex].mp3;
+                $("#jquery_jplayer").jPlayer("setFile", mp3);
+                return;
+            }
+            currentOffset += currentLength;
+        }
+    }
+
+    function playListConfig(index) {
+        $("#playlist_item_"+playItem).removeClass("playlist_current");
+        $("#playlist_item_"+index).addClass("playlist_current");
+        playItem = index;
+        setFileUsingGlobalIndex(playItem);
+    }
+
+    function playListChange(index) {
+        playListConfig(index);
+        $("#jquery_jplayer").jPlayer("play");
+    }
+
+    function playListNext() {
+        var index = (playItem+1 < totalItems) ? playItem+1 : 0;
+        playListChange(index);
+    }
+
+    function playListPrev() {
+        var index = (playItem-1 >= 0) ? playItem-1 : totalItems-1;
+        playListChange(index);
+    }
+/*
+    displayPlayList(scottishPlayList, "scottish");
+    displayPlayList(edmontonPlayList, "edmonton");
+    displayPlayList(literaryPlayList, "literary");
+    displayPlayList(forwardPlayList, "forward");
+*/
+});
+
+</script>
+
+<style>
+<!--
+#player_container {
+    position: relative;
+    background-color:transparent;
+    //background-color:#000000;
+    width:92px;
+    height:42px;
+    /*border:0px solid #009be3;*/
+    padding: 2px;
+}
+
+#player_container ul#player_controls {
+    margin: 0;
+    padding: 0;
+}
+#player_container ul#player_controls span.ui-icon {
+    float: left;
+    margin: 0 4px;
+}
+#player_container ul#player_controls li {
+    margin: 2px;
+    position: relative;
+    padding: 4px 0;
+    cursor: pointer;
+    float: left;
+    list-style: none;
+}
+
+#player_progress {
+    position: absolute;
+    //left:104px;
+    top:36px;
+    background-color: #444444;
+    width:92px;
+    height:6px;
+}
+#player_progress_load_bar {
+    background: #666666 top left repeat-x;
+    width:0px;
+    height:6px;
+    cursor: pointer;
+}
+#player_progress_play_bar {
+    background: #33cc33 top left repeat-x;
+    width:0px;
+    height:6px;
+}
+
+#player_volume_min {
+    position: absolute;
+    left:296px;
+    top:32px;
+    background: url("images/spirites.jpg") 0 -170px no-repeat;
+    width:18px;
+    height:15px;
+    cursor: pointer;
+}
+
+#player_volume_max {
+    position: absolute;
+    left:368px;
+    top:32px;
+    background: url("images/spirites.jpg") 0 -186px no-repeat;
+    width:18px;
+    height:15px;
+    cursor: pointer;
+}
+
+#player_volume_min.jqjp_hover {
+    background: url("images/spirites.jpg") -19px -170px no-repeat;
+}
+
+#player_volume_max.jqjp_hover {
+    background: url("images/spirites.jpg") -19px -186px no-repeat;
+}
+
+#player_volume_bar {
+    position: absolute;
+    left:314px;
+    top:37px;
+    background: url("images/volume_bar.gif") repeat-x top left;
+    width:46px;
+    height:5px;
+    cursor: pointer;
+}
+#player_volume_bar_value {
+    background: url("images/volume_bar_value.gif") repeat-x top left;
+    width:0px;
+    height:5px;
+}
+
+.playlist_list {
+    width:300px;
+    border-top:none;
+}
+
+.playlist_list_ul {
+    list-style-type:none;
+    padding: 0;
+    margin:0;
+    /*background-color:#ccc;*/
+    /*border:0px solid #009be3;*/
+    border-top:none;
+    /*width:378px;*/
+    /*font-size:.9em;*/
+}
+
+.playlist_list_li {
+    padding: 0 0 2px 0;
+    margin: 0;
+    /*border-bottom:1px solid #eee;*/
+    cursor: pointer;
+}
+
+.playlist_current {
+    color:#33ff33;
+    list-style-type:disc;
+    list-style-position:outside;
+    cursor: default;
+}
+
+.playlist_hover {
+    color:#33cc33;
+}
+
+.table_content {
+    width: 950px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.table_row {
+    /*border: 1px solid blue;*/
+    //height: 340px;
+    float: left;
+}
+
+.left_cell {
+    //border: 1px solid red;
+    width: 210px;
+    float: left;
+    margin: 0;
+    padding: 0 14px 0 0;
+}
+
+.right_cell_1 {
+    //border: 1px solid red;
+    width: 270px;
+    float: left;
+    margin: 0;
+    padding: 0 20px 0 0;
+}
+
+.right_cell_2 {
+    //border: 1px solid red;
+    width: 190px;
+    float: left;
+    margin: 0;
+    padding: 0 20px 0 0;
+}
+
+img {
+    padding: 2px 0px;
+}
+-->
+</style>
+</head>
+
+
+<body>
+
+<div class="table_content">
+
+<div style="height:24px;">
+</div>
+
+<div id="header" style="height:72px;">
+<h2><a style="color:#fff;" href="http://labonnesoupe.org">[la bonne soupe]</a></h2>
+<h3>music</h3>
+
+<div style="float:right;">
+<div id="jquery_jplayer"></div>
+
+<div id="player_container">
+    <ul id="player_controls" class="ui-widget ui-helper-clearfix">
+        <li id="ctrl_prev" class="ui-state-default ui-corner-all"><span class="ui-icon ui-icon-seek-first"></span></li>
+        <li id="player_play" class="ui-state-default ui-corner-all"><span class="ui-icon ui-icon-play"></span></li>
+        <li id="player_pause" class="ui-state-default ui-corner-all"><span class="ui-icon ui-icon-pause"></span></li>
+        <li id="ctrl_next" class="ui-state-default ui-corner-all"><span class="ui-icon ui-icon-seek-end"></span></li>
+    </ul>
+    <div id="player_progress">
+        <div id="player_progress_load_bar">
+            <div id="player_progress_play_bar"></div>
+        </div>
+    </div>
+<!--
+    <div id="play_time">PLAY TIME</div>
+    <div id="total_time">TOTAL TIME</div>
+-->
+<!--
+    <ul id="player_controls">
+        <li id="player_play">play</li>
+        <li id="player_pause">pause</li>
+        <li id="player_stop">stop</li>
+        <li id="player_volume_min">min volume</li>
+        <li id="player_volume_max">max volume</li>
+        <li id="ctrl_prev">previous</li>
+        <li id="ctrl_next">next</li>
+    </ul>
+    <div id="play_time"></div>
+    <div id="total_time"></div>
+    <div id="player_progress">
+        <div id="player_progress_load_bar">
+            <div id="player_progress_play_bar"></div>
+        </div>
+    </div>
+    <div id="player_volume_bar">
+        <div id="player_volume_bar_value"></div>
+    </div>
+-->
+</div>
+
+</div>
+</div>
+
+<div class="table_row">
+<div class="left_cell">
+<img src="scottish_sm.jpg"/><br/>
+<br/>
+La Bonne Soupe<br/>
+<span class="album">Scottish Insufficiency</span><br/>
+2008<br/>
+[<a href="http://labonnesoupe.bandcamp.com/album/scottish-insufficiency">buy now</a> on bandcamp]
+</div>
+<div class="right_cell_1">
+<div id="playlist_list_scottish">
+    <ul class="playlist_list_ul">
+        <!-- The function displayPlayList() uses this unordered list -->
+    </ul>
+</div>
+</div>
+</div>
+
+<div class="table_row">
+<div class="left_cell">
+<img src="edmonton_sm.jpg"/><br/>
+<br/>
+La Bonne Soupe<br/>
+<span class="album">Edmonton Tussle</span> 7&quot;<br/>
+2008<br/>
+[<a href="files/edmonton.zip">download</a>]
+</div>
+<div class="right_cell_2">
+<div id="playlist_list_edmonton">
+    <ul class="playlist_list_ul">
+        <!-- The function displayPlayList() uses this unordered list -->
+    </ul>
+</div>
+</div>
+</div>
+
+<div style="height:40px;clear:both;">
+</div>
+
+<div class="table_row">
+<div class="left_cell">
+<img src="literary_lp_sm.png"/><br/>
+<br/>
+La Bonne Soupe<br/>
+<span class="album">Literary Gentlemen</span><br/>
+2006<br/>
+[<a href="http://labonnesoupe.bandcamp.com/album/literary-gentlemen">buy now</a> on bandcamp]
+</div>
+<div class="right_cell_1">
+<div id="playlist_list_literary">
+    <ul class="playlist_list_ul">
+        <!-- The function displayPlayList() uses this unordered list -->
+    </ul>
+</div>
+</div>
+</div>
+
+<div class="table_row">
+<div class="left_cell">
+<img src="forward_sm.png"/><br/>
+<br/>
+La Bonne Soupe<br/>
+<span class="album">Forward To The Forward People</span><br/>
+2004<br/>
+[<a href="files/forward.zip">download</a>]
+</div>
+<div class="right_cell_2">
+<div id="playlist_list_forward">
+    <ul class="playlist_list_ul">
+        <!-- The function displayPlayList() uses this unordered list -->
+    </ul>
+</div>
+</div>
+</div>
+
+<div style="clear:both;padding-top:36px;color:#555;">
+Content is &copy; Chris Campbell.  All rights reserved.
+</div>
+
+</div>
+
+</body>
+
+</html>
