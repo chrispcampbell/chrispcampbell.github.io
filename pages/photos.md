@@ -2,8 +2,16 @@
 layout: page
 title: photos
 permalink: /photos/
-show-page-title: true
+show_page_title: true
 ---
+
+This is a small selection of photographs that were some of my favorites,<br/>
+at least when I first made this site circa 2009.
+
+For the full archives, check out my
+[photostream](http://www.flickr.com/photos/chrispcampbell/) on Flickr.
+<br/>
+<br/>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
@@ -13,10 +21,11 @@ show-page-title: true
 <!--
 #thumb_container {
     position: relative;
-    float: right;
+    float: left;
     background-color:transparent;
     //background-color:#000000;
-    width:332px;
+    //width: 332px;
+    width: 249px;
     padding: 0px;
 }
 
@@ -39,10 +48,17 @@ show-page-title: true
     margin-right: auto;
 }
 
+#image_container {
+    margin-left: 40px;
+    float: left;
+    //float: right;
+}
+
 .main_img_div {
     //border: 1px solid green;
-    width: 580px;
-    height: 580px;
+    width: 450px;
+    //height: 450px;
+    height: 581px;
     display: table-cell;
     text-align: center;
     vertical-align: middle;
@@ -60,13 +76,14 @@ show-page-title: true
 -->
 </style>
 
-<div id="image_container" style="float:left;">
-    <div>
-    </div>
-</div>
-
 <div id="thumb_container">
     <ul id="thumb_list">
         <!-- The function displayThumbs() uses this unordered list -->
     </ul>
 </div>
+
+<div id="image_container">
+    <div>
+    </div>
+</div>
+

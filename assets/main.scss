@@ -169,11 +169,28 @@ code {
 }
 
 /**
- *
+ * Post
  */
  
 .post-title {
   @include relative-font-size(1.8);
   font-weight: 600;
   margin-bottom: 10px;
+}
+
+.post-content {
+  // Mainly for code page
+  h3 {
+    font-weight: 600;
+    @include relative-font-size(1.425);
+    margin-bottom: 8px;
+
+    @include media-query($on-laptop) {
+      @include relative-font-size(1.275);
+    }
+  }
+  
+  h3:not(:first-child) {
+    margin-top: 32px;
+  }
 }

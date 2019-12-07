@@ -2,7 +2,7 @@
 layout: page
 title: code
 permalink: /code/
-show-page-title: true
+show_page_title: true
 ---
 
 ### Sloan-o-graph
