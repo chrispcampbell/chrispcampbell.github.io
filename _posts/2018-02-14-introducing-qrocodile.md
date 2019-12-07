@@ -38,7 +38,7 @@ I made a video to demonstrate how `qrocodile` works and to
 give a brief glimpse of what it took to put the (physical)
 pieces together:
 
-<center><iframe src="https://www.youtube.com/embed/yjEDAvP4rCc?rel=0&amp;showinfo=0" width="560" height="315" frameborder="0" allowfullscreen="allowfullscreen"></iframe></center>
+<center><iframe style="margin-bottom: 20px;" src="https://www.youtube.com/embed/yjEDAvP4rCc?rel=0&amp;showinfo=0" width="560" height="315" frameborder="0" allowfullscreen="allowfullscreen"></iframe></center>
 
 The [source code](https://github.com/chrispcampbell/qrocodile)
 is available on GitHub along with a fair amount of technical

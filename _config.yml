@@ -1,23 +1,9 @@
 title: la bonne soupe
-description: >-
-  TODO
-  My name is Chris Campbell. I like pixels.
-  I'm a software developer by day, and when I'm not [coding](static/code),
-  I'm probably puttering around the neighborhood.
-  Or I'm out taking [photographs](static/photos).
-  Or I'm recording [music](static/music) under the pseudonym La Bonne Soupe.
-
-  I'm currently employed at [Plausible Labs](https://plausible.coop),
-  a worker-owned software cooperative here in San Francisco.
-  Previously I spent 10+ years at Sun Microsystems, working
-  on the Java2D and JavaFX graphics engines.
-
-  You can find me [on Twitter](https://twitter.com/chrscmpbll)
-  or by email at _chrispcampbell at gmail dot com_. 
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: chrscmpbll
 github_username:  chrispcampbell
+email: chrispcampbell`at`gmail
 
 google_analytics: UA-3872301-4
 
@@ -28,7 +14,8 @@ plugins:
 minima:
   date_format: "%B %-d, %Y"
 
-# paginate: 1
+paginate: 1
+paginate_path: "/page/:num/"
 
 header_pages:
   - pages/music.md

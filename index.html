@@ -1,0 +1,33 @@
+---
+layout: default
+pagination:
+  enabled: true
+show_footer: true
+---
+
+{% for post in paginator.posts %}
+<header class="post-header">
+  <h1 class="post-title p-name"><a href="{{ post.url }}">{{ post.title }}</a></h1>
+  <p class="post-meta">
+  <time class="dt-published" datetime="{{ post.date | date_to_xmlschema }}" itemprop="datePublished">
+    {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+    {{ post.date | date: date_format }}
+  </time>
+</p>
+</header>
+<div class="content">
+  {{ post.content }}
+</div>
+{% endfor %}
+
+<!-- Pagination links -->
+<div class="pagination">
+  {% if paginator.previous_page %}
+    <a href="{{ paginator.previous_page_path }}" class="previous">
+      Previous
+    </a>
+  {% endif %}
+  {% if paginator.next_page %}
+    <a href="{{ paginator.next_page_path }}" class="next">Next</a>
+  {% endif %}
+</div>

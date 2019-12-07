@@ -4,11 +4,17 @@
 
 @import "minima";
 
-$brand-color: #33bb33;
+/**
+ * Basic styling
+ */
+body {
+  color: #555;
+}
 
 /**
  * Links
  */
+$brand-color: #33bb33;
 a {
   color: $brand-color;
   text-decoration: none;
@@ -32,7 +38,7 @@ a {
 }
 
 /**
- * Page header
+ * Site header
  */
 .site-header {
   min-height: $spacing-unit * 2.0;
@@ -77,6 +83,53 @@ a {
 }
 
 /**
+ * Site footer
+ * (Customized to be two columns instead of three)
+ */
+$column_padding: $spacing-unit;
+
+.footer-col-wrapper {
+  margin-left: -$column_padding;
+}
+
+.footer-col {
+  padding-left: $column_padding;
+}
+ 
+.footer-col-1,
+.footer-col-2 {
+  width: -webkit-calc(50% - (#{$column_padding}));
+  width:         calc(50% - (#{$column_padding}));
+}
+
+@include media-query($on-laptop) {
+  .footer-col-1,
+  .footer-col-2 {
+    width: -webkit-calc(50% - (#{$column_padding}));
+    width:         calc(50% - (#{$column_padding}));
+  }
+}
+
+@include media-query($on-palm) {
+  .footer-col {
+    float: none;
+    width: -webkit-calc(100% - (#{$column_padding}));
+    width:         calc(100% - (#{$column_padding}));
+  }
+}
+
+.footer-heading {
+  color: #000;
+  font-weight: 600;
+}
+
+.copyright {
+  @include relative-font-size(0.8);
+  color: $grey-color;
+}
+
+
+/**
  * Code formatting
  */
 pre,
@@ -90,4 +143,37 @@ code {
   .highlighter-rouge & {
     background: #eee;
   }
+}
+
+/**
+ * Post list
+ */
+
+.post-list {
+  li {
+    margin-bottom: 16px;
+  }
+
+  h3 {
+    line-height: 12px;
+    margin-bottom: 0;
+  }
+}
+ 
+.post-meta {
+  @include relative-font-size(0.7);
+}
+
+.post-link {
+  @include relative-font-size(0.9);
+}
+
+/**
+ *
+ */
+ 
+.post-title {
+  @include relative-font-size(1.8);
+  font-weight: 600;
+  margin-bottom: 10px;
 }
