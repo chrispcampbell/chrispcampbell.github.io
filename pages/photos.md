@@ -1,8 +1,10 @@
 ---
 layout: page
 title: photos
-permalink: /photos/
 show_page_title: true
+permalink: /photos/
+redirect_from:
+  - /static/photos
 ---
 
 This is a small selection of photographs that were some of my favorites,<br/>

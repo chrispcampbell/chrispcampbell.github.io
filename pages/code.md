@@ -1,8 +1,10 @@
 ---
 layout: page
 title: code
-permalink: /code/
 show_page_title: true
+permalink: /code/
+redirect_from:
+  - /static/code
 ---
 
 ### Sloan-o-graph
