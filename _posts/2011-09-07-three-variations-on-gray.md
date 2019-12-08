@@ -43,6 +43,6 @@ use more care in the way I shoot (and post-process).
 
 <p>
 <center>
-<iframe style="margin-top: 20px;" width="560" height="315" src="http://www.youtube.com/embed/sNiXUMNzqb8?hl=en&#038;fs=1" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/sNiXUMNzqb8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </center>
 </p>
