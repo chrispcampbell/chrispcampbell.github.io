@@ -53,7 +53,7 @@ relationships in the band.
 I threw together some JavaScript and Paper.js as a fun little
 brain exercise and out popped the (Chris Murphy approved!)
 Sloan-o-graph.
-[Read more...](2014/10/30/sloan-o-graph)
+[Read more...](/2014/10/30/sloan-o-graph)
 
 ### Color/Space
 
