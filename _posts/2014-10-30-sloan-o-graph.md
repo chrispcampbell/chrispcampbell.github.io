@@ -15,7 +15,7 @@ on which songs _does_ he sing backup? How often do those two interact anyway?
 What about Patrick and Andrew?
 
 On a lark, I decided to build a one-off web app to help answer these vital questions.
-So, here we have it: the [sloan-o-graph](http://labonnesoupe.org/static/sloan).
+So, here we have it: the [sloan-o-graph](/sloan).
 Here’s a non-interactive screenshot in case you’re too lazy to click through:
 
 <center>
