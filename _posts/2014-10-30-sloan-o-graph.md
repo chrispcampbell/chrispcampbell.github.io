@@ -18,11 +18,9 @@ On a lark, I decided to build a one-off web app to help answer these vital quest
 So, here we have it: the [sloan-o-graph](http://labonnesoupe.org/static/sloan).
 Here’s a non-interactive screenshot in case you’re too lazy to click through:
 
-<!-- TODO: Add screenshot to repo -->
-<!-- TODO: Fix link? -->
 <center>
-<a href="http://labonnesoupe.org/static/sloan/">
-  <img style="margin-top: 8px; margin-bottom: 24px;" src="http://labonnesoupe.org/static/sloan/screenshot.jpg" alt="sloan-o-graph" width="600" />
+<a href="/sloan">
+  <img style="margin-top: 8px; margin-bottom: 24px;" src="/assets/images/sloan-o-graph.jpg" alt="sloan-o-graph" width="600" />
 </a>
 </center>
 
