@@ -41,8 +41,6 @@ version of iMovie, so the quality is awful, especially during the fade
 transitions. I learned a lot this weekend, and next time around I’ll
 use more care in the way I shoot (and post-process).
 
-<p>
 <center>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/sNiXUMNzqb8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </center>
-</p>
