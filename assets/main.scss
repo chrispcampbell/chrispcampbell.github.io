@@ -171,7 +171,6 @@ code {
 /**
  * Post
  */
- 
 .post-title {
   @include relative-font-size(1.8);
   font-weight: 600;
@@ -192,5 +191,34 @@ code {
   
   h3:not(:first-child) {
     margin-top: 32px;
+  }
+}
+
+/**
+ * Pagination
+ */
+.pagination {
+  padding-top: 10px;
+  
+  a {
+    color: $grey-color;
+    text-align: center;
+    width: 84px;
+    border-radius: 12px;
+    border: 1px solid $grey-color-light;
+    padding: 10px;
+  }
+  
+  a:hover {
+    color: $brand-color;
+    border: 1px solid $brand-color;
+  }
+  
+  .previous {
+    float: left;
+  }
+  
+  .next {
+    float: right;
   }
 }
