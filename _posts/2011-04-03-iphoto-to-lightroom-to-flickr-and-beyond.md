@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "iPhoto to Lightroom (to Flickr and Beyond)"
-date:   2011-04-03 17:54:50 -0800
+date:   2011-04-03 09:54:50 -0800
 tags:   [code, photography]
 ---
 Ever since taking a mild interest in photography back in high school, I’ve gone through various stages…
