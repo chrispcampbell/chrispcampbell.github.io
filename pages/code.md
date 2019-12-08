@@ -7,22 +7,42 @@ redirect_from:
   - /static/code
 ---
 
-<script>
-<!--
-function reveal_div(id) {
-    document.getElementById(id + '_reveal').remove();
-    document.getElementById(id + '_more').style.display='block';
-}
--->
-</script>
-
 ### qrocodile
 
-TODO
+In early 2018, I created a fun little weekend hack called
+`qrocodile`, which is a kid-friendly system for controlling
+Sonos with QR codes, built using LEGO and a Raspberry Pi.
+The project received a lot of love from the makers of the
+Raspberry Pi, who featured it both
+[online](https://www.raspberrypi.org/blog/qrocodile-kid-friendly-sonos-system/)
+and in [print](https://twitter.com/chrscmpbll/status/979727170133155840).
+The instructions and source code are all available on GitHub.
+[Read more...](https://github.com/chrispcampbell/qrocodile)
 
-### PLRelational, etc
+### PLRelational
 
-TODO
+Back in 2015-16, I developed (with Plausible-alumnus Mike Ash)
+a Swift framework called PLRelational.
+Basically it's a storage and presentation library based
+on relational algebra, that allows you to treat relations
+as a reactive stream of values, which can simplify UI programming.
+And since 2019, it provides seamless integration with Apple's
+SwiftUI and Combine frameworks.
+[Read more...](https://github.com/plausiblelabs/plrelational)
+
+### Rust
+
+I really enjoy using the Rust programming language.
+I've been a fan since the pre-1.0 days, and at Plausible I've
+built a number of interesting libraries in Rust, from a
+functional reactive UI toolkit prototype to a combinator-based
+codec library.
+That toolkit prototype hasn't been open sourced (yet?),
+but three other Rust libraries of mine are available on GitHub:
+[rcodec](https://github.com/plausiblelabs/rcodec),
+[pl-hlist](https://github.com/plausiblelabs/hlist-rs),
+and
+[pl-lens](https://github.com/plausiblelabs/lens-rs).
 
 ### Sloan-o-graph
 
@@ -33,7 +53,7 @@ relationships in the band.
 I threw together some JavaScript and Paper.js as a fun little
 brain exercise and out popped the (Chris Murphy approved!)
 Sloan-o-graph.
-[Read more...](/sloan)
+[Read more...](2014/10/30/sloan-o-graph)
 
 ### Color/Space
 
@@ -228,3 +248,15 @@ for just one example).
     </p>
   </div>
 </div>
+
+<!-- Note: This is at the bottom on purpose; if it was at the top, it would interfere
+     with the h3:not(:first-child) selector.
+-->
+<script>
+<!--
+function reveal_div(id) {
+    document.getElementById(id + '_reveal').remove();
+    document.getElementById(id + '_more').style.display='block';
+}
+-->
+</script>
