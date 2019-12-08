@@ -1,6 +1,5 @@
 title: la bonne soupe
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+url: "http://labonnesoupe.org" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: chrscmpbll
 github_username:  chrispcampbell
 email: chrispcampbell`at`gmail
@@ -18,6 +17,11 @@ minima:
 
 paginate: 1
 paginate_path: "/page/:num/"
+
+# By default, jekyll-feed uses `/feed.xml`, but Wordpress uses
+# either `?feed=atom` or `/feed`, so let's try the latter
+feed:
+  path: feed
 
 header_pages:
   - pages/music.md
