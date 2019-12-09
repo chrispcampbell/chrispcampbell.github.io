@@ -77,7 +77,7 @@ of photos, so I wrote some scripts to help automate the process.
 ### Muni Status
 
 One day in mid-2008, I suddenly became frustrated with the
-[indecipherable](http://www.flickr.com/photos/chrispcampbell/2573863573/in/set-72157605585682253/)
+[indecipherable](https://www.flickr.com/photos/chrispcampbell/2573863573/in/set-72157605585682253/)
 status displays that are used in the underground Muni stations in
 San Francisco.
 I went home and spent just a couple hours prototyping a new display
@@ -91,8 +91,8 @@ to present clear information to Muni patrons.
     (even nicer ones followed):
   </p>
   <p style="text-align:center;">
-    <a href="http://www.flickr.com/photos/chrispcampbell/sets/72157605585682253/">
-      <img id="muni_now" src="http://farm4.static.flickr.com/3125/2574617086_50d5066a1a_z_d.jpg"/>
+    <a href="https://flickr.com/photos/chrispcampbell/sets/72157605585682253/">
+      <img id="muni_now" src="https://farm4.static.flickr.com/3125/2574617086_50d5066a1a_z_d.jpg"/>
     </a>
   </p>
   <p>    

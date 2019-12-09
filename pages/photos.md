@@ -11,7 +11,7 @@ This is a small selection of photographs that were some of my favorites,<br/>
 at least when I first made this site circa 2009.
 
 For the full archives, check out my
-[photostream](http://www.flickr.com/photos/chrispcampbell/) on Flickr.
+[photostream](https://flickr.com/photos/chrispcampbell/) on Flickr.
 <br/>
 <br/>
 
