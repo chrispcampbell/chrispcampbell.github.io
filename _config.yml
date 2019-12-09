@@ -11,6 +11,9 @@ plugins:
   - jekyll-feed
   - jekyll-redirect-from
 
+whitelist:
+  - jekyll-redirect-from
+
 theme: minima
 
 minima:
@@ -32,6 +35,3 @@ header_pages:
 exclude:
   - legacy/
   - src/
-
-whitelist:
-  - jekyll-redirect-from
