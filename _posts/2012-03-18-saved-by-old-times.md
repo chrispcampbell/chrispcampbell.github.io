@@ -10,7 +10,7 @@ that my family discovered a few years ago:
 
 <p>
 <center>
-<a title="IMG_2995 by chrispcampbell, on Flickr" href="http://www.flickr.com/photos/chrispcampbell/3169450431/"><img src="http://farm4.staticflickr.com/3102/3169450431_860f96855a_z.jpg" alt="IMG_2995" width="640" height="427" /></a>
+<a title="IMG_2995 by chrispcampbell, on Flickr" href="https://www.flickr.com/photos/chrispcampbell/3169450431/"><img src="https://farm4.staticflickr.com/3102/3169450431_860f96855a_z.jpg" alt="IMG_2995" width="640" height="427" /></a>
 </center>
 <br/>
 </p>
@@ -32,7 +32,7 @@ and a tree, all neatly arranged into thirds:
 
 <p>
 <center>
-<a title="IMG_3024 by chrispcampbell, on Flickr" href="http://www.flickr.com/photos/chrispcampbell/3170284262/"><img  src="http://farm4.staticflickr.com/3018/3170284262_167b4846d4_z.jpg" alt="IMG_3024" width="640" height="427" /></a>
+<a title="IMG_3024 by chrispcampbell, on Flickr" href="https://www.flickr.com/photos/chrispcampbell/3170284262/"><img  src="https://farm4.staticflickr.com/3018/3170284262_167b4846d4_z.jpg" alt="IMG_3024" width="640" height="427" /></a>
 </center>
 <br/>
 </p>
@@ -41,13 +41,13 @@ This one was badly washed out, but I loved the ethereal quality so much that
 I came back to San Francisco and attempted to create a painting based on the
 photograph.
 (The result wasn’t good enough to include here, but one can find it over on
-the [blog](http://nonabsorbing.blogspot.com/) that I share with Candice.)
+the [blog](https://nonabsorbing.blogspot.com/) that I share with Candice.)
 I believe that’s my grandmother, Helen, on the left, with A. Herbert to the
 right:
 
 <p>
 <center>
-<a title="IMG_3022 by chrispcampbell, on Flickr" href="http://www.flickr.com/photos/chrispcampbell/3169453609/"><img src="http://farm4.staticflickr.com/3260/3169453609_10110d71cd_z.jpg" alt="IMG_3022" width="640" height="427" /></a>
+<a title="IMG_3022 by chrispcampbell, on Flickr" href="https://www.flickr.com/photos/chrispcampbell/3169453609/"><img src="https://farm4.staticflickr.com/3260/3169453609_10110d71cd_z.jpg" alt="IMG_3022" width="640" height="427" /></a>
 </center>
 <br/>
 </p>
@@ -57,7 +57,7 @@ seemed like a swell guy:
 
 <p>
 <center>
-<a title="IMG_3002 by chrispcampbell, on Flickr" href="http://www.flickr.com/photos/chrispcampbell/3170281340/"><img src="http://farm4.staticflickr.com/3226/3170281340_caf9a93b2f_z.jpg" alt="IMG_3002" width="640" height="427" /></a>
+<a title="IMG_3002 by chrispcampbell, on Flickr" href="https://www.flickr.com/photos/chrispcampbell/3170281340/"><img src="https://farm4.staticflickr.com/3226/3170281340_caf9a93b2f_z.jpg" alt="IMG_3002" width="640" height="427" /></a>
 </center>
 <br/>
 </p>
@@ -69,7 +69,7 @@ just about everything:
 
 <p>
 <center>
-<a title="IMG_3006 by chrispcampbell, on Flickr" href="http://www.flickr.com/photos/chrispcampbell/3170281974/"><img src="http://farm2.staticflickr.com/1172/3170281974_1fd6d53753_z.jpg" alt="IMG_3006" width="640" height="427" /></a>
+<a title="IMG_3006 by chrispcampbell, on Flickr" href="https://www.flickr.com/photos/chrispcampbell/3170281974/"><img src="https://farm2.staticflickr.com/1172/3170281974_1fd6d53753_z.jpg" alt="IMG_3006" width="640" height="427" /></a>
 </center>
 <br/>
 </p>
@@ -78,7 +78,7 @@ Mmm, mmmilk. And an interesting angle here:
 
 <p>
 <center>
-<a title="IMG_3009 by chrispcampbell, on Flickr" href="http://www.flickr.com/photos/chrispcampbell/3169452309/"><img src="http://farm2.staticflickr.com/1171/3169452309_6d6a55be04_z.jpg" alt="IMG_3009" width="640" height="427" /></a>
+<a title="IMG_3009 by chrispcampbell, on Flickr" href="https://www.flickr.com/photos/chrispcampbell/3169452309/"><img src="https://farm2.staticflickr.com/1171/3169452309_6d6a55be04_z.jpg" alt="IMG_3009" width="640" height="427" /></a>
 </center>
 <br/>
 </p>
@@ -87,7 +87,7 @@ Another ghostly visage, unidentified:
 
 <p>
 <center>
-<a title="IMG_3013 by chrispcampbell, on Flickr" href="http://www.flickr.com/photos/chrispcampbell/3169452925/"><img src="http://farm4.staticflickr.com/3170/3169452925_1e9b1fa78e_z.jpg" alt="IMG_3013" width="640" height="427" /></a>
+<a title="IMG_3013 by chrispcampbell, on Flickr" href="https://www.flickr.com/photos/chrispcampbell/3169452925/"><img src="https://farm4.staticflickr.com/3170/3169452925_1e9b1fa78e_z.jpg" alt="IMG_3013" width="640" height="427" /></a>
 </center>
 <br/>
 </p>
@@ -96,7 +96,7 @@ Likewise, here. I think I just found my next album cover:
 
 <p>
 <center>
-<a title="IMG_2985 by chrispcampbell, on Flickr" href="http://www.flickr.com/photos/chrispcampbell/3169449463/"><img src="http://farm4.staticflickr.com/3080/3169449463_f81e666e51_z.jpg" alt="IMG_2985" width="640" height="427" /></a>
+<a title="IMG_2985 by chrispcampbell, on Flickr" href="https://www.flickr.com/photos/chrispcampbell/3169449463/"><img src="https://farm4.staticflickr.com/3080/3169449463_f81e666e51_z.jpg" alt="IMG_2985" width="640" height="427" /></a>
 </center>
 <br/>
 </p>

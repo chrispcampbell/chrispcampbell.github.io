@@ -11,16 +11,16 @@ of The Simpsons intro, for example) and it reminded me of the
 unintentionally primitive virtual reality programming I did as a
 teenager.
 I managed to revive some of that work and made the following video
-([YouTube link](http://youtu.be/Owh3eOKZPYs)).
+([YouTube link](https://youtu.be/Owh3eOKZPYs)).
 If you care to read some of the back story, there’s more after the embed.]
 
 <center>
-<iframe style="margin-bottom: 20px;" width="560" height="315" src="//www.youtube.com/embed/Owh3eOKZPYs" frameborder="0" allowfullscreen></iframe>
+<iframe style="margin-bottom: 20px;" width="560" height="315" src="https://youtube.com/embed/Owh3eOKZPYs" frameborder="0" allowfullscreen></iframe>
 </center>
 
 Back in the early 1990s, long before the much-anticipated Oculus Rift
 HMD or even the much-maligned
-[VRML](http://en.wikipedia.org/wiki/VRML) web standard, there was a small
+[VRML](https://en.wikipedia.org/wiki/VRML) web standard, there was a small
 group of academics building virtual reality software that could be
 run on average consumer PCs.
 Bernie Roehl and Dave Stampe created one such DOS program,
@@ -39,12 +39,12 @@ the joys of basic linear algebra along the way.
 
 Even cooler was that VR386 had support for navigating worlds and
 manipulating objects using my dust-gathering Nintendo
-[Power Glove](http://en.wikipedia.org/wiki/Power_Glove) via an
+[Power Glove](https://en.wikipedia.org/wiki/Power_Glove) via an
 inexpensive homebrew serial connection kit that I was able to
 afford with monies from my part-time dishwashing job. (Yes,
 the Power Glove finally had a valid use case other than beating
 Glass Joe in less than 27 seconds. Or serving as a
-[meme/punchline](https://www.youtube.com/watch?v=KZErvASwdlU).)
+[meme/punchline](https://youtube.com/watch?v=KZErvASwdlU).)
 
 I think I was around 13 when I tried creating my first virtual world
 for REND386: an AC/DC concert (modeled after my favorite
@@ -75,11 +75,11 @@ painstakingly tweaking coordinates and adjusting transforms and animation
 parameters in what must have been an awfully mind-numbing edit/compile/test
 cycle.
 I ended up building three rides from memory: the
-Orbiter ([Wikipedia](http://en.wikipedia.org/wiki/Orbiter_(ride)),
+Orbiter ([Wikipedia](https://en.wikipedia.org/wiki/Orbiter_(ride)),
 [YouTube](https://www.youtube.com/watch?v=o4_u_EvAmlg)),
-the Rainbow ([Wikipedia](http://en.wikipedia.org/wiki/Rainbow_(ride)),
+the Rainbow ([Wikipedia](https://en.wikipedia.org/wiki/Rainbow_(ride)),
 [YouTube](https://www.youtube.com/watch?v=QyIAJ_U4gvw)),
-and a Log Flume ride ([Wikipedia](http://en.wikipedia.org/wiki/Log_flume_(ride)),
+and a Log Flume ride ([Wikipedia](https://en.wikipedia.org/wiki/Log_flume_(ride)),
 [YouTube](https://www.youtube.com/watch?v=o7oysK-Jr5U)).
 Other people in our so-called “AOL Community World Builders” group, or
 CommWld’ers for short, were responsible for the other rides and buildings,
@@ -103,7 +103,7 @@ For the sake of posterity (or if you’re interested in stepping into a time
 machine back to 1995), I’ve gathered some links and resources that I used
 to make the above video and to refresh my fuzzy memory.
 
-[wlds.txt](http://www.ibiblio.org/pub/academic/computer-science/virtual-reality/rend386/worlds/wlds.txt)
+[wlds.txt](https://www.ibiblio.org/pub/academic/computer-science/virtual-reality/rend386/worlds/wlds.txt)
 ([local mirror](/files/dzzyland/wlds.txt))
 <br/>
 Some sort of index of various REND386/VR386 world files; one of the only places

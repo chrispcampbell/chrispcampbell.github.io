@@ -8,7 +8,7 @@ It’s been at least six years since I last played around with time
 lapse photography.
 On my last half-hearted attempt, I tried to capture the rising tide
 surrounding the
-[Floating Torii](http://www.flickr.com/photos/chrispcampbell/5505476898/in/set-72157626213627278/)
+[Floating Torii](https://www.flickr.com/photos/chrispcampbell/5505476898/in/set-72157626213627278/)
 in Miyajima, with no tripod and a not-so-great camera.
 Ever since, I’ve been wanting to capture something on a grand scale,
 something like the grayness that envelops San Francisco every summer,
@@ -32,7 +32,7 @@ At the very least, I’m glad that I was able to capture a typical summer
 scene before our perfect Indian summer sets in this week.
 
 Anyway, the video is
-[available on YouTube](http://www.youtube.com/watch?v=sNiXUMNzqb8)
+[available on YouTube](https://youtube.com/watch?v=sNiXUMNzqb8)
 and embedded below as well (best viewed at 720p).
 The frames were captured using my Canon 7D.
 I created the video clips using Lightroom’s slideshow mode, but
