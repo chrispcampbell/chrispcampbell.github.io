@@ -32,27 +32,26 @@ Eventually we ended up with something called `qrocodile`,
 which can be best summarized as a kid-friendly system for
 controlling Sonos using cards imprinted with QR codes.
 
-<div style="display: block; margin-left: auto; margin-right: auto; width: 655px;">
-<p>
-<a href="https://www.flickr.com/photos/chrispcampbell/38677871980/in/album-72157693866089215/">
-  <img style="float: left; display: inline-block; margin-right: 15px;" src="https://live.staticflickr.com/4653/38677871980_ce4b8b8c6e_n.jpg" alt="qrocodile1" width="320" height="213" />
-</a>
-</p>
-<p>
-<a href="https://www.flickr.com/photos/chrispcampbell/25617161267/in/album-72157693866089215/">
-  <img style="float: left; display: inline-block;" src="https://live.staticflickr.com/4651/25617161267_c2621cca3f_n.jpg" alt="qrocodile2" width="320" height="213" />
-</a>
-</p>
+<div style="display: flex; margin-bottom: 20px;">
+  <div style="flex: 50%; padding-right: 1%;">
+    <a href="https://flickr.com/photos/chrispcampbell/38677871980/in/album-72157693866089215/">
+      <img style="width: 100%" src="https://live.staticflickr.com/4653/38677871980_ce4b8b8c6e_n.jpg"/>
+    </a>
+  </div>
+  <div style="flex: 50%; padding-left: 1%;">
+    <a href="https://flickr.com/photos/chrispcampbell/25617161267/in/album-72157693866089215/">
+      <img style="width: 100%" src="https://live.staticflickr.com/4651/25617161267_c2621cca3f_n.jpg"/>
+    </a>
+  </div>
 </div>
-<p><br style="clear: both;"/></p>
-<br/>
 
 I made a video to demonstrate how `qrocodile` works and to
 give a brief glimpse of what it took to put the (physical)
 pieces together:
 
-<center><iframe style="margin-bottom: 20px;" src="https://www.youtube.com/embed/yjEDAvP4rCc?rel=0&amp;showinfo=0" width="560" height="315" frameborder="0" allowfullscreen="allowfullscreen"></iframe></center>
-<br/>
+<div class="video-container">
+<iframe class="video-embed" src="https://www.youtube.com/embed/yjEDAvP4rCc?rel=0&amp;showinfo=0" width="560" height="315" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+</div>
 
 The [source code](https://github.com/chrispcampbell/qrocodile)
 is available on GitHub along with a fair amount of technical

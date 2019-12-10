@@ -14,9 +14,9 @@ I managed to revive some of that work and made the following video
 ([YouTube link](https://youtu.be/Owh3eOKZPYs)).
 If you care to read some of the back story, there’s more after the embed.]
 
-<center>
-<iframe style="margin-bottom: 20px;" width="560" height="315" src="https://youtube.com/embed/Owh3eOKZPYs" frameborder="0" allowfullscreen></iframe>
-</center>
+<div class="video-container">
+<iframe class="video-embed" width="560" height="315" src="https://youtube.com/embed/Owh3eOKZPYs" frameborder="0" allowfullscreen></iframe>
+</div>
 
 Back in the early 1990s, long before the much-anticipated Oculus Rift
 HMD or even the much-maligned
