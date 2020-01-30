@@ -3,6 +3,14 @@ layout: post
 title:  "qrocodile: A Kid-friendly Sonos Controller"
 date:   2018-02-14 11:27:40 -0800
 tags:   [code]
+# XXX: GitHub Pages doesn't handle trailing slashes correctly
+# (will result in 404), and I had a link to this post on my
+# Twitter feed (that I can't change) that included the trailing
+# slash, so after migrating from Wordpress to GitHub Pages,
+# that link would no longer work.  As a workaround, specify
+# a custom permalink that writes the page to a directory,
+# which GitHub Pages should be able to handle.
+permalink: /2018/02/04/introducing-qrocodile/index.html
 ---
 It all started one night at the dinner table over winter break.
 The kids wanted to put an album on the turntable (hooked up to
