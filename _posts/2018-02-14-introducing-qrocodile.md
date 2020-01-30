@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "qrocodile: A Kid-friendly Sonos Controller"
-date:   2018-02-14 17:27:40 -0800
+date:   2018-02-14 11:27:40 -0800
 tags:   [code]
 ---
 It all started one night at the dinner table over winter break.
