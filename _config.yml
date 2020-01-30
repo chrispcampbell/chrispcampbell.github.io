@@ -7,6 +7,15 @@ email: chrispcampbell`at`gmail
 
 google_analytics: UA-3872301-4
 
+# XXX: GitHub Pages doesn't handle trailing slashes correctly
+# (will result in 404), and I had a link to a post on my
+# Twitter feed (that I can't change) that included the trailing
+# slash, so after migrating from Wordpress to GitHub Pages,
+# that link would no longer work.  As a workaround, specify
+# a custom permalink that writes the page to a directory,
+# which GitHub Pages should be able to handle.
+permalink: /:year/:month/:day/:title/
+
 plugins:
   - jekyll-feed
   - jekyll-redirect-from
