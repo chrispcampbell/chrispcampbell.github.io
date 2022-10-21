@@ -39,6 +39,7 @@ var albumItems = [];
 var songItems = [];
 var personItems = [];
 var personLinkItems = [];
+var barItems = [];
 
 var albumAnimParams = {};
 var songAnimParams = {};
@@ -135,31 +136,38 @@ function addPieSlice(song, album, cx, cy, baseSize, sweep, angle, songText, albu
     path.pivot = new Point(cx, cy);
     path.rotation = angle;
     
-    path.onMouseEnter = function(event) {
+    function onMouseEnter(event) {
         var brighterColor = new Color(color);
         brighterColor.brightness = 1.0;
-        this.fillColor = brighterColor;
+        path.fillColor = brighterColor;
         songText.content = song.title;
         songText.visible = true;
         albumText.visible = true;
         highlightAlbum(album);
         highlightPersonsForSong(song);
         highlightLinksForSong(song);
+        return false;
     }
-    
+    path.onClick = function(event) {
+        resetAll();
+        return onMouseEnter(event);
+    }
+    path.onMouseEnter = onMouseEnter;
     path.onMouseLeave = function(event) {
-        this.fillColor = color;
+        path.fillColor = color;
         songText.visible = false;
         albumText.visible = false;
         resetAlbumHighlighting();
         resetLinkHighlighting();
         resetPersonHighlighting();
+        return false;
     }
 
     var songItem = {
         song: song,
         album: album,
-        item: path
+        item: path,
+        color: color
     }
     songItems.push(songItem);
 
@@ -240,7 +248,7 @@ function addAlbumAtCenterPoint(album, center, textPt, rightJustify) {
 
     var albumText = new PointText(new Point(textPt.x, textPt.y + 16));
     albumText.style = textStyle;
-    albumText.fillColor = "#aaa";
+    albumText.fillColor = "#bbb";
     albumText.content = album.title + "\n" + album.year;
     if (rightJustify) {
         albumText.justification = "right";
@@ -259,17 +267,24 @@ function addAlbumAtCenterPoint(album, center, textPt, rightJustify) {
             fillColor: bgColor
         });
 
-    circle.onMouseEnter = function(event) {
+    function onMouseEnter(event) {
         highlightAlbum(album);
         highlightLinksForAlbum(album);
         songText.visible = false;
         albumText.visible = true;
+        return false;
     }
+    circle.onClick = function(event) {
+        resetAll();
+        return onMouseEnter(event);
+    }
+    circle.onMouseEnter = onMouseEnter;
     circle.onMouseLeave = function(event) {
         resetAlbumHighlighting();
         resetLinkHighlighting();
         songText.visible = false;
         albumText.visible = false;
+        return false;
     }
 
     var raster = new Raster(album.cover);
@@ -370,7 +385,7 @@ function addPerson(cx, cy, personKey) {
         nameText.position = new Point(cx + 20, cy - 42);
     }
     nameText.style = textStyle;
-    nameText.fillColor = "#777";
+    nameText.fillColor = "white";
     nameText.content = person.name;
     nameText.visible = false;
     
@@ -398,22 +413,30 @@ function addPerson(cx, cy, personKey) {
     var group = new Group([circle, raster]);
 
     // Highlight pie slices and links when hovering over person
-    group.onMouseEnter = function(event) {
+    function onMouseEnter(event) {
         highlightSongsForPerson(personKey, true, true);
         highlightLinksForPerson(personKey);
         highlightPerson(personKey);
         nameText.visible = true;
+        return false;
     }
+    group.onClick = function(event) {
+        resetAll();
+        return onMouseEnter(event);
+    }
+    group.onMouseEnter = onMouseEnter;
     group.onMouseLeave = function(event) {
         resetSongHighlighting();
         resetLinkHighlighting();
         resetPersonHighlighting();
         nameText.visible = false;
+        return false;
     }
 
     var personItem = {
         personKey: personKey,
         person: person,
+        nameText: nameText,
         item: group
     };
     personItems.push(personItem);
@@ -556,19 +579,28 @@ function addBar(x, y, w, h, personKey, enterFunc, exitFunc) {
             fillColor: person.color
         });
 
-    bar.onMouseEnter = function(event) {
+    function onMouseEnter(event) {
         var brighterColor = new Color(person.color);
         brighterColor.brightness = 1.0;
         bar.fillColor = brighterColor;
         highlightPerson(personKey);
         dimLinkHighlighting();
         enterFunc(personKey);
+        return false;
     }
+    bar.onClick = function(event) {
+        // XXX: On touch devices, we may not get mouse enter/exit,
+        // so call the reset functions on each click
+        resetAll();
+        return onMouseEnter(event);
+    }
+    bar.onMouseEnter = onMouseEnter;
     bar.onMouseLeave = function(event) {
         bar.fillColor = person.color;
         resetPersonHighlighting();
         resetLinkHighlighting();
         exitFunc(personKey);
+        return false;
     }
 
     var initialText = new PointText(new Point(x + 10, y + h - 2));
@@ -577,6 +609,11 @@ function addBar(x, y, w, h, personKey, enterFunc, exitFunc) {
     initialText.content = person.name.substring(0, 1);
     initialText.justification = "center";
     initialText.locked = true;
+
+    barItems.push({
+        bar: bar,
+        color: person.color
+    });
 }
 
 function addBarChart(title, x, y, w, h, chartItems, maxValue, label0, label1, label2, enterFunc, exitFunc) {
@@ -589,7 +626,7 @@ function addBarChart(title, x, y, w, h, chartItems, maxValue, label0, label1, la
     var titleText = new PointText(new Point(x + 3, y - 10));
     titleText.style = textStyle;
     titleText.fontSize += 2;
-    titleText.fillColor = "#ccc";
+    titleText.fillColor = "#ddd";
     titleText.content = title;
 
     var axisColor = "white";
@@ -982,7 +1019,7 @@ function highlightSongsAndTitlesForPerson(personKey, songItemFunc) {
             }
         }
         albumItem.songText.content = songText;
-        albumItem.songText.fillColor = "#666";
+        albumItem.songText.fillColor = "#eee";
         albumItem.songText.visible = true;
     }
     
@@ -1079,6 +1116,33 @@ function dimLinkHighlighting() {
 
 function resetLinkHighlighting() {
     resetHighlighting(personLinkAnimParams);
+}
+
+function resetAll() {
+    // This resets album highlighting too
+    resetSongAndTitleHighlighting();
+    //resetAlbumHighlighting();
+    resetLinkHighlighting();
+    resetPersonHighlighting();
+
+    // Reset other text/fill state
+    for (var i = 0; i < personItems.length; i++) {
+        var personItem = personItems[i];
+        personItem.nameText.visible = false;
+    }
+    for (var i = 0; i < albumItems.length; i++) {
+        var albumItem = albumItems[i];
+        albumItem.albumText.visible = false;
+        albumItem.songText.visible = false;
+    }
+    for (var i = 0; i < songItems.length; i++) {
+        var songItem = songItems[i];
+        songItem.item.fillColor = songItem.color;
+    }
+    for (var i = 0; i < barItems.length; i++) {
+        var barItem = barItems[i];
+        barItem.bar.fillColor = barItem.color;
+    }
 }
 
 /*
@@ -1263,6 +1327,19 @@ document.getElementById("hidden_images").innerHTML = hiddenImagesHtml;
  * MAIN SCRIPT
  *
  */
+
+
+var bg = new Path.Rectangle({
+  from: [0, 0],
+  to: [view.viewSize.width, view.viewSize.height],
+  fillColor: 'red',
+  opacity: 0,
+  visible: true
+});
+bg.onClick = function() {
+  resetAll();
+  return false;
+}
 
 addAlbums();
 
