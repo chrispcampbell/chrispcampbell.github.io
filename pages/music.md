@@ -8,6 +8,9 @@ redirect_from:
 ---
 
 <center>
+<iframe width="350" height="315" src="https://www.youtube.com/embed/i78efwhqHQs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<br/>
+
 <iframe style="margin: 8px; border: 0; width: 350px; height: 786px;" src="https://bandcamp.com/EmbeddedPlayer/album=4161680329/size=large/bgcol=ffffff/linkcol=33bb33/transparent=true/" seamless><a href="http://labonnesoupe.bandcamp.com/album/scottish-insufficiency">Scottish Insufficiency by La Bonne Soupe</a></iframe>
 
 <iframe style="margin: 8px; border: 0; width: 350px; height: 786px;" src="https://bandcamp.com/EmbeddedPlayer/album=2466160926/size=large/bgcol=ffffff/linkcol=33bb33/transparent=true/" seamless><a href="http://labonnesoupe.bandcamp.com/album/literary-gentlemen">Literary Gentlemen by La Bonne Soupe</a></iframe>
