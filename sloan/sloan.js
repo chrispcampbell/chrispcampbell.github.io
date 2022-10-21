@@ -16,7 +16,7 @@ var viewcx = view.viewSize.width / 2;
 var viewcy = 360;
 
 var coverSize = 45;
-var albumRingRadius = 250;
+var albumRingRadius = 260;
 var albumTextOffset = 80;
 
 var personSize = 70;
@@ -30,7 +30,7 @@ var persons = {
 };
 
 var personKeys = ["A", "J", "C", "P"];
-var personRingRadius = 120;
+var personRingRadius = 130;
 
 var personAngles = {};
 var personCenters = {};
@@ -50,7 +50,7 @@ var enableHighlightAnim = false;
 var sortAnimParams = {};
 var enableSortAnim = true;
 
-var primaryAlbumCount = 14;
+var primaryAlbumCount = 15;
 var secondaryAlbumCount = 4;
 
 for (var i = 0; i < personKeys.length; i++) {
@@ -189,32 +189,30 @@ function addAlbum(i, album) {
     if (i == 0) {
         // XXX: Nudge Peppermint to the right
         textPt.x += 16;
-    } else if (i == 2 || i == 3) {
-        // XXX: Move text for TR and OCTA to the left
-        textPt.x -= 14;
-    } else if (i == 4) {
-        // XXX: Move NB text to avoid overlapping with OCTA outtakes
-        textPt.x -= 4;
-        textPt.y -= 40;
+    } else if (i == 2 || i == 3 || i == 4) {
+        // XXX: Move text for TR and OCTA and NB to the left
+        textPt.x -= 17;
     } else if (i == 5) {
-        // XXX: Nudge text over so that it doesn't get too crowded
-        // when Patrick's singles are shown
-        textPt.x += 10;
-        textPt.y -= 15;
-    } else if (i == 6) {
+        // XXX: Move BTB text to avoid overlapping with OCTA outtakes
+        textPt.x -= 35;
+        textPt.y += 15;
+    } else if (i == 7) {
         // XXX: Move text up and to the right for the bottom-most album
         // so that it doesn't crowd the bar charts
-        textPt.x += 40;
-        textPt.y -= 20;
-    } else if (i >= 7 && i <= 11) {
+        textPt.x += 32;
+        textPt.y -= 28;
+    } else if (i >= 8 && i <= 11) {
         // XXX: Move text to the right to account for shorter songs on
         // these albums
-        if (i == 7) {
-            textPt.x += 4;
-            textPt.y -= 10;
-        } else if (i == 8) {
-            textPt.x += 56;
-            textPt.y += 18;
+        if (i == 8) {
+            textPt.x -= 4;
+            textPt.y -= 28;
+        } else if (i == 9) {
+            textPt.x += 52;
+            textPt.y += 12;
+        } else if (i == 10) {
+            textPt.x += 28;
+            textPt.y += 8;
         } else if (i == 11) {
             textPt.x += 22;
             textPt.y -= 20;
@@ -222,10 +220,9 @@ function addAlbum(i, album) {
             textPt.x += 20;
         }
     } else if (i == 12) {
-        // XXX: Nudge text over to account for extra-tall
-        // "Forty-eight Portraits"
-        textPt.x -= 10;
-        textPt.y += 10;
+        // XXX: Nudge text over for Commonwealth
+        textPt.x += 10;
+        textPt.y += 34;
     }
     
     var rightJustify = center.x < viewcx;

@@ -1768,6 +1768,123 @@ var albums = [
     "year": "2018"
   }, 
   {
+    "cover": "steady", 
+    "songs": [
+      {
+        "backups": [
+          "P"
+        ], 
+        "lead": "C", 
+        "seconds": 221, 
+        "single": true, 
+        "time": "3:41", 
+        "title": "Magical Thinking"
+      }, 
+      {
+        "backups": [], 
+        "lead": "P", 
+        "seconds": 151, 
+        "single": true, 
+        "time": "2:31", 
+        "title": "Spend the Day"
+      }, 
+      {
+        "backups": [
+          "C"
+        ], 
+        "lead": "J", 
+        "seconds": 153, 
+        "single": false, 
+        "time": "2:33", 
+        "title": "She Put Up with What She Put Down"
+      }, 
+      {
+        "backups": [], 
+        "lead": "C", 
+        "seconds": 162, 
+        "single": false, 
+        "time": "2:42", 
+        "title": "Human Nature"
+      }, 
+      {
+        "backups": [
+          "C"
+        ], 
+        "lead": "P", 
+        "seconds": 176, 
+        "single": true, 
+        "time": "2:56", 
+        "title": "Scratch the Surface"
+      }, 
+      {
+        "backups": [], 
+        "lead": "A", 
+        "seconds": 155, 
+        "single": false, 
+        "time": "2:35", 
+        "title": "Panic on Runnymede"
+      }, 
+      {
+        "backups": [
+          "C"
+        ], 
+        "lead": "J", 
+        "seconds": 187, 
+        "single": true, 
+        "time": "3:07", 
+        "title": "Dream It All Over Again"
+      }, 
+      {
+        "backups": [
+          "P"
+        ], 
+        "lead": "C", 
+        "seconds": 198, 
+        "single": false, 
+        "time": "3:18", 
+        "title": "Nice Work If You Can Get It"
+      }, 
+      {
+        "backups": [], 
+        "lead": "P", 
+        "seconds": 192, 
+        "single": false, 
+        "time": "3:12", 
+        "title": "Simply Leaving"
+      }, 
+      {
+        "backups": [], 
+        "lead": "A", 
+        "seconds": 232, 
+        "single": false, 
+        "time": "3:52", 
+        "title": "Close Encounters"
+      }, 
+      {
+        "backups": [
+          "P"
+        ], 
+        "lead": "C", 
+        "seconds": 133, 
+        "single": false, 
+        "time": "2:13", 
+        "title": "I Dream of Sleep"
+      }, 
+      {
+        "backups": [
+          "C"
+        ], 
+        "lead": "J", 
+        "seconds": 222, 
+        "single": false, 
+        "time": "3:42", 
+        "title": "Keep Your Name Alive"
+      }
+    ], 
+    "title": "Steady", 
+    "year": "2022"
+  }, 
+  {
     "cover": "bsides", 
     "songs": [
       {

@@ -784,6 +784,59 @@ C,P
 A,C
 
 
+Steady
+2022
+steady
+
+*Magical Thinking
+3:41
+C,P
+
+*Spend the Day
+2:31
+P
+
+She Put Up with What She Put Down
+2:33
+J,C
+
+Human Nature
+2:42
+C
+
+*Scratch the Surface
+2:56
+P,C
+
+Panic on Runnymede
+2:35
+A
+
+*Dream It All Over Again
+3:07
+J,C
+
+Nice Work If You Can Get It
+3:18
+C,P
+
+Simply Leaving
+3:12
+P
+
+Close Encounters
+3:52
+A
+
+I Dream of Sleep
+2:13
+C,P
+
+Keep Your Name Alive
+3:42
+J,C
+
+
 B Sides Win
 ca. 1992-1999
 bsides

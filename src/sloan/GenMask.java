@@ -44,6 +44,7 @@ public class GenMask {
             "double",
             "commonwealth",
             "twelve",
+            "steady",
             "bsides",
             "twiceout",
             "onechordout"
