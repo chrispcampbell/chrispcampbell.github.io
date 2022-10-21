@@ -603,7 +603,7 @@ function addBar(x, y, w, h, personKey, enterFunc, exitFunc) {
         return false;
     }
 
-    var initialText = new PointText(new Point(x + 10, y + h - 2));
+    var initialText = new PointText(new Point(x + 10, y + h - 4));
     initialText.style = textStyle;
     initialText.fillColor = bgColor;
     initialText.content = person.name.substring(0, 1);
@@ -617,13 +617,13 @@ function addBar(x, y, w, h, personKey, enterFunc, exitFunc) {
 }
 
 function addBarChart(title, x, y, w, h, chartItems, maxValue, label0, label1, label2, enterFunc, exitFunc) {
-    var barH = 13;
+    var barH = 16;
     var barPadY = (h - (chartItems.length * barH)) / (chartItems.length + 1);
 
     var barX = x + 1;
     var barY = y + barPadY;
 
-    var titleText = new PointText(new Point(x + 3, y - 10));
+    var titleText = new PointText(new Point(x + 3, y - 12));
     titleText.style = textStyle;
     titleText.fontSize += 2;
     titleText.fillColor = "#ddd";
