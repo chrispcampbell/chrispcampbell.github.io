@@ -5,6 +5,8 @@
  * All rights reserved.
  */
 
+// var isTouchScreen = ( 'ontouchstart' in window ) || ( navigator.maxTouchPoints > 0 );
+
 var bgColor = "#222";
 
 var textStyle = {
@@ -47,7 +49,8 @@ var songAnimParams = {};
 var personAnimParams = {};
 var personLinkAnimParams = {};
 var highlightAnimParams = [];
-var enableHighlightAnim = false;
+var enableHighlightAnim = false; //!isTouchScreen;
+var enableMouseHover = true;
 
 var sortAnimParams = {};
 var enableSortAnim = true;
@@ -153,15 +156,17 @@ function addPieSlice(song, album, cx, cy, baseSize, sweep, angle, songText, albu
         resetAll();
         return onMouseEnter(event);
     }
-    path.onMouseEnter = onMouseEnter;
-    path.onMouseLeave = function(event) {
-        path.fillColor = color;
-        songText.visible = false;
-        albumText.visible = false;
-        resetAlbumHighlighting();
-        resetLinkHighlighting();
-        resetPersonHighlighting();
-        return false;
+    if (enableMouseHover) {
+        path.onMouseEnter = onMouseEnter;
+        path.onMouseLeave = function(event) {
+            path.fillColor = color;
+            songText.visible = false;
+            albumText.visible = false;
+            resetAlbumHighlighting();
+            resetLinkHighlighting();
+            resetPersonHighlighting();
+            return false;
+        }
     }
 
     var songItem = {
@@ -199,6 +204,10 @@ function addAlbum(i, album) {
         // XXX: Nudge Peppermint to the right
         textPt.x += 40;
         textPt.y += 20;
+    } else if (i == 1) {
+        // XXX: Smeared
+        textPt.x -= 10;
+        textPt.y -= 16;
     } else if (i == 2) {
         // XXX: Move text for TR up and to the left
         textPt.x -= 50;
@@ -302,13 +311,15 @@ function addAlbumAtCenterPoint(album, center, textPt, rightJustify) {
         resetAll();
         return onMouseEnter(event);
     }
-    circle.onMouseEnter = onMouseEnter;
-    circle.onMouseLeave = function(event) {
-        resetAlbumHighlighting();
-        resetLinkHighlighting();
-        songText.visible = false;
-        albumText.visible = false;
-        return false;
+    if (enableMouseHover) {
+        circle.onMouseEnter = onMouseEnter;
+        circle.onMouseLeave = function(event) {
+            resetAlbumHighlighting();
+            resetLinkHighlighting();
+            songText.visible = false;
+            albumText.visible = false;
+            return false;
+        }
     }
 
     var raster = new Raster(album.cover);
@@ -351,7 +362,7 @@ function addAlbums() {
         album.primary = false;
     }
 
-    var cl = 200;
+    var cl = 250;
     var cr = view.viewSize.width - cl;
     var ct = 150;
     var cb = 560;
@@ -448,13 +459,15 @@ function addPerson(cx, cy, personKey) {
         resetAll();
         return onMouseEnter(event);
     }
-    group.onMouseEnter = onMouseEnter;
-    group.onMouseLeave = function(event) {
-        resetSongHighlighting();
-        resetLinkHighlighting();
-        resetPersonHighlighting();
-        nameText.visible = false;
-        return false;
+    if (enableMouseHover) {
+        group.onMouseEnter = onMouseEnter;
+        group.onMouseLeave = function(event) {
+            resetSongHighlighting();
+            resetLinkHighlighting();
+            resetPersonHighlighting();
+            nameText.visible = false;
+            return false;
+        }
     }
 
     var personItem = {
@@ -618,13 +631,15 @@ function addBar(x, y, w, h, personKey, enterFunc, exitFunc) {
         resetAll();
         return onMouseEnter(event);
     }
-    bar.onMouseEnter = onMouseEnter;
-    bar.onMouseLeave = function(event) {
-        bar.fillColor = person.color;
-        resetPersonHighlighting();
-        resetLinkHighlighting();
-        exitFunc(personKey);
-        return false;
+    if (enableMouseHover) {
+        bar.onMouseEnter = onMouseEnter;
+        bar.onMouseLeave = function(event) {
+            bar.fillColor = person.color;
+            resetPersonHighlighting();
+            resetLinkHighlighting();
+            exitFunc(personKey);
+            return false;
+        }
     }
 
     var initialText = new PointText(new Point(x + 9, y + h - 2));
