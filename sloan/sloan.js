@@ -8,9 +8,9 @@
 var bgColor = "#222";
 
 var textStyle = {
-    fontSize: "17px",
+    fontSize: "19px",
     fontFamily: "Helvetica Neue",
-    fontWeight: 300
+    fontWeight: 500
 };
 
 var viewcx = view.viewSize.width / 2;
@@ -21,7 +21,7 @@ var albumRingRadius = 260;
 var albumTextOffset = 80;
 
 var personSize = 90;
-var personHaloWidth = 4;
+var personHaloWidth = 5;
 
 var persons = {
     "A": { name: "Andrew", color: "#992E2E" },
@@ -197,22 +197,23 @@ function addAlbum(i, album) {
 
     if (i == 0) {
         // XXX: Nudge Peppermint to the right
-        textPt.x += 24;
+        textPt.x += 40;
+        textPt.y += 20;
     } else if (i == 2) {
-        // XXX: Move text for TR down and to the left
-        textPt.x -= 17;
-        textPt.y += 28;
+        // XXX: Move text for TR up and to the left
+        textPt.x -= 50;
+        textPt.y -= 48;
     } else if (i == 3) {
         // XXX: Move text for OCTA down and to the left
-        textPt.x -= 52;
-        textPt.y += 64;
+        textPt.x -= 116;
+        textPt.y += 70;
     } else if (i == 4) {
         // XXX: Move text for NB down and to the left
-        textPt.x -= 60;
-        textPt.y += 34;
+        textPt.x -= 90;
+        textPt.y += 40;
     } else if (i == 5) {
         // XXX: Move BTB text to avoid overlapping with OCTA outtakes
-        textPt.x -= 55;
+        textPt.x -= 75;
         textPt.y += 15;
     } else if (i == 6) {
         // XXX: Nudge text for PT
@@ -223,33 +224,34 @@ function addAlbum(i, album) {
         // so that it doesn't crowd the bar charts
         textPt.x += 32;
         textPt.y -= 28;
-    } else if (i >= 8 && i <= 11) {
+    } else if (i == 8) {
         // XXX: Move text to the right to account for shorter songs on
         // these albums
-        if (i == 8) {
-            textPt.x -= 4;
-            textPt.y -= 28;
-        } else if (i == 9) {
-            textPt.x += 52;
-            textPt.y += 12;
-        } else if (i == 10) {
-            textPt.x += 70;
-            textPt.y += 32;
-        } else if (i == 11) {
-            textPt.x += 56;
-            textPt.y += 52;
-        }
+        textPt.x -= 4;
+        textPt.y -= 28;
+    } else if (i == 9) {
+        // XXX: Never
+        textPt.x += 52;
+        textPt.y += 12;
+    } else if (i == 10) {
+        // XXX: H&R
+        textPt.x += 90;
+        textPt.y += 42;
+    } else if (i == 11) {
+        // XXX: XX
+        textPt.x += 110;
+        textPt.y += 70;
     } else if (i == 12) {
         // XXX: Nudge text over for Commonwealth
-        textPt.x += 10;
-        textPt.y += 34;
+        textPt.x += 86;
+        textPt.y += 106;
     } else if (i == 13) {
         // XXX: Nudge text for 12
         textPt.x -= 4;
         textPt.y += 16;
     } else if (i == 14) {
         // XXX: Nudge text to the right for Steady
-        textPt.x += 40;
+        textPt.x += 46;
         textPt.y -= 4;
     }
     
@@ -259,6 +261,7 @@ function addAlbum(i, album) {
 
 function addAlbumAtCenterPoint(album, center, textPt, rightJustify) {
     var songText = new PointText(textPt);
+    songText.locked = true;
     songText.style = textStyle;
     songText.fillColor = "white";
     if (rightJustify) {
@@ -266,7 +269,8 @@ function addAlbumAtCenterPoint(album, center, textPt, rightJustify) {
     }
     songText.visible = false;
 
-    var albumText = new PointText(new Point(textPt.x, textPt.y + 20));
+    var albumText = new PointText(new Point(textPt.x, textPt.y + 22));
+    albumText.locked = true;
     albumText.style = textStyle;
     albumText.fillColor = "#bbb";
     albumText.content = album.title + "\n" + album.year;
@@ -399,10 +403,10 @@ function addPerson(cx, cy, personKey) {
 
     var nameText = new PointText();
     if (personKey === "P" || personKey === "C") {
-        nameText.position = new Point(cx - 20, cy + 60);
+        nameText.position = new Point(cx - 10, cy + 64);
         nameText.justification = "right";
     } else {
-        nameText.position = new Point(cx + 20, cy - 50);
+        nameText.position = new Point(cx + 10, cy - 54);
     }
     nameText.style = textStyle;
     nameText.fillColor = "white";
@@ -625,6 +629,7 @@ function addBar(x, y, w, h, personKey, enterFunc, exitFunc) {
 
     var initialText = new PointText(new Point(x + 9, y + h - 2));
     initialText.style = textStyle;
+    initialText.fontSize = 17;
     initialText.fillColor = bgColor;
     initialText.content = person.name.substring(0, 1);
     initialText.justification = "center";
@@ -645,6 +650,7 @@ function addBarChart(title, x, y, w, h, chartItems, maxValue, label0, label1, la
 
     var titleText = new PointText(new Point(x, y - 6));
     titleText.style = textStyle;
+    titleText.fontSize = 18;
     // titleText.fontSize += 4;
     titleText.fillColor = "#ddd";
     titleText.content = title;
@@ -665,7 +671,7 @@ function addBarChart(title, x, y, w, h, chartItems, maxValue, label0, label1, la
         });
 
     var labelColor = "#888";
-    var labelY = y + h + 15;
+    var labelY = y + h + 20;
     
     function addLabel(content, labelX) {
         var labelText = new PointText(new Point(labelX, labelY));
@@ -692,12 +698,12 @@ function addBarCharts() {
     var chartW = 170;
     var chartH = 92;
 
-    var firstX = viewcx - (chartW * 2.1);
-    var middleX = viewcx - (chartW / 2);
-    var lastX = viewcx + (chartW * 1);
+    var firstX = viewcx - (chartW * 2.2);
+    var middleX = viewcx - (chartW * 0.6);
+    var lastX = viewcx + (chartW * 0.9);
     
-    var firstRowY = 740;
-    var secondRowY = 894;
+    var firstRowY = 750;
+    var secondRowY = 914;
 
     function getSongsForPerson(personKey) {
         var songs = [];
