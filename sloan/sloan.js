@@ -8,6 +8,7 @@
 var bgColor = "#222";
 
 var textStyle = {
+    fontSize: "17px",
     fontFamily: "Helvetica Neue",
     fontWeight: 300
 };
@@ -196,14 +197,27 @@ function addAlbum(i, album) {
 
     if (i == 0) {
         // XXX: Nudge Peppermint to the right
-        textPt.x += 16;
-    } else if (i == 2 || i == 3 || i == 4) {
-        // XXX: Move text for TR and OCTA and NB to the left
+        textPt.x += 24;
+    } else if (i == 2) {
+        // XXX: Move text for TR down and to the left
         textPt.x -= 17;
+        textPt.y += 28;
+    } else if (i == 3) {
+        // XXX: Move text for OCTA down and to the left
+        textPt.x -= 52;
+        textPt.y += 64;
+    } else if (i == 4) {
+        // XXX: Move text for NB down and to the left
+        textPt.x -= 60;
+        textPt.y += 34;
     } else if (i == 5) {
         // XXX: Move BTB text to avoid overlapping with OCTA outtakes
-        textPt.x -= 35;
+        textPt.x -= 55;
         textPt.y += 15;
+    } else if (i == 6) {
+        // XXX: Nudge text for PT
+        textPt.x += 6;
+        textPt.y -= 20;
     } else if (i == 7) {
         // XXX: Move text up and to the right for the bottom-most album
         // so that it doesn't crowd the bar charts
@@ -219,21 +233,27 @@ function addAlbum(i, album) {
             textPt.x += 52;
             textPt.y += 12;
         } else if (i == 10) {
-            textPt.x += 28;
-            textPt.y += 8;
+            textPt.x += 70;
+            textPt.y += 32;
         } else if (i == 11) {
-            textPt.x += 22;
-            textPt.y -= 20;
-        } else {
-            textPt.x += 20;
+            textPt.x += 56;
+            textPt.y += 52;
         }
     } else if (i == 12) {
         // XXX: Nudge text over for Commonwealth
         textPt.x += 10;
         textPt.y += 34;
+    } else if (i == 13) {
+        // XXX: Nudge text for 12
+        textPt.x -= 4;
+        textPt.y += 16;
+    } else if (i == 14) {
+        // XXX: Nudge text to the right for Steady
+        textPt.x += 40;
+        textPt.y -= 4;
     }
     
-    var rightJustify = center.x < viewcx;
+    var rightJustify = center.x < viewcx && i !== 14;
     addAlbumAtCenterPoint(album, center, textPt, rightJustify);
 }
 
@@ -246,7 +266,7 @@ function addAlbumAtCenterPoint(album, center, textPt, rightJustify) {
     }
     songText.visible = false;
 
-    var albumText = new PointText(new Point(textPt.x, textPt.y + 16));
+    var albumText = new PointText(new Point(textPt.x, textPt.y + 20));
     albumText.style = textStyle;
     albumText.fillColor = "#bbb";
     albumText.content = album.title + "\n" + album.year;
@@ -327,13 +347,13 @@ function addAlbums() {
         album.primary = false;
     }
 
-    var cl = 90;
-    var cr = 910;
+    var cl = 200;
+    var cr = view.viewSize.width - cl;
     var ct = 150;
     var cb = 560;
     
-    var tl = 60;
-    var tr = 970;
+    var tl = cl - 30;
+    var tr = cr + 30;
     var tt = 214;
     var tb = 630;
 
@@ -603,7 +623,7 @@ function addBar(x, y, w, h, personKey, enterFunc, exitFunc) {
         return false;
     }
 
-    var initialText = new PointText(new Point(x + 10, y + h - 4));
+    var initialText = new PointText(new Point(x + 9, y + h - 2));
     initialText.style = textStyle;
     initialText.fillColor = bgColor;
     initialText.content = person.name.substring(0, 1);
@@ -623,9 +643,9 @@ function addBarChart(title, x, y, w, h, chartItems, maxValue, label0, label1, la
     var barX = x + 1;
     var barY = y + barPadY;
 
-    var titleText = new PointText(new Point(x + 3, y - 12));
+    var titleText = new PointText(new Point(x, y - 6));
     titleText.style = textStyle;
-    titleText.fontSize += 2;
+    // titleText.fontSize += 4;
     titleText.fillColor = "#ddd";
     titleText.content = title;
 
@@ -670,14 +690,14 @@ function addBarChart(title, x, y, w, h, chartItems, maxValue, label0, label1, la
 
 function addBarCharts() {
     var chartW = 170;
-    var chartH = 100;
+    var chartH = 92;
 
-    var firstX = viewcx - (chartW * 2.25);
+    var firstX = viewcx - (chartW * 2.1);
     var middleX = viewcx - (chartW / 2);
-    var lastX = viewcx + (chartW * 1.25);
+    var lastX = viewcx + (chartW * 1);
     
     var firstRowY = 740;
-    var secondRowY = 920;
+    var secondRowY = 894;
 
     function getSongsForPerson(personKey) {
         var songs = [];

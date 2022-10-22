@@ -9,6 +9,7 @@ redirect_from:
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta name="viewport" content="width=840" />
   <title>sloan-o-graph</title>
 
   <link rel="stylesheet" href="sloan.css"/>
@@ -28,16 +29,6 @@ redirect_from:
   <script type="text/javascript" src="/assets/js/paper-full.min.js"></script>
   <script type="text/javascript" src="albums.js"></script>
   <script type="text/paperscript" src="sloan.js" canvas="canvas"></script>
-
-  <style>
-<!--
-.table_content {
-    width: 1000px;
-    margin-left: auto;
-    margin-right: auto;
-}
--->
-  </style>
 </head>
 
 <body>
@@ -45,29 +36,32 @@ redirect_from:
 
   <div class="table_content">
 
-    <div id="header_title" style="position:absolute;z-index:1;height:42px;margin-left:50px;margin-top:4px;float:left;">
-      <h2>sloan-o-graph</h2>
-      <div style="height:2px;clear:both;"></div>
-      An interactive <a href="http://sloanmusic.com">Sloan</a> discography thing. (More details in this <a href="/2014/10/30/sloan-o-graph">blog entry</a>.)
-      <br/><br/>
-      <label><input type='checkbox' onclick='globals.sortCheckboxClicked(this);' checked="checked">Group songs by person</label>
-      <br/>
-      <label><input type='checkbox' onclick='globals.secondaryAlbumCheckboxClicked(this);'>Show b-sides, rarities, etc</label>
+    <div class="header">
+      <div class="header-title">
+        <h2>sloan-o-graph</h2>
+        <div style="font-size: 14px;">
+        An interactive <a href="http://sloanmusic.com">Sloan</a> discography thing. (<a href="/2014/10/30/sloan-o-graph">Details here.</a>)
+        </div>
+        <div style="min-height: 18px;"></div>
+        <label><input type='checkbox' onclick='globals.sortCheckboxClicked(this);' checked="checked">Group songs by person</label>
+        <label><input type='checkbox' onclick='globals.secondaryAlbumCheckboxClicked(this);'>Show b-sides, rarities, etc</label>
+      </div>
+
+      <div style="flex: 1"></div>
+
+      <div class="header-menu">
+        <h2><a href="/">[la bonne soupe]</a></h2>
+        <h3><a href="/music">music</a></h3>
+        <h3><a href="/photos">photos</a></h3>
+        <h3 style="border:none;padding-right:0;margin-right:30px;"><a href="/code">code</a></h3>
+      </div>
     </div>
 
-    <div id="header_menu" style="height:42px;margin-top:12px;float:right;">
-      <h2><a href="/">[la bonne soupe]</a></h2>
-      <h3><a href="/music">music</a></h3>
-      <h3><a href="/photos">photos</a></h3>
-      <h3 style="border:none;padding-right:0;margin-right:50px;"><a href="/code">code</a></h3>
-    </div>
+    <canvas id="canvas" width="1100" height="1050"></canvas>
 
-    <canvas id="canvas" width="1000" height="1080"></canvas>
-
-    <div style="clear:both;padding-top:20px;margin-left:50px;margin-bottom:20px;color:#555;">
+    <div style="margin-top:80px;margin-left:20px;margin-bottom:20px;color:#555;">
       Layout and design &copy; Chris Campbell.  Everything else belongs to the band.
     </div>
-
   </div>
 
 </body>
