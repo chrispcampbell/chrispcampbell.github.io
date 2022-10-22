@@ -20,7 +20,7 @@ var coverSize = 45;
 var albumRingRadius = 260;
 var albumTextOffset = 80;
 
-var personSize = 70;
+var personSize = 90;
 var personHaloWidth = 4;
 
 var persons = {
@@ -399,10 +399,10 @@ function addPerson(cx, cy, personKey) {
 
     var nameText = new PointText();
     if (personKey === "P" || personKey === "C") {
-        nameText.position = new Point(cx - 20, cy + 50);
+        nameText.position = new Point(cx - 20, cy + 60);
         nameText.justification = "right";
     } else {
-        nameText.position = new Point(cx + 20, cy - 42);
+        nameText.position = new Point(cx + 20, cy - 50);
     }
     nameText.style = textStyle;
     nameText.fillColor = "white";

@@ -57,6 +57,6 @@ public class GenMask {
             "jay",
             "patrick"
         };
-        mask(personNames, 70);
+        mask(personNames, 90);
     }
 }
