@@ -12,7 +12,7 @@ redirect_from:
   <meta name="viewport" content="width=840" />
   <title>sloan-o-graph</title>
 
-  <link rel="stylesheet" href="sloan.css"/>
+  <link rel="stylesheet" href="sloan2.css"/>
 
   <script>
     if(!(window.doNotTrack === "1" || navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1")) {
@@ -26,9 +26,12 @@ redirect_from:
     }
   </script>
 
-  <script type="text/javascript" src="/assets/js/paper-full.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500&display=swap" rel="stylesheet"> 
+  
+  <script src="https://d3js.org/d3.v7.min.js"></script>
   <script type="text/javascript" src="albums.js"></script>
-  <script type="text/paperscript" src="sloan.js" canvas="canvas"></script>
 </head>
 
 <body>
@@ -43,8 +46,8 @@ redirect_from:
         An interactive <a href="http://sloanmusic.com">Sloan</a> discography thing. (<a href="/2014/10/30/sloan-o-graph">Details here.</a>)
         </div>
         <div style="min-height: 18px;"></div>
-        <label><input type='checkbox' onclick='globals.sortCheckboxClicked(this);' checked="checked">Group songs by person</label>
-        <label><input type='checkbox' onclick='globals.secondaryAlbumCheckboxClicked(this);'>Show b-sides, rarities, etc</label>
+        <label><input type='checkbox' onclick='sortCheckboxClicked(this);' checked="checked">Group songs by person</label>
+        <label><input type='checkbox' onclick='secondaryAlbumCheckboxClicked(this);'>Show b-sides, rarities, etc</label>
       </div>
 
       <div style="flex: 1"></div>
@@ -57,12 +60,14 @@ redirect_from:
       </div>
     </div>
 
-    <canvas id="canvas" width="1200" height="1050"></canvas>
+    <svg style="width:1200px; height:1150px;"></svg>
 
-    <div style="margin-top:80px;margin-left:20px;margin-bottom:20px;color:#555;">
+    <div style="margin-top:0px;margin-left:20px;margin-bottom:20px;color:#555;">
       Layout and design &copy; Chris Campbell.  Everything else belongs to the band.
     </div>
   </div>
+
+  <script type="text/javascript" src="sloan2.js"></script>
 
 </body>
 

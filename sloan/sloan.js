@@ -1,81 +1,90 @@
 /*
- * Sloan-o-graph PaperScript
+ * Sloan-o-graph in D3
  *
- * Copyright (c) 2014 Chris Campbell
+ * Copyright (c) 2014-2022 Chris Campbell
  * All rights reserved.
  */
 
-// var isTouchScreen = ( 'ontouchstart' in window ) || ( navigator.maxTouchPoints > 0 );
+const isTouchScreen = 'ontouchstart' in window || navigator.maxTouchPoints > 0
 
-var bgColor = '#222'
+// XXX
+const dur = 250
 
-var textStyle = {
-  fontSize: '19px',
-  fontFamily: 'Helvetica Neue',
-  fontWeight: 500
-}
+const bgColor = '#222'
 
-var viewcx = view.viewSize.width / 2
-var viewcy = 360
+const barH = isTouchScreen ? 24 : 16
 
-var coverSize = 45
-var albumRingRadius = 260
-var albumTextOffset = 80
+// const textStyle = 'font-size: 19px; font-family: "Helvetica Neue"; font-weight: 500; cursor: default;'
+// const textStyle = 'font-size: 19px; font-family: "Barlow Condensed", sans-serif; font-weight: 500; cursor: default;'
+const textStyle =
+  // 'font-size: 19px; font-family: "Barlow Semi Condensed", sans-serif; font-weight: 500; cursor: default;'
+  'font-size: 19px; cursor: default;'
 
-var personSize = 90
-var personHaloWidth = 5
+const vieww = 1200
+const viewcx = vieww / 2
+const viewcy = 360
 
-var persons = {
+const coverSize = 45
+const albumRingRadius = 260
+const albumTextOffset = 80
+
+const personSize = 90
+const personHaloWidth = 5
+
+const persons = {
   A: { name: 'Andrew', color: '#992E2E' },
   C: { name: 'Chris', color: '#2E9999' },
   J: { name: 'Jay', color: '#99992E' },
   P: { name: 'Patrick', color: '#2E992E' }
 }
 
-var personKeys = ['A', 'J', 'C', 'P']
-var personRingRadius = 130
+const personKeys = ['A', 'J', 'C', 'P']
+const personRingRadius = 130
 
-var personAngles = {}
-var personCenters = {}
+const personAngles = {}
+const personCenters = {}
 
-var albumItems = []
-var songItems = []
-var personItems = []
-var personLinkItems = []
-var barItems = []
+const albumItems = []
+const songItems = []
+const personItems = []
+const personLinkItems = []
+const barItems = []
 
-var albumAnimParams = {}
-var songAnimParams = {}
-var personAnimParams = {}
-var personLinkAnimParams = {}
-var highlightAnimParams = []
-var enableHighlightAnim = false //!isTouchScreen;
-var enableMouseHover = true
+// const enableHighlightAnim = false; //!isTouchScreen;
+// const enableMouseHover = true;
 
-var sortAnimParams = {}
-var enableSortAnim = true
+// const sortAnimParams = {};
+// const enableSortAnim = true;
 
-var primaryAlbumCount = 15
-var secondaryAlbumCount = 4
+const primaryAlbumCount = 15
+const secondaryAlbumCount = 4
 
-for (var i = 0; i < personKeys.length; i++) {
-  var personKey = personKeys[i]
-  var person = persons[personKey]
-  var degs = (i * 360) / personKeys.length - 90
-  var pt = pointOnArc(viewcx, viewcy, personRingRadius, degs)
+for (let i = 0; i < personKeys.length; i++) {
+  const personKey = personKeys[i]
+  const degs = (i * 360) / personKeys.length - 90
+  const pt = pointOnArc(viewcx, viewcy, personRingRadius, degs)
   personAngles[personKey] = degs
   personCenters[personKey] = pt
 }
 
-// XXX: Make our sort functions available from JS, from:
-//   https://groups.google.com/forum/#!topic/paperjs/VgaDZRsNS9I
-window.globals = {}
+// Create groups to hold the layers; text elements always appear
+// in front of shapes/images
+const svg = d3.select('svg')
+const shapeGroup = svg.append('g')
+const textGroup = svg.append('g')
 
 /*
  *
  * MATHS
  *
  */
+
+function newPoint(x, y) {
+  return {
+    x,
+    y
+  }
+}
 
 function toDegrees(angle) {
   return angle * (180 / Math.PI)
@@ -86,7 +95,7 @@ function toRadians(angle) {
 }
 
 function pointOnArc(cx, cy, radius, angle) {
-  var radians = toRadians(angle)
+  const radians = toRadians(angle)
 
   // dx:
   //   cos t = dx / r
@@ -95,10 +104,10 @@ function pointOnArc(cx, cy, radius, angle) {
   //   sin t = dy / r
   //   dy = r * sin t
 
-  var px = cx + radius * Math.cos(radians)
-  var py = cy + radius * Math.sin(radians)
+  const px = cx + radius * Math.cos(radians)
+  const py = cy + radius * Math.sin(radians)
 
-  return new Point(px, py)
+  return newPoint(px, py)
 }
 
 /*
@@ -107,20 +116,8 @@ function pointOnArc(cx, cy, radius, angle) {
  *
  */
 
-function addArcToPath(path, cx, cy, radius, startAngle, endAngle) {
-  var midAngle = startAngle + (endAngle - startAngle) / 2
-
-  var startPt = pointOnArc(cx, cy, radius, startAngle)
-  var throughPt = pointOnArc(cx, cy, radius, midAngle)
-  var endPt = pointOnArc(cx, cy, radius, endAngle)
-
-  path.moveTo(new Point(cx, cy))
-  path.lineTo(startPt)
-  path.arcTo(throughPt, endPt)
-}
-
-function addPieSlice(song, album, cx, cy, baseSize, sweep, angle, songText, albumText) {
-  var songSize = baseSize + song.seconds / 5
+function addPieSlice(song, album, cx, cy, baseSize, sweep, angle, songText, albumText, group) {
+  let songSize = baseSize + song.seconds / 5
   if (songSize > 210) {
     // XXX: Hack to make "Forty-eight Portraits" less tall
     songSize = 210
@@ -128,65 +125,61 @@ function addPieSlice(song, album, cx, cy, baseSize, sweep, angle, songText, albu
     // XXX: Hack to make "Before I Do" not crowd Smeared
     songSize = 115
   }
-  var color = persons[song.lead].color
+  const color = persons[song.lead].color
+  const brighterColor = d3.color(color).brighter(2.5)
 
-  var path = new Path({
-    fillColor: color,
-    strokeColor: bgColor,
-    strokeWidth: 1,
-    closed: true
-  })
-  addArcToPath(path, cx, cy, songSize / 2, 0, sweep)
-  path.pivot = new Point(cx, cy)
-  path.rotation = angle
+  const arc = d3
+    .arc()
+    .startAngle(0)
+    .endAngle(toRadians(sweep))
+    .innerRadius(0)
+    .outerRadius(songSize / 2)
 
-  function onMouseEnter(event) {
-    var brighterColor = new Color(color)
-    brighterColor.brightness = 1.0
-    path.fillColor = brighterColor
-    songText.content = song.title
-    songText.visible = true
-    albumText.visible = true
-    highlightAlbum(album)
-    highlightPersonsForSong(song)
-    highlightLinksForSong(song)
-    return false
-  }
-  path.onClick = function (event) {
-    resetAll()
-    return onMouseEnter(event)
-  }
-  if (enableMouseHover) {
-    path.onMouseEnter = onMouseEnter
-    path.onMouseLeave = function (event) {
-      path.fillColor = color
-      songText.visible = false
-      albumText.visible = false
+  const slice = group
+    .append('path')
+    .attr('fill', color)
+    .attr('stroke', bgColor)
+    .attr('stroke-width', 1)
+    .attr('d', arc)
+    .attr('transform', `translate(${cx},${cy}),rotate(${angle + 90})`)
+    .on('mouseover', function (d, i) {
+      animFill(d3.select(this), brighterColor)
+      setTextLines(songText, [song.title])
+      setVisible(songText, true)
+      setVisible(albumText, true)
+      highlightAlbum(album)
+      highlightPersonsForSong(song)
+      highlightLinksForSong(song)
+    })
+    .on('mouseout', function (d, i) {
+      animFill(d3.select(this), color)
+      setVisible(songText, false)
+      setVisible(albumText, false)
       resetAlbumHighlighting()
       resetLinkHighlighting()
       resetPersonHighlighting()
-      return false
-    }
-  }
+    })
 
-  var songItem = {
-    song: song,
+  const songItem = {
+    song,
     album: album,
-    item: path,
-    color: color
+    slice,
+    cx,
+    cy,
+    color
   }
   songItems.push(songItem)
 
   return songItem
 }
 
-function addPieChart(cx, cy, baseSize, songs, album, songText, albumText) {
-  var sweep = 360 / songs.length
-  var angle = -90
-  var albumSongItems = []
-  for (var i = 0; i < songs.length; i++) {
-    var song = songs[i]
-    var songItem = addPieSlice(song, album, cx, cy, baseSize, sweep, angle, songText, albumText)
+function addPieChart(cx, cy, baseSize, songs, album, songText, albumText, group) {
+  const sweep = 360 / songs.length
+  const albumSongItems = []
+  let angle = -90
+  for (let i = 0; i < songs.length; i++) {
+    const song = songs[i]
+    const songItem = addPieSlice(song, album, cx, cy, baseSize, sweep, angle, songText, albumText, group)
     albumSongItems.push(songItem)
     angle += sweep
   }
@@ -195,10 +188,10 @@ function addPieChart(cx, cy, baseSize, songs, album, songText, albumText) {
 
 function addAlbum(i, album) {
   // XXX: Adjust angle so that first and last album are at top
-  var degs = (i * 360) / primaryAlbumCount - 90 + 180 / primaryAlbumCount
+  const degs = (i * 360) / primaryAlbumCount - 90 + 180 / primaryAlbumCount
 
-  var center = pointOnArc(viewcx, viewcy, albumRingRadius, degs)
-  var textPt = pointOnArc(viewcx, viewcy, albumRingRadius + albumTextOffset, degs)
+  const center = pointOnArc(viewcx, viewcy, albumRingRadius, degs)
+  const textPt = pointOnArc(viewcx, viewcy, albumRingRadius + albumTextOffset, degs)
 
   if (i == 0) {
     // XXX: Nudge Peppermint to the right
@@ -210,8 +203,8 @@ function addAlbum(i, album) {
     textPt.y -= 16
   } else if (i == 2) {
     // XXX: Move text for TR up and to the left
-    textPt.x -= 50
-    textPt.y -= 48
+    textPt.x -= 40
+    textPt.y -= 38
   } else if (i == 3) {
     // XXX: Move text for OCTA down and to the left
     textPt.x -= 116
@@ -264,141 +257,144 @@ function addAlbum(i, album) {
     textPt.y -= 4
   }
 
-  var rightJustify = center.x < viewcx && i !== 14
+  const rightJustify = center.x < viewcx && i !== 14
   addAlbumAtCenterPoint(album, center, textPt, rightJustify)
 }
 
 function addAlbumAtCenterPoint(album, center, textPt, rightJustify) {
-  var songText = new PointText(textPt)
-  songText.locked = true
-  songText.style = textStyle
-  songText.fillColor = 'white'
-  if (rightJustify) {
-    songText.justification = 'right'
-  }
-  songText.visible = false
+  // XXX
+  const lineH = 22
 
-  var albumText = new PointText(new Point(textPt.x, textPt.y + 22))
-  albumText.locked = true
-  albumText.style = textStyle
-  albumText.fillColor = '#bbb'
-  albumText.content = album.title + '\n' + album.year
-  if (rightJustify) {
-    albumText.justification = 'right'
+  // Allow up to 4 song lines per album (for showing singles, etc)
+  const songText = textGroup
+    .append('text')
+    .attr('x', textPt.x)
+    .attr('y', textPt.y)
+    .attr('fill', 'white')
+    .attr('text-anchor', rightJustify ? 'end' : 'start')
+    .attr('pointer-events', 'none')
+    .attr('style', textStyle)
+    .style('opacity', 0)
+  for (let i = 0; i < 4; i++) {
+    const tspan = songText.append('tspan').attr('x', textPt.x)
+    tspan.attr('y', textPt.y + i * lineH)
   }
-  albumText.visible = false
+  setVisible(songText, false)
 
-  var songs = getSongsGroupedByPerson(album)
-  var albumSongItems = addPieChart(center.x, center.y, coverSize, songs, album, songText, albumText)
+  const albumText = textGroup
+    .append('text')
+    .attr('x', textPt.x)
+    .attr('y', textPt.y + lineH)
+    .attr('fill', '#bbb')
+    .attr('text-anchor', rightJustify ? 'end' : 'start')
+    .attr('pointer-events', 'none')
+    .attr('style', textStyle)
+    .style('opacity', 0)
+  albumText.append('tspan').attr('x', textPt.x).text(album.title)
+  albumText.append('tspan').attr('x', textPt.x).attr('dy', lineH).text(album.year)
+  setVisible(albumText, false)
+
+  const group = shapeGroup.append('g')
+
+  const songs = getSongsGroupedByPerson(album)
+  const albumSongItems = addPieChart(center.x, center.y, coverSize, songs, album, songText, albumText, group)
 
   // Add a transparent circle and use that for hit testing, otherwise
   // transparent areas of the image will trigger events
-  var circle = new Path.Circle({
-    center: center,
-    radius: coverSize / 2 + 1,
-    fillColor: bgColor
-  })
-
-  function onMouseEnter(event) {
-    highlightAlbum(album)
-    highlightLinksForAlbum(album)
-    songText.visible = false
-    albumText.visible = true
-    return false
-  }
-  circle.onClick = function (event) {
-    resetAll()
-    return onMouseEnter(event)
-  }
-  if (enableMouseHover) {
-    circle.onMouseEnter = onMouseEnter
-    circle.onMouseLeave = function (event) {
+  group
+    .append('circle')
+    .attr('cx', center.x)
+    .attr('cy', center.y)
+    .attr('r', coverSize / 2 + 1)
+    .style('fill', bgColor)
+    .on('mouseover', function (d, i) {
+      highlightAlbum(album)
+      highlightLinksForAlbum(album)
+      setVisible(songText, false)
+      setVisible(albumText, true)
+    })
+    .on('mouseout', function (d, i) {
       resetAlbumHighlighting()
       resetLinkHighlighting()
-      songText.visible = false
-      albumText.visible = false
-      return false
-    }
-  }
+      setVisible(songText, false)
+      setVisible(albumText, false)
+    })
 
-  var raster = new Raster(album.cover)
-  raster.position = new Point(center.x, center.y)
-  if (window.devicePixelRatio == 2) {
-    raster.scaling = new Point(0.5, 0.5)
-  }
-  project.activeLayer.addChild(raster)
+  group
+    .append('image')
+    .attr('x', center.x - coverSize / 2)
+    .attr('y', center.y - coverSize / 2)
+    .attr('width', coverSize)
+    .attr('height', coverSize)
+    .attr('pointer-events', 'none')
+    .attr('xlink:href', `sc/${album.cover}-2x.png`)
 
-  // Don't let the image (i.e., its transparent areas) factor into hit testing
-  raster.locked = true
-
-  var pieItems = []
-  for (var i = 0; i < albumSongItems.length; i++) {
-    var songItem = albumSongItems[i]
+  const pieItems = []
+  for (let i = 0; i < albumSongItems.length; i++) {
+    const songItem = albumSongItems[i]
     pieItems.push(songItem.item)
   }
-  var group = new Group(pieItems.concat([circle, raster]))
 
-  var albumItem = {
-    album: album,
-    songText: songText,
-    albumText: albumText,
-    albumSongItems: albumSongItems,
-    item: group
+  const albumItem = {
+    album,
+    songText,
+    albumText,
+    albumSongItems,
+    group
   }
   albumItems.push(albumItem)
 }
 
 function addAlbums() {
-  for (var i = 0; i < primaryAlbumCount; i++) {
-    var album = albums[i]
+  for (let i = 0; i < primaryAlbumCount; i++) {
+    const album = albums[i]
     album.primary = true
     addAlbum(i, album)
   }
 
   // XXX
-  for (var i = primaryAlbumCount; i < primaryAlbumCount + secondaryAlbumCount; i++) {
-    var album = albums[i]
+  for (let i = primaryAlbumCount; i < primaryAlbumCount + secondaryAlbumCount; i++) {
+    const album = albums[i]
     album.primary = false
   }
 
-  var cl = 250
-  var cr = view.viewSize.width - cl
-  var ct = 150
-  var cb = 560
+  const cl = 250
+  const cr = vieww - cl
+  const ct = 150
+  const cb = 560
 
-  var tl = cl - 30
-  var tr = cr + 30
-  var tt = 214
-  var tb = 630
+  const tl = cl - 30
+  const tr = cr + 30
+  const tt = 214
+  const tb = 630
 
-  var bs1 = albums[primaryAlbumCount]
-  var bs2 = albums[primaryAlbumCount + 1]
-  var trOut = albums[primaryAlbumCount + 2]
-  var ocOut = albums[primaryAlbumCount + 3]
-  addAlbumAtCenterPoint(bs1, new Point(cl, ct), new Point(tl, tt), false)
-  addAlbumAtCenterPoint(bs2, new Point(cl, cb), new Point(tl, tb), false)
-  addAlbumAtCenterPoint(trOut, new Point(cr, ct), new Point(tr, tt), true)
-  addAlbumAtCenterPoint(ocOut, new Point(cr, cb), new Point(tr, tb), true)
+  const bs1 = albums[primaryAlbumCount]
+  const bs2 = albums[primaryAlbumCount + 1]
+  const trOut = albums[primaryAlbumCount + 2]
+  const ocOut = albums[primaryAlbumCount + 3]
+  addAlbumAtCenterPoint(bs1, newPoint(cl, ct), newPoint(tl, tt), false)
+  addAlbumAtCenterPoint(bs2, newPoint(cl, cb), newPoint(tl, tb), false)
+  addAlbumAtCenterPoint(trOut, newPoint(cr, ct), newPoint(tr, tt), true)
+  addAlbumAtCenterPoint(ocOut, newPoint(cr, cb), newPoint(tr, tb), true)
 
   setSecondaryAlbumsVisible(false)
 }
 
 function setSecondaryAlbumsVisible(visible) {
-  for (var i = 0; i < secondaryAlbumCount; i++) {
-    var albumItem = albumItems[primaryAlbumCount + i]
-    albumItem.item.visible = visible
+  for (let i = 0; i < secondaryAlbumCount; i++) {
+    const albumItem = albumItems[primaryAlbumCount + i]
+    albumItem.group.attr('visibility', visible ? 'unset' : 'hidden')
   }
 }
 
-globals.showSecondaryAlbums = function () {
+// Used by index.html
+function showSecondaryAlbums() {
   setSecondaryAlbumsVisible(true)
 }
-
-globals.hideSecondaryAlbums = function () {
+function hideSecondaryAlbums() {
   setSecondaryAlbumsVisible(false)
 }
-
-globals.secondaryAlbumCheckboxClicked = function (cb) {
+function secondaryAlbumCheckboxClicked(cb) {
   setSecondaryAlbumsVisible(cb.checked)
 }
 
@@ -409,79 +405,77 @@ globals.secondaryAlbumCheckboxClicked = function (cb) {
  */
 
 function addPerson(cx, cy, personKey) {
-  var person = persons[personKey]
+  const person = persons[personKey]
 
-  var nameText = new PointText()
+  let pos
+  let anchor
   if (personKey === 'P' || personKey === 'C') {
-    nameText.position = new Point(cx - 10, cy + 64)
-    nameText.justification = 'right'
+    pos = newPoint(cx - 10, cy + 64)
+    anchor = 'end'
   } else {
-    nameText.position = new Point(cx + 10, cy - 54)
+    pos = newPoint(cx + 10, cy - 54)
+    anchor = 'start'
   }
-  nameText.style = textStyle
-  nameText.fillColor = 'white'
-  nameText.content = person.name
-  nameText.visible = false
+
+  const nameText = textGroup
+    .append('text')
+    .attr('x', pos.x)
+    .attr('y', pos.y)
+    .attr('fill', 'white')
+    .attr('text-anchor', anchor)
+    .attr('style', textStyle)
+    .style('opacity', 0)
+    .text(person.name)
 
   // Add an opaque circle that blacks out links even when person is dimmed
-  var personHaloRadius = personSize / 2 + personHaloWidth
-  var blackout = new Path.Circle({
-    center: [cx, cy],
-    radius: personHaloRadius,
-    fillColor: bgColor
-  })
+  const personHaloRadius = personSize / 2 + personHaloWidth
+  shapeGroup.append('circle').attr('cx', cx).attr('cy', cy).attr('r', personHaloRadius).attr('fill', bgColor)
 
-  var circle = new Path.Circle({
-    center: [cx, cy],
-    radius: personHaloRadius,
-    fillColor: person.color
-  })
+  const group = shapeGroup.append('g')
 
-  var raster = new Raster(person.name.toLowerCase())
-  raster.position = new Point(cx, cy)
-  if (window.devicePixelRatio == 2) {
-    raster.scaling = new Point(0.5, 0.5)
-  }
-  project.activeLayer.addChild(raster)
-
-  var group = new Group([circle, raster])
-
-  // Highlight pie slices and links when hovering over person
-  function onMouseEnter(event) {
-    highlightSongsForPerson(personKey, true, true)
-    highlightLinksForPerson(personKey)
-    highlightPerson(personKey)
-    nameText.visible = true
-    return false
-  }
-  group.onClick = function (event) {
-    resetAll()
-    return onMouseEnter(event)
-  }
-  if (enableMouseHover) {
-    group.onMouseEnter = onMouseEnter
-    group.onMouseLeave = function (event) {
+  const circle = group
+    .append('circle')
+    .attr('cx', cx)
+    .attr('cy', cy)
+    .attr('r', personHaloRadius)
+    .style('fill', person.color)
+    // Highlight pie slices and links when hovering over person
+    // .on('mouseover', function (d, i) {
+    .on('mouseover', function () {
+      highlightSongsForPerson(personKey, true, true)
+      highlightLinksForPerson(personKey)
+      highlightPerson(personKey)
+      animOpacity(nameText, 1)
+    })
+    // .on('mouseout', function (d, i) {
+    .on('mouseout', function () {
       resetSongHighlighting()
       resetLinkHighlighting()
       resetPersonHighlighting()
-      nameText.visible = false
-      return false
-    }
-  }
+      animOpacity(nameText, 0)
+    })
 
-  var personItem = {
+  group
+    .append('image')
+    .attr('x', cx - personSize / 2)
+    .attr('y', cy - personSize / 2)
+    .attr('width', personSize)
+    .attr('height', personSize)
+    .attr('pointer-events', 'none')
+    .attr('xlink:href', `sc/${person.name.toLowerCase()}-2x.png`)
+
+  const personItem = {
     personKey: personKey,
     person: person,
-    nameText: nameText,
-    item: group
+    group
   }
   personItems.push(personItem)
 }
 
 function addPersons() {
-  for (var i = 0; i < personKeys.length; i++) {
-    var personKey = personKeys[i]
-    var pt = personCenters[personKey]
+  for (let i = 0; i < personKeys.length; i++) {
+    const personKey = personKeys[i]
+    const pt = personCenters[personKey]
     addPerson(pt.x, pt.y, personKey)
   }
 }
@@ -493,9 +487,9 @@ function addPersons() {
  */
 
 function getOtherPersonKeys(personKey) {
-  var keys = []
-  for (var i = 0; i < personKeys.length; i++) {
-    var otherPersonKey = personKeys[i]
+  const keys = []
+  for (let i = 0; i < personKeys.length; i++) {
+    const otherPersonKey = personKeys[i]
     if (personKey !== otherPersonKey) {
       keys.push(otherPersonKey)
     }
@@ -504,10 +498,10 @@ function getOtherPersonKeys(personKey) {
 }
 
 function getBackupSongItems(backupPersonKey, leadPersonKey) {
-  var backupSongItems = []
-  for (var i = 0; i < songItems.length; i++) {
-    var songItem = songItems[i]
-    var song = songItem.song
+  const backupSongItems = []
+  for (let i = 0; i < songItems.length; i++) {
+    const songItem = songItems[i]
+    const song = songItem.song
     if (song.lead === leadPersonKey && song.backups.indexOf(backupPersonKey) >= 0) {
       backupSongItems.push(songItem)
     }
@@ -516,32 +510,32 @@ function getBackupSongItems(backupPersonKey, leadPersonKey) {
 }
 
 function addPersonLink(song, album, fromPersonKey, toPersonKey, handleRadius) {
-  var fromPerson = persons[fromPersonKey]
+  const fromPerson = persons[fromPersonKey]
 
-  var fromPersonCenter = personCenters[fromPersonKey]
-  var toPersonCenter = personCenters[toPersonKey]
+  const fromPersonCenter = personCenters[fromPersonKey]
+  const toPersonCenter = personCenters[toPersonKey]
 
-  var handle
+  let handle
   if (fromPersonCenter.x == toPersonCenter.x) {
     if (fromPersonCenter.y < toPersonCenter.y) {
       // Link goes from top to bottom; curve to the right
-      handle = new Point(fromPersonCenter.x + handleRadius, viewcy)
+      handle = newPoint(fromPersonCenter.x + handleRadius, viewcy)
     } else {
       // Link goes from bottom to top; curve to the left
-      handle = new Point(fromPersonCenter.x - handleRadius, viewcy)
+      handle = newPoint(fromPersonCenter.x - handleRadius, viewcy)
     }
   } else if (fromPersonCenter.y == toPersonCenter.y) {
     if (fromPersonCenter.x < toPersonCenter.x) {
       // Link goes from left to right; curve to the top
-      handle = new Point(viewcx, fromPersonCenter.y - handleRadius)
+      handle = newPoint(viewcx, fromPersonCenter.y - handleRadius)
     } else {
       // Link goes from right to left; curve to the bottom
-      handle = new Point(viewcx, fromPersonCenter.y + handleRadius)
+      handle = newPoint(viewcx, fromPersonCenter.y + handleRadius)
     }
   } else {
     // Persons are "adjacent" on the ring
-    var fromPersonAngle = personAngles[fromPersonKey]
-    var toPersonAngle = personAngles[toPersonKey]
+    let fromPersonAngle = personAngles[fromPersonKey]
+    let toPersonAngle = personAngles[toPersonKey]
     // XXX: Hack to make links between A and P convex
     if (fromPersonAngle < 0 && toPersonAngle > 0) {
       fromPersonAngle += 360
@@ -549,12 +543,12 @@ function addPersonLink(song, album, fromPersonKey, toPersonKey, handleRadius) {
     if (fromPersonAngle > 0 && toPersonAngle < 0) {
       toPersonAngle += 360
     }
-    var midAngle = fromPersonAngle + (toPersonAngle - fromPersonAngle) / 2
+    const midAngle = fromPersonAngle + (toPersonAngle - fromPersonAngle) / 2
 
-    var fromPersonIndex = personKeys.indexOf(fromPersonKey)
-    var toPersonIndex = personKeys.indexOf(toPersonKey)
-    var indexDiff = toPersonIndex - fromPersonIndex
-    var radius
+    const fromPersonIndex = personKeys.indexOf(fromPersonKey)
+    const toPersonIndex = personKeys.indexOf(toPersonKey)
+    const indexDiff = toPersonIndex - fromPersonIndex
+    let radius
     if (indexDiff == 1 || indexDiff == -3) {
       // Link is in clockwise direction; curve to the outside
       radius = personRingRadius + handleRadius
@@ -565,35 +559,38 @@ function addPersonLink(song, album, fromPersonKey, toPersonKey, handleRadius) {
     handle = pointOnArc(viewcx, viewcy, radius, midAngle)
   }
 
-  var path = new Path({
-    strokeColor: fromPerson.color,
-    closed: false
-  })
+  const path = d3.path()
+  path.moveTo(fromPersonCenter.x, fromPersonCenter.y)
+  path.quadraticCurveTo(handle.x, handle.y, toPersonCenter.x, toPersonCenter.y)
 
-  path.moveTo(fromPersonCenter)
-  path.quadraticCurveTo(handle, toPersonCenter)
+  const line = shapeGroup
+    .append('path')
+    .attr('fill', 'none')
+    .attr('stroke', fromPerson.color)
+    .attr('stroke-width', 1)
+    .attr('d', path.toString())
 
-  var personLinkItem = {
+  const personLinkItem = {
     song: song,
     album: album,
     fromPersonKey: fromPersonKey,
     fromPerson: fromPerson,
-    item: path
+    line
   }
   personLinkItems.push(personLinkItem)
 }
 
 function addPersonLinks() {
-  for (var i = 0; i < personKeys.length; i++) {
-    var fromPersonKey = personKeys[i]
-    var toPersonKeys = getOtherPersonKeys(fromPersonKey)
-    for (var j = 0; j < toPersonKeys.length; j++) {
-      var toPersonKey = toPersonKeys[j]
-      var backupSongItems = getBackupSongItems(fromPersonKey, toPersonKey)
-      for (var k = 0; k < backupSongItems.length; k++) {
-        var songItem = backupSongItems[k]
-        var song = songItem.song
-        var album = songItem.album
+  for (let i = 0; i < personKeys.length; i++) {
+    const fromPersonKey = personKeys[i]
+    const toPersonKeys = getOtherPersonKeys(fromPersonKey)
+    for (let j = 0; j < toPersonKeys.length; j++) {
+      const toPersonKey = toPersonKeys[j]
+      const backupSongItems = getBackupSongItems(fromPersonKey, toPersonKey)
+      for (let k = 0; k < backupSongItems.length; k++) {
+        const songItem = backupSongItems[k]
+        const song = songItem.song
+        const album = songItem.album
         addPersonLink(song, album, fromPersonKey, toPersonKey, (k + 1) * 4)
       }
     }
@@ -607,92 +604,92 @@ function addPersonLinks() {
  */
 
 function addBar(x, y, w, h, personKey, enterFunc, exitFunc) {
-  var person = persons[personKey]
+  const person = persons[personKey]
+  const brighterColor = d3.color(person.color).brighter(2.5)
 
-  var bar = new Path.Rectangle({
-    from: [x, y],
-    to: [x + w, y + h],
-    fillColor: person.color
-  })
-
-  function onMouseEnter(event) {
-    var brighterColor = new Color(person.color)
-    brighterColor.brightness = 1.0
-    bar.fillColor = brighterColor
-    highlightPerson(personKey)
-    dimLinkHighlighting()
-    enterFunc(personKey)
-    return false
-  }
-  bar.onClick = function (event) {
-    // XXX: On touch devices, we may not get mouse enter/exit,
-    // so call the reset functions on each click
-    resetAll()
-    return onMouseEnter(event)
-  }
-  if (enableMouseHover) {
-    bar.onMouseEnter = onMouseEnter
-    bar.onMouseLeave = function (event) {
-      bar.fillColor = person.color
+  const bar = shapeGroup
+    .append('rect')
+    .attr('x', x)
+    .attr('y', y)
+    .attr('width', w)
+    .attr('height', h)
+    .attr('fill', person.color)
+    .on('mouseover', function (d, i) {
+      animFill(d3.select(this), brighterColor)
+      highlightPerson(personKey)
+      dimLinkHighlighting()
+      enterFunc(personKey)
+    })
+    .on('mouseout', function (d, i) {
+      animFill(d3.select(this), person.color)
       resetPersonHighlighting()
       resetLinkHighlighting()
       exitFunc(personKey)
-      return false
-    }
-  }
+    })
 
-  var initialText = new PointText(new Point(x + 9, y + h - 2))
-  initialText.style = textStyle
-  initialText.fontSize = 17
-  initialText.fillColor = bgColor
-  initialText.content = person.name.substring(0, 1)
-  initialText.justification = 'center'
-  initialText.locked = true
+  textGroup
+    .append('text')
+    .attr('x', x + 9)
+    .attr('y', y + h - (isTouchScreen ? 6 : 2))
+    .attr('fill', bgColor)
+    .attr('style', textStyle)
+    .attr('text-anchor', 'middle')
+    .attr('pointer-events', 'none')
+    .style('font-size', '17px')
+    .text(personKey)
 
   barItems.push({
-    bar: bar,
+    bar,
     color: person.color
   })
 }
 
 function addBarChart(title, x, y, w, h, chartItems, maxValue, label0, label1, label2, enterFunc, exitFunc) {
-  var barH = 16
-  var barPadY = (h - chartItems.length * barH) / (chartItems.length + 1)
+  const barPadY = (h - chartItems.length * barH) / (chartItems.length + 1)
 
-  var barX = x + 1
-  var barY = y + barPadY
+  const barX = x + 1
+  let barY = y + barPadY
 
-  var titleText = new PointText(new Point(x, y - 6))
-  titleText.style = textStyle
-  titleText.fontSize = 18
-  // titleText.fontSize += 4;
-  titleText.fillColor = '#ddd'
-  titleText.content = title
+  textGroup
+    .append('text')
+    .attr('x', x)
+    .attr('y', y - 6)
+    .attr('fill', '#ddd')
+    .attr('style', textStyle)
+    .style('font-size', '18px')
+    .text(title)
 
-  var axisColor = 'white'
-  var axisOpacity = 0.3
-  var yAxis = new Path.Line({
-    from: [x, y],
-    to: [x, y + h],
-    strokeColor: axisColor,
-    opacity: axisOpacity
-  })
-  var xAxis = new Path.Line({
-    from: [x, y + h],
-    to: [x + w, y + h],
-    strokeColor: axisColor,
-    opacity: axisOpacity
-  })
+  const axisColor = 'white'
+  const axisOpacity = 0.3
+  shapeGroup
+    .append('line')
+    .attr('x1', x)
+    .attr('y1', y)
+    .attr('x2', x)
+    .attr('y2', y + h)
+    .attr('stroke', axisColor)
+    .attr('opacity', axisOpacity)
+  shapeGroup
+    .append('line')
+    .attr('x1', x)
+    .attr('y1', y + h)
+    .attr('x2', x + w)
+    .attr('y2', y + h)
+    .attr('stroke', axisColor)
+    .attr('opacity', axisOpacity)
 
-  var labelColor = '#888'
-  var labelY = y + h + 20
+  const labelColor = '#888'
+  const labelY = y + h + 20
 
   function addLabel(content, labelX) {
-    var labelText = new PointText(new Point(labelX, labelY))
-    labelText.style = textStyle
-    labelText.fillColor = labelColor
-    labelText.content = content
-    labelText.justification = 'center'
+    textGroup
+      .append('text')
+      .attr('x', labelX)
+      .attr('y', labelY)
+      .attr('fill', labelColor)
+      .attr('text-anchor', 'middle')
+      .attr('style', textStyle)
+      .text(content)
   }
   addLabel(label0, x)
   addLabel(label1, x + w / 2)
@@ -702,31 +699,31 @@ function addBarChart(title, x, y, w, h, chartItems, maxValue, label0, label1, la
   chartItems.sort(function (a, b) {
     return b.value - a.value
   })
-  for (var i = 0; i < chartItems.length; i++) {
-    var chartItem = chartItems[i]
-    var barW = w * (chartItem.value / maxValue)
+  for (let i = 0; i < chartItems.length; i++) {
+    const chartItem = chartItems[i]
+    const barW = w * (chartItem.value / maxValue)
     addBar(barX, barY, barW, barH, chartItem.personKey, enterFunc, exitFunc)
     barY += barH + barPadY
   }
 }
 
 function addBarCharts() {
-  var chartW = 170
-  var chartH = 92
+  const chartW = 170
+  const chartH = barH * 4 + 28
 
-  var firstX = viewcx - chartW * 2.2
-  var middleX = viewcx - chartW * 0.6
-  var lastX = viewcx + chartW * 0.9
+  const firstX = viewcx - chartW * 2.2
+  const middleX = viewcx - chartW * 0.6
+  const lastX = viewcx + chartW * 0.9
 
-  var firstRowY = 750
-  var secondRowY = 914
+  const firstRowY = 750
+  const secondRowY = firstRowY + chartH + (isTouchScreen ? 80 : 72)
 
   function getSongsForPerson(personKey) {
-    var songs = []
-    for (var i = 0; i < primaryAlbumCount; i++) {
-      var album = albums[i]
-      for (var j = 0; j < album.songs.length; j++) {
-        var song = album.songs[j]
+    const songs = []
+    for (let i = 0; i < primaryAlbumCount; i++) {
+      const album = albums[i]
+      for (let j = 0; j < album.songs.length; j++) {
+        const song = album.songs[j]
         if (song.lead === personKey) {
           songs.push(song)
         }
@@ -736,10 +733,10 @@ function addBarCharts() {
   }
 
   function getChartItems(func) {
-    var chartItems = []
-    for (var i = 0; i < personKeys.length; i++) {
-      var personKey = personKeys[i]
-      var chartItem = {
+    const chartItems = []
+    for (let i = 0; i < personKeys.length; i++) {
+      const personKey = personKeys[i]
+      const chartItem = {
         personKey: personKey,
         value: func(personKey)
       }
@@ -750,10 +747,10 @@ function addBarCharts() {
 
   // Singles / total songs
   function getSingleToTotalRatio(personKey) {
-    var songs = getSongsForPerson(personKey)
-    var totalSingles = 0
-    for (var i = 0; i < songs.length; i++) {
-      var song = songs[i]
+    const songs = getSongsForPerson(personKey)
+    let totalSingles = 0
+    for (let i = 0; i < songs.length; i++) {
+      const song = songs[i]
       if (song.single) {
         totalSingles++
       }
@@ -776,18 +773,18 @@ function addBarCharts() {
         return songItem.song.single
       })
     },
-    function (personKey) {
+    function () {
       resetSongAndTitleHighlighting()
     }
   )
 
   // First song on album
   function getFirstSongCount(personKey) {
-    var count = 0
-    for (var i = 0; i < primaryAlbumCount; i++) {
-      var albumItem = albumItems[i]
-      var album = albumItem.album
-      var firstSong = album.songs[0]
+    let count = 0
+    for (let i = 0; i < primaryAlbumCount; i++) {
+      const albumItem = albumItems[i]
+      const album = albumItem.album
+      const firstSong = album.songs[0]
       if (firstSong.lead === personKey) {
         count++
       }
@@ -810,18 +807,18 @@ function addBarCharts() {
         return songItem.album.songs[0] == songItem.song
       })
     },
-    function (personKey) {
+    function () {
       resetSongAndTitleHighlighting()
     }
   )
 
   // Last song on album
   function getLastSongCount(personKey) {
-    var count = 0
-    for (var i = 0; i < primaryAlbumCount; i++) {
-      var albumItem = albumItems[i]
-      var album = albumItem.album
-      var lastSong = album.songs[album.songs.length - 1]
+    let count = 0
+    for (let i = 0; i < primaryAlbumCount; i++) {
+      const albumItem = albumItems[i]
+      const album = albumItem.album
+      const lastSong = album.songs[album.songs.length - 1]
       if (lastSong.lead === personKey) {
         count++
       }
@@ -844,14 +841,14 @@ function addBarCharts() {
         return songItem.album.songs[songItem.album.songs.length - 1] == songItem.song
       })
     },
-    function (personKey) {
+    function () {
       resetSongAndTitleHighlighting()
     }
   )
 
   // Total songs
   function getTotalSongs(personKey) {
-    var songs = getSongsForPerson(personKey)
+    const songs = getSongsForPerson(personKey)
     return songs.length
   }
   addBarChart(
@@ -868,17 +865,17 @@ function addBarCharts() {
     function (personKey) {
       highlightSongsForPerson(personKey, false, false)
     },
-    function (personKey) {
+    function () {
       resetSongHighlighting()
     }
   )
 
   // Average song length
   function getAverageSongLength(personKey) {
-    var songs = getSongsForPerson(personKey)
-    var totalSeconds = 0
-    for (var i = 0; i < songs.length; i++) {
-      var song = songs[i]
+    const songs = getSongsForPerson(personKey)
+    let totalSeconds = 0
+    for (let i = 0; i < songs.length; i++) {
+      const song = songs[i]
       totalSeconds += song.seconds
     }
     return totalSeconds / songs.length
@@ -897,17 +894,17 @@ function addBarCharts() {
     function (personKey) {
       highlightSongsForPerson(personKey, false, false)
     },
-    function (personKey) {
+    function () {
       resetSongHighlighting()
     }
   )
 
   // Average song title word count
   function getAverageTitleWordCount(personKey) {
-    var songs = getSongsForPerson(personKey)
-    var totalWords = 0
-    for (var i = 0; i < songs.length; i++) {
-      var song = songs[i]
+    const songs = getSongsForPerson(personKey)
+    let totalWords = 0
+    for (let i = 0; i < songs.length; i++) {
+      const song = songs[i]
       totalWords += song.title.split(' ').length
     }
     return totalWords / songs.length
@@ -926,7 +923,7 @@ function addBarCharts() {
     function (personKey) {
       highlightSongsForPerson(personKey, false, false)
     },
-    function (personKey) {
+    function () {
       resetSongHighlighting()
     }
   )
@@ -938,96 +935,42 @@ function addBarCharts() {
  *
  */
 
-function initHighlightAnimParams() {
-  function createAnimParams(animItems) {
-    var params = {
-      animItems: animItems,
-      triggerAnimations: false,
-      startTime: 0.0,
-      endTime: 0.0
-    }
-    highlightAnimParams.push(params)
-    return params
-  }
-
-  albumAnimParams = createAnimParams(albumItems)
-  songAnimParams = createAnimParams(songItems)
-  personAnimParams = createAnimParams(personItems)
-  personLinkAnimParams = createAnimParams(personLinkItems)
+function animOpacity(elem, opacity) {
+  // TODO: Check animationsEnabled flag
+  elem.transition('opacity').duration(dur).style('opacity', opacity)
 }
 
-function processHighlightAnimations(eventTime, animParams) {
-  if (animParams.triggerAnimations) {
-    animParams.startTime = eventTime
-    animParams.endTime = eventTime + 0.15
-    animParams.triggerAnimations = false
-  }
-  if (animParams.endTime > 0) {
-    var progress
-    if (eventTime < animParams.endTime) {
-      // Step animations
-      progress = (eventTime - animParams.startTime) / (animParams.endTime - animParams.startTime)
-    } else {
-      // Set all to target
-      progress = 1.0
-      // Stop animation
-      animParams.startTime = 0
-      animParams.endTime = 0
-    }
-    for (var i = 0; i < animParams.animItems.length; i++) {
-      var animItem = animParams.animItems[i]
-      var item = animItem.item
-      if (item.opacity != animItem.targetOpacity) {
-        item.opacity = animItem.startOpacity + progress * (animItem.targetOpacity - animItem.startOpacity)
-      }
-    }
+function animFill(elem, color) {
+  // TODO: Check animationsEnabled flag
+  elem.transition('fill').duration(dur).attr('fill', color)
+}
+
+function setTextLines(elem, lines) {
+  // XXX
+  const node = elem.node()
+  for (let i = 0; i < 4; i++) {
+    const line = i < lines.length ? lines[i] : ''
+    d3.select(node.childNodes[i]).text(line)
   }
 }
 
-function startHighlightAnimations(animParams) {
-  if (enableHighlightAnim) {
-    // Set the flag, which will be handled in the onFrame callback
-    animParams.triggerAnimations = true
-  } else {
-    // Otherwise, force all items to the target state immediately
-    for (var i = 0; i < animParams.animItems.length; i++) {
-      var animItem = animParams.animItems[i]
-      var item = animItem.item
-      item.opacity = animItem.targetOpacity
-    }
-  }
-}
-
-function highlightItems(animParams, func) {
-  for (var i = 0; i < animParams.animItems.length; i++) {
-    var animItem = animParams.animItems[i]
-    animItem.targetOpacity = func(animItem)
-    animItem.startOpacity = animItem.item.opacity
-  }
-  startHighlightAnimations(animParams)
-}
-
-function resetHighlighting(animParams) {
-  for (var i = 0; i < animParams.animItems.length; i++) {
-    var animItem = animParams.animItems[i]
-    animItem.targetOpacity = 1.0
-    animItem.startOpacity = animItem.item.opacity
-  }
-  startHighlightAnimations(animParams)
+function setVisible(elem, visible) {
+  // TODO: Consider using visibility instead sometimes?
+  // elem.attr('visibility', visible ? 'unset' : 'hidden')
+  animOpacity(elem, visible ? 1 : 0)
 }
 
 function highlightAlbum(album) {
-  highlightItems(albumAnimParams, function (albumItem) {
-    if (albumItem.album == album) {
-      return 1.0
-    } else {
-      return 0.1
-    }
-  })
+  for (const albumItem of albumItems) {
+    const opacity = albumItem.album === album ? 1 : 0.1
+    animOpacity(albumItem.group, opacity)
+  }
 }
 
 function resetAlbumHighlighting() {
-  resetHighlighting(albumAnimParams)
+  for (const albumItem of albumItems) {
+    animOpacity(albumItem.group, 1)
+  }
 }
 
 function keyForAlbum(album) {
@@ -1036,103 +979,102 @@ function keyForAlbum(album) {
 
 function highlightSongsForPerson(personKey, includeBackups, includeSecondaryAlbums) {
   // Flag the case where no songs on an album are highlighted so we can dim that album
-  var albumKeysToHighlight = []
+  const albumKeysToHighlight = []
 
   function isAlbumIncluded(key) {
     return albumKeysToHighlight.indexOf(key) >= 0
   }
 
   function includeAlbum(songItem) {
-    var key = keyForAlbum(songItem.album)
+    const key = keyForAlbum(songItem.album)
     if (!isAlbumIncluded(key)) {
       albumKeysToHighlight.push(key)
     }
   }
 
   // Highlight songs
-  highlightItems(songAnimParams, function (songItem) {
-    var song = songItem.song
-    var album = songItem.album
-    var albumOK = album.primary || includeSecondaryAlbums
+  for (const songItem of songItems) {
+    const song = songItem.song
+    const album = songItem.album
+    const albumOK = album.primary || includeSecondaryAlbums
+    let opacity
     if (albumOK && song.lead === personKey) {
       includeAlbum(songItem)
-      return 1.0
+      opacity = 1.0
     } else if (albumOK && includeBackups && song.backups.indexOf(personKey) >= 0) {
       includeAlbum(songItem)
-      return 0.7
+      opacity = 0.7
     } else {
-      return 0.05
+      opacity = 0.05
     }
-  })
+    animOpacity(songItem.slice, opacity)
+  }
 
   // Highlight albums that have at least one highlighted song
-  highlightItems(albumAnimParams, function (albumItem) {
-    var key = keyForAlbum(albumItem.album)
-    if (isAlbumIncluded(key)) {
-      return 1.0
-    } else {
-      return 0.1
-    }
-  })
+  for (const albumItem of albumItems) {
+    const key = keyForAlbum(albumItem.album)
+    const opacity = isAlbumIncluded(key) ? 1 : 0.1
+    animOpacity(albumItem.group, opacity)
+  }
 }
 
 function highlightSongsAndTitlesForPerson(personKey, songItemFunc) {
   // Flag the case where no songs on an album are highlighted so we can dim that album
-  var albumKeysToHighlight = []
+  const albumKeysToHighlight = []
 
   function isAlbumIncluded(key) {
     return albumKeysToHighlight.indexOf(key) >= 0
   }
 
   function includeAlbum(songItem) {
-    var key = keyForAlbum(songItem.album)
+    const key = keyForAlbum(songItem.album)
     if (!isAlbumIncluded(key)) {
       albumKeysToHighlight.push(key)
     }
   }
 
   // Highlight songs
-  highlightItems(songAnimParams, function (songItem) {
-    var song = songItem.song
-    var album = songItem.album
+  for (const songItem of songItems) {
+    const song = songItem.song
+    const album = songItem.album
+    let opacity
     if (album.primary && song.lead === personKey && songItemFunc(songItem)) {
       includeAlbum(songItem)
-      return 1.0
+      opacity = 1.0
     } else {
-      return 0.05
+      opacity = 0.05
     }
-  })
+    animOpacity(songItem.slice, opacity)
+  }
 
   // Show the titles of the highlighted songs
-  for (var i = 0; i < primaryAlbumCount; i++) {
-    var albumItem = albumItems[i]
-    var songText = ''
-    for (var j = 0; j < albumItem.albumSongItems.length; j++) {
-      var songItem = albumItem.albumSongItems[j]
-      var song = songItem.song
+  for (let i = 0; i < primaryAlbumCount; i++) {
+    const albumItem = albumItems[i]
+    const songTextLines = []
+    for (let j = 0; j < albumItem.albumSongItems.length; j++) {
+      const songItem = albumItem.albumSongItems[j]
+      const song = songItem.song
       if (song.lead === personKey && songItemFunc(songItem)) {
-        songText += song.title + '\n'
+        songTextLines.push(song.title)
       }
     }
-    albumItem.songText.content = songText
-    albumItem.songText.fillColor = '#eee'
-    albumItem.songText.visible = true
+    setTextLines(albumItem.songText, songTextLines)
+    setVisible(albumItem.songText, true)
   }
 
   // Highlight albums that have at least one highlighted song
-  highlightItems(albumAnimParams, function (albumItem) {
-    var key = keyForAlbum(albumItem.album)
-    if (isAlbumIncluded(key)) {
-      return 1.0
-    } else {
-      return 0.1
-    }
-  })
+  for (const albumItem of albumItems) {
+    const key = keyForAlbum(albumItem.album)
+    const opacity = isAlbumIncluded(key) ? 1 : 0.1
+    animOpacity(albumItem.group, opacity)
+  }
 }
 
 function resetSongHighlighting() {
-  resetAlbumHighlighting()
-  resetHighlighting(songAnimParams)
+  // TODO: resetAlbumHighlighting?
+  for (const songItem of songItems) {
+    animOpacity(songItem.slice, 1)
+  }
 }
 
 function resetSongAndTitleHighlighting() {
@@ -1140,188 +1082,129 @@ function resetSongAndTitleHighlighting() {
   resetSongHighlighting()
 
   // Clear the titles of the highlighted songs
-  for (var i = 0; i < primaryAlbumCount; i++) {
-    var albumItem = albumItems[i]
-    albumItem.songText.fillColor = 'white'
-    albumItem.songText.visible = false
+  for (let i = 0; i < primaryAlbumCount; i++) {
+    const albumItem = albumItems[i]
+    setVisible(albumItem.songText, false)
   }
 }
 
 function highlightPerson(personKey) {
-  highlightItems(personAnimParams, function (personItem) {
-    if (personItem.personKey == personKey) {
-      return 1.0
-    } else {
-      return 0.2
-    }
-  })
+  for (const personItem of personItems) {
+    const opacity = personItem.personKey === personKey ? 1.0 : 0.2
+    animOpacity(personItem.group, opacity)
+  }
 }
 
 function highlightPersonsForSong(song) {
-  highlightItems(personAnimParams, function (personItem) {
-    var personKey = personItem.personKey
+  for (const personItem of personItems) {
+    const personKey = personItem.personKey
+    let opacity
     if (song.lead === personKey) {
-      return 1.0
+      opacity = 1
     } else if (song.backups.indexOf(personKey) >= 0) {
-      return 0.7
+      opacity = 0.7
     } else {
-      return 0.2
+      opacity = 0.2
     }
-  })
+    animOpacity(personItem.group, opacity)
+  }
 }
 
 function resetPersonHighlighting() {
-  resetHighlighting(personAnimParams)
+  for (const personItem of personItems) {
+    animOpacity(personItem.group, 1)
+  }
 }
 
 function highlightLinksForAlbum(album) {
-  highlightItems(personLinkAnimParams, function (personLinkItem) {
-    if (personLinkItem.album == album) {
-      return 1.0
-    } else {
-      return 0.1
-    }
-  })
+  for (const personLinkItem of personLinkItems) {
+    const opacity = personLinkItem.album === album ? 1.0 : 0.1
+    animOpacity(personLinkItem.line, opacity)
+  }
 }
 
 function highlightLinksForSong(song) {
-  highlightItems(personLinkAnimParams, function (personLinkItem) {
-    if (personLinkItem.song == song) {
-      return 1.0
-    } else {
-      return 0.1
-    }
-  })
+  for (const personLinkItem of personLinkItems) {
+    const opacity = personLinkItem.song === song ? 1.0 : 0.1
+    animOpacity(personLinkItem.line, opacity)
+  }
 }
 
 function highlightLinksForPerson(personKey) {
-  highlightItems(personLinkAnimParams, function (personLinkItem) {
-    if (personLinkItem.fromPersonKey === personKey) {
-      return 1.0
-    } else {
-      return 0.1
-    }
-  })
+  for (const personLinkItem of personLinkItems) {
+    const opacity = personLinkItem.fromPersonKey === personKey ? 1.0 : 0.1
+    animOpacity(personLinkItem.line, opacity)
+  }
 }
 
 function dimLinkHighlighting() {
-  highlightItems(personLinkAnimParams, function (personLinkItem) {
-    return 0.1
-  })
+  for (const personLinkItem of personLinkItems) {
+    animOpacity(personLinkItem.line, 0.1)
+  }
 }
 
 function resetLinkHighlighting() {
-  resetHighlighting(personLinkAnimParams)
+  for (const personLinkItem of personLinkItems) {
+    animOpacity(personLinkItem.line, 1)
+  }
 }
 
 function resetAll() {
-  // This resets album highlighting too
-  resetSongAndTitleHighlighting()
-  //resetAlbumHighlighting();
-  resetLinkHighlighting()
-  resetPersonHighlighting()
-
-  // Reset other text/fill state
-  for (var i = 0; i < personItems.length; i++) {
-    var personItem = personItems[i]
-    personItem.nameText.visible = false
-  }
-  for (var i = 0; i < albumItems.length; i++) {
-    var albumItem = albumItems[i]
-    albumItem.albumText.visible = false
-    albumItem.songText.visible = false
-  }
-  for (var i = 0; i < songItems.length; i++) {
-    var songItem = songItems[i]
-    songItem.item.fillColor = songItem.color
-  }
-  for (var i = 0; i < barItems.length; i++) {
-    var barItem = barItems[i]
-    barItem.bar.fillColor = barItem.color
-  }
+  // // This resets album highlighting too
+  // resetSongAndTitleHighlighting()
+  // //resetAlbumHighlighting();
+  // resetLinkHighlighting()
+  // resetPersonHighlighting()
+  //
+  // // Reset other text/fill state
+  // for (let i = 0; i < personItems.length; i++) {
+  //   const personItem = personItems[i]
+  //   personItem.nameText.visible = false
+  // }
+  // for (let i = 0; i < albumItems.length; i++) {
+  //   const albumItem = albumItems[i]
+  //   albumItem.albumText.visible = false
+  //   albumItem.songText.visible = false
+  // }
+  // for (let i = 0; i < songItems.length; i++) {
+  //   const songItem = songItems[i]
+  //   songItem.item.fillColor = songItem.color
+  // }
+  // for (let i = 0; i < barItems.length; i++) {
+  //   const barItem = barItems[i]
+  //   barItem.bar.fillColor = barItem.color
+  // }
 }
 
-/*
- *
- * SONG GROUPING
- *
- */
-
-function initSortAnimParams() {
-  sortAnimParams = {
-    animItems: songItems,
-    triggerAnimations: false,
-    startTime: 0.0,
-    endTime: 0.0
-  }
-}
-
-function processSortAnimations(eventTime, animParams) {
-  if (animParams.triggerAnimations) {
-    animParams.startTime = eventTime
-    animParams.endTime = eventTime + 0.35
-    animParams.triggerAnimations = false
-  }
-  if (animParams.endTime > 0) {
-    var progress
-    if (eventTime < animParams.endTime) {
-      // Step animations
-      progress = (eventTime - animParams.startTime) / (animParams.endTime - animParams.startTime)
-    } else {
-      // Set all to target
-      progress = 1.0
-      // Stop animation
-      animParams.startTime = 0
-      animParams.endTime = 0
-    }
-    for (var i = 0; i < animParams.animItems.length; i++) {
-      var animItem = animParams.animItems[i]
-      var item = animItem.item
-      if (item.rotation != animItem.targetRotation) {
-        item.rotation = animItem.startRotation + progress * (animItem.targetRotation - animItem.startRotation)
-      }
-    }
-  }
-}
-
-function startSortAnimations() {
-  if (enableSortAnim) {
-    // Set the flag, which will be handled in the onFrame callback
-    sortAnimParams.triggerAnimations = true
-  } else {
-    // Otherwise, force all items to the target state immediately
-    for (var i = 0; i < sortAnimParams.animItems.length; i++) {
-      var animItem = sortAnimParams.animItems[i]
-      var item = animItem.item
-      item.rotation = animItem.targetRotation
-    }
-    paper.view.draw()
-  }
-}
+// /*
+//  *
+//  * SONG GROUPING
+//  *
+//  */
 
 function getSongsGroupedByPerson(album) {
-  var groupingPersonKeys = ['C', 'P', 'J', 'A']
-  var personSongs = {}
-  for (var i = 0; i < groupingPersonKeys.length; i++) {
-    var personKey = groupingPersonKeys[i]
+  const groupingPersonKeys = ['C', 'P', 'J', 'A']
+  const personSongs = {}
+  for (let i = 0; i < groupingPersonKeys.length; i++) {
+    const personKey = groupingPersonKeys[i]
     personSongs[personKey] = []
   }
-  for (var i = 0; i < album.songs.length; i++) {
-    var song = album.songs[i]
+  for (let i = 0; i < album.songs.length; i++) {
+    const song = album.songs[i]
     personSongs[song.lead].push(song)
   }
 
-  var songs = []
-  for (var i = 0; i < groupingPersonKeys.length; i++) {
-    var personKey = groupingPersonKeys[i]
+  let songs = []
+  for (let i = 0; i < groupingPersonKeys.length; i++) {
+    const personKey = groupingPersonKeys[i]
     songs = songs.concat(personSongs[personKey])
   }
   return songs
 }
 
 function getSongIndexByAlbumOrder(album, song) {
-  for (var i = 0; i < album.songs.length; i++) {
-    var albumSong = album.songs[i]
+  for (let i = 0; i < album.songs.length; i++) {
+    const albumSong = album.songs[i]
     if (albumSong == song) {
       return i
     }
@@ -1330,9 +1213,9 @@ function getSongIndexByAlbumOrder(album, song) {
 }
 
 function getSongIndexByPerson(album, song) {
-  var groupedSongs = getSongsGroupedByPerson(album)
-  for (var i = 0; i < groupedSongs.length; i++) {
-    var groupedSong = groupedSongs[i]
+  const groupedSongs = getSongsGroupedByPerson(album)
+  for (let i = 0; i < groupedSongs.length; i++) {
+    const groupedSong = groupedSongs[i]
     if (groupedSong == song) {
       return i
     }
@@ -1341,31 +1224,33 @@ function getSongIndexByPerson(album, song) {
 }
 
 function sortSongs(func) {
-  for (var i = 0; i < albumItems.length; i++) {
-    var albumItem = albumItems[i]
-    var album = albumItem.album
-    var sweep = 360 / album.songs.length
-    for (var j = 0; j < albumItem.albumSongItems.length; j++) {
-      var songItem = albumItem.albumSongItems[j]
-      var song = songItem.song
-      var songIndex = func(album, song)
-      var angle = -90 + songIndex * sweep
-      songItem.targetRotation = angle
-      songItem.startRotation = songItem.item.rotation
+  for (let i = 0; i < albumItems.length; i++) {
+    const albumItem = albumItems[i]
+    const album = albumItem.album
+    const sweep = 360 / album.songs.length
+    for (let j = 0; j < albumItem.albumSongItems.length; j++) {
+      const songItem = albumItem.albumSongItems[j]
+      const song = songItem.song
+      const songIndex = func(album, song)
+      const angle = -90 + songIndex * sweep
+      const cx = songItem.cx
+      const cy = songItem.cy
+      songItem.slice
+        .transition('rotation')
+        .duration(dur * 4)
+        .attr('transform', `translate(${cx},${cy}),rotate(${angle + 90})`)
     }
   }
-  startSortAnimations()
 }
 
-globals.sortSongsByAlbumOrder = function () {
+// Used by index.html
+function sortSongsByAlbumOrder() {
   sortSongs(getSongIndexByAlbumOrder)
 }
-
-globals.sortSongsByPerson = function () {
+function sortSongsByPerson() {
   sortSongs(getSongIndexByPerson)
 }
-
-globals.sortCheckboxClicked = function (cb) {
+function sortCheckboxClicked(cb) {
   if (cb.checked) {
     sortSongs(getSongIndexByPerson)
   } else {
@@ -1375,75 +1260,41 @@ globals.sortCheckboxClicked = function (cb) {
 
 /*
  *
- * ANIMATION
- *
- */
-
-// TODO: Remove this callback when animation is disabled?
-function onFrame(event) {
-  if (enableHighlightAnim) {
-    for (var i = 0; i < highlightAnimParams.length; i++) {
-      var animParams = highlightAnimParams[i]
-      processHighlightAnimations(event.time, animParams)
-    }
-  }
-
-  if (enableSortAnim) {
-    processSortAnimations(event.time, sortAnimParams)
-  }
-}
-
-/*
- *
- * IMAGE LOADING
- *
- */
-
-var hiddenImagesHtml = ''
-var imgSuffix = ''
-if (window.devicePixelRatio == 2) {
-  imgSuffix = '-2x'
-}
-for (var i = 0; i < albums.length; i++) {
-  var cover = albums[i].cover
-  hiddenImagesHtml += '<img class="hidden" id="' + cover + '" src="sc/' + cover + imgSuffix + '.png"></img>'
-}
-for (var i = 0; i < personKeys.length; i++) {
-  var person = persons[personKeys[i]]
-  var image = person.name.toLowerCase()
-  hiddenImagesHtml += '<img class="hidden" id="' + image + '" src="sc/' + image + imgSuffix + '.png"></img>'
-}
-document.getElementById('hidden_images').innerHTML = hiddenImagesHtml
-
-// XXX
-//document.ontouchmove = function(e) {e.preventDefault()};
-
-/*
- *
  * MAIN SCRIPT
  *
  */
 
-var bg = new Path.Rectangle({
-  from: [0, 0],
-  to: [view.viewSize.width, view.viewSize.height],
-  fillColor: 'red',
-  opacity: 0,
-  visible: true
-})
-bg.onClick = function () {
-  resetAll()
-  return false
-}
-
+// Add the elements
 addAlbums()
-
 addPersonLinks()
-
 addPersons()
-
 addBarCharts()
 
-initHighlightAnimParams()
+let currentSel
 
-initSortAnimParams()
+if (isTouchScreen) {
+  // Reset everything when background is clicked
+  svg.on('click', function () {
+    resetAll()
+  })
+  // XXX: Hack to redispatch hover events when dragging finger
+  // around on touch screen
+  svg.on('touchmove', function (event) {
+    const x = event.pageX
+    const y = event.pageY
+    // console.log(x, y)
+    const elem = document.elementFromPoint(x, y)
+    // console.log(elem)
+    const sel = d3.select(elem)
+    // console.log(sel)
+    if (sel !== currentSel) {
+      if (currentSel) {
+        currentSel.node().dispatchEvent(new Event('mouseout'))
+      }
+      if (sel) {
+        sel.node().dispatchEvent(new Event('mouseover'))
+      }
+      currentSel = sel
+    }
+  })
+}

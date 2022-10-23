@@ -1,114 +1,127 @@
 .hidden {
-    display: none !important;
+  display: none !important;
 }
 
 html, body {
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
 
 body {
-    color: #fff;
-    background-color: #222;
-    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-    font-weight: 300;
-    font-size: 13px;
+  color: #fff;
+  background-color: #222;
+  /* font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; */
+  /* font-weight: 300; */
+  /* font-family: "Barlow Condensed", sans-serif; */
+  font-family: "Barlow Semi Condensed", sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  cursor: default;
 
-    /* Disable text selection */
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-    -khtml-user-select: none; /* Konqueror HTML */
-    -moz-user-select: none; /* Old versions of Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-    user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+  /* Disable text selection */
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+}
+
+@media (pointer: coarse) {
+html, body {
+  /* Disable page scrolling on touchscreen devices */
+  overflow-y: hidden;
+  /* Disable image touch highlighting on iPhone */
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
 }
 
 .table_content {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  width: 840px;
-  margin-left: auto;
-  margin-right: auto;
+position: relative;
+display: flex;
+flex-direction: column;
+width: 840px;
+margin-left: auto;
+margin-right: auto;
 }
 
 label {
-  margin-bottom: 4px;
-  font-size: 16px;
-  color: #777;
+margin-bottom: 4px;
+font-size: 16px;
+color: #777;
 }
 
 input[type="checkbox"] {
-  transform: scale(1.5, 1.5);
-  margin-right: 10px;
+transform: scale(1.5, 1.5);
+margin-right: 10px;
 }
 
-canvas {
-  width: 1200px;
-  top: 0;
-  margin-left: -180px;
-  margin-top: 8px;
+svg {
+width: 1200px;
+top: 0;
+margin-left: -180px;
+margin-top: 8px;
 }
 
 .header {
-  display: flex;
-  flex-direction: row;
+display: flex;
+flex-direction: row;
 }
 
 .header-title {
-    display: flex;
-    flex-direction: column;
-    z-index:1;
-    height:42px;
-    margin-left:30px;
-    margin-top:1px;
-    color:#777;
+  display: flex;
+  flex-direction: column;
+  z-index:1;
+  height:42px;
+  margin-left:30px;
+  margin-top:1px;
+  color:#777;
 }
 
 .header-title a {
-    color:#bbb;
-    text-decoration:none;
+  color:#bbb;
+  text-decoration:none;
 }
 
 .header-title h2 {
-    color:#fff;
-    font-weight:normal;
-    font-size:2.5em;
-    margin:0 0 0 0;
-    padding:0 0 0 0;
+  color:#fff;
+  font-weight:normal;
+  font-size:2.5em;
+  margin:0 0 0 0;
+  padding:0 0 0 0;
 }
 
 .header-menu {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 .header-menu h2 {
-    color:#bbb;
-    font-weight:normal;
-    font-size:1.75em;
-    margin:0 0 0 0;
-    padding:0 0.5em 0.25em 0;
-    border-right:1px solid #808080;
-    float:left;
+  color:#bbb;
+  font-weight:normal;
+  font-size:1.75em;
+  margin:0 0 0 0;
+  padding:0 0.5em 0.25em 0;
+  border-right:1px solid #808080;
+  float:left;
 }
 
 .header-menu h2 a {
-    color:#bbb;
-    text-decoration:none;
+  color:#bbb;
+  text-decoration:none;
 }
 
 .header-menu h3 {
-    color:#777;
-    font-weight:normal;
-    font-size:1.25em;
-    margin:6px 0 0 0;
-    padding:0 0.5em 0.15em 0.5em;
-    border-right:1px solid #808080;
-    float:left;
+  color:#777;
+  font-weight:normal;
+  font-size:1.25em;
+  margin:6px 0 0 0;
+  padding:0 0.5em 0.15em 0.5em;
+  border-right:1px solid #808080;
+  float:left;
 }
 
 .header-menu h3 a {
-    color:#777;
-    text-decoration:none;
+  color:#777;
+  text-decoration:none;
 }
