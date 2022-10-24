@@ -568,6 +568,7 @@ function addPersonLink(song, album, fromPersonKey, toPersonKey, handleRadius) {
     .attr('fill', 'none')
     .attr('stroke', fromPerson.color)
     .attr('stroke-width', 1)
+    .attr('pointer-events', 'none')
     .attr('d', path.toString())
 
   const personLinkItem = {
@@ -669,6 +670,7 @@ function addBarChart(title, x, y, w, h, chartItems, maxValue, label0, label1, la
     .attr('y2', y + h)
     .attr('stroke', axisColor)
     .attr('opacity', axisOpacity)
+    .attr('pointer-events', 'none')
   shapeGroup
     .append('line')
     .attr('x1', x)
@@ -677,6 +679,7 @@ function addBarChart(title, x, y, w, h, chartItems, maxValue, label0, label1, la
     .attr('y2', y + h)
     .attr('stroke', axisColor)
     .attr('opacity', axisOpacity)
+    .attr('pointer-events', 'none')
 
   const labelColor = '#888'
   const labelY = y + h + 20
@@ -688,6 +691,7 @@ function addBarChart(title, x, y, w, h, chartItems, maxValue, label0, label1, la
       .attr('y', labelY)
       .attr('fill', labelColor)
       .attr('text-anchor', 'middle')
+      .attr('pointer-events', 'none')
       .attr('style', textStyle)
       .text(content)
   }
@@ -1152,7 +1156,6 @@ function resetLinkHighlighting() {
 function resetAll() {
   // // This resets album highlighting too
   // resetSongAndTitleHighlighting()
-  // //resetAlbumHighlighting();
   // resetLinkHighlighting()
   // resetPersonHighlighting()
   //
@@ -1270,11 +1273,12 @@ addPersonLinks()
 addPersons()
 addBarCharts()
 
-let currentSel
+let currentElem
 
 if (isTouchScreen) {
   // Reset everything when background is clicked
   svg.on('click', function () {
+    // TODO: Make this work
     resetAll()
   })
   // XXX: Hack to redispatch hover events when dragging finger
@@ -1282,19 +1286,17 @@ if (isTouchScreen) {
   svg.on('touchmove', function (event) {
     const x = event.pageX
     const y = event.pageY
-    // console.log(x, y)
     const elem = document.elementFromPoint(x, y)
-    // console.log(elem)
-    const sel = d3.select(elem)
-    // console.log(sel)
-    if (sel !== currentSel) {
-      if (currentSel) {
-        currentSel.node().dispatchEvent(new Event('mouseout'))
+    if (elem !== currentElem) {
+      if (currentElem) {
+        const sel = d3.select(currentElem)
+        sel.node().dispatchEvent(new Event('mouseout'))
       }
-      if (sel) {
+      if (elem) {
+        const sel = d3.select(elem)
         sel.node().dispatchEvent(new Event('mouseover'))
       }
-      currentSel = sel
+      currentElem = elem
     }
   })
 }
