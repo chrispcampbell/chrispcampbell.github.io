@@ -1781,7 +1781,9 @@ var albums = [
         "title": "Magical Thinking"
       }, 
       {
-        "backups": [], 
+        "backups": [
+          "C"
+        ], 
         "lead": "P", 
         "seconds": 151, 
         "single": true, 
@@ -1799,7 +1801,9 @@ var albums = [
         "title": "She Put Up with What She Put Down"
       }, 
       {
-        "backups": [], 
+        "backups": [
+          "P"
+        ], 
         "lead": "C", 
         "seconds": 162, 
         "single": false, 
@@ -1845,7 +1849,9 @@ var albums = [
         "title": "Nice Work If You Can Get It"
       }, 
       {
-        "backups": [], 
+        "backups": [
+          "C"
+        ], 
         "lead": "P", 
         "seconds": 192, 
         "single": false, 

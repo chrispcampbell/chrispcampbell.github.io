@@ -794,7 +794,7 @@ C,P
 
 *Spend the Day
 2:31
-P
+P,C
 
 She Put Up with What She Put Down
 2:33
@@ -802,7 +802,7 @@ J,C
 
 Human Nature
 2:42
-C
+C,P
 
 *Scratch the Surface
 2:56
@@ -822,7 +822,7 @@ C,P
 
 Simply Leaving
 3:12
-P
+P,C
 
 Close Encounters
 3:52
