@@ -1071,7 +1071,7 @@ function highlightSongsAndTitlesForPerson(personKey, songItemFunc) {
 }
 
 function resetSongHighlighting() {
-  // TODO: resetAlbumHighlighting?
+  resetAlbumHighlighting()
   for (const songItem of songItems) {
     animOpacity(songItem.slice, 1)
   }
