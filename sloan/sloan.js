@@ -21,6 +21,7 @@ const textStyle =
   'font-size: 19px; cursor: default;'
 
 const vieww = 1200
+const viewh = 1150
 const viewcx = vieww / 2
 const viewcy = 360
 
@@ -72,6 +73,18 @@ for (let i = 0; i < personKeys.length; i++) {
 const svg = d3.select('svg')
 const shapeGroup = svg.append('g')
 const textGroup = svg.append('g')
+
+// XXX: Used for reset
+let bgRect
+if (isTouchScreen) {
+  bgRect = shapeGroup
+    .append('rect')
+    .attr('x', 0)
+    .attr('y', 0)
+    .attr('width', vieww)
+    .attr('height', viewh)
+    .attr('fill', bgColor)
+}
 
 /*
  *
@@ -142,7 +155,7 @@ function addPieSlice(song, album, cx, cy, baseSize, sweep, angle, songText, albu
     .attr('stroke-width', 1)
     .attr('d', arc)
     .attr('transform', `translate(${cx},${cy}),rotate(${angle + 90})`)
-    .on('mouseover', function (d, i) {
+    .on('mouseover', function (event) {
       animFill(d3.select(this), brighterColor)
       setTextLines(songText, [song.title])
       setVisible(songText, true)
@@ -150,14 +163,16 @@ function addPieSlice(song, album, cx, cy, baseSize, sweep, angle, songText, albu
       highlightAlbum(album)
       highlightPersonsForSong(song)
       highlightLinksForSong(song)
+      event.stopPropagation()
     })
-    .on('mouseout', function (d, i) {
+    .on('mouseout', function (event) {
       animFill(d3.select(this), color)
       setVisible(songText, false)
       setVisible(albumText, false)
       resetAlbumHighlighting()
       resetLinkHighlighting()
       resetPersonHighlighting()
+      event.stopPropagation()
     })
 
   const songItem = {
@@ -307,17 +322,19 @@ function addAlbumAtCenterPoint(album, center, textPt, rightJustify) {
     .attr('cy', center.y)
     .attr('r', coverSize / 2 + 1)
     .style('fill', bgColor)
-    .on('mouseover', function (d, i) {
+    .on('mouseover', function (event) {
       highlightAlbum(album)
       highlightLinksForAlbum(album)
       setVisible(songText, false)
       setVisible(albumText, true)
+      event.stopPropagation()
     })
-    .on('mouseout', function (d, i) {
+    .on('mouseout', function (event) {
       resetAlbumHighlighting()
       resetLinkHighlighting()
       setVisible(songText, false)
       setVisible(albumText, false)
+      event.stopPropagation()
     })
 
   group
@@ -440,19 +457,19 @@ function addPerson(cx, cy, personKey) {
     .attr('r', personHaloRadius)
     .style('fill', person.color)
     // Highlight pie slices and links when hovering over person
-    // .on('mouseover', function (d, i) {
-    .on('mouseover', function () {
+    .on('mouseover', function (event) {
       highlightSongsForPerson(personKey, true, true)
       highlightLinksForPerson(personKey)
       highlightPerson(personKey)
       animOpacity(nameText, 1)
+      event.stopPropagation()
     })
-    // .on('mouseout', function (d, i) {
-    .on('mouseout', function () {
+    .on('mouseout', function (event) {
       resetSongHighlighting()
       resetLinkHighlighting()
       resetPersonHighlighting()
       animOpacity(nameText, 0)
+      event.stopPropagation()
     })
 
   group
@@ -467,6 +484,7 @@ function addPerson(cx, cy, personKey) {
   const personItem = {
     personKey: personKey,
     person: person,
+    nameText,
     group
   }
   personItems.push(personItem)
@@ -615,17 +633,19 @@ function addBar(x, y, w, h, personKey, enterFunc, exitFunc) {
     .attr('width', w)
     .attr('height', h)
     .attr('fill', person.color)
-    .on('mouseover', function (d, i) {
+    .on('mouseover', function (event) {
       animFill(d3.select(this), brighterColor)
       highlightPerson(personKey)
       dimLinkHighlighting()
       enterFunc(personKey)
+      event.stopPropagation()
     })
-    .on('mouseout', function (d, i) {
+    .on('mouseout', function (event) {
       animFill(d3.select(this), person.color)
       resetPersonHighlighting()
       resetLinkHighlighting()
       exitFunc(personKey)
+      event.stopPropagation()
     })
 
   textGroup
@@ -1154,29 +1174,29 @@ function resetLinkHighlighting() {
 }
 
 function resetAll() {
-  // // This resets album highlighting too
-  // resetSongAndTitleHighlighting()
-  // resetLinkHighlighting()
-  // resetPersonHighlighting()
-  //
-  // // Reset other text/fill state
-  // for (let i = 0; i < personItems.length; i++) {
-  //   const personItem = personItems[i]
-  //   personItem.nameText.visible = false
-  // }
-  // for (let i = 0; i < albumItems.length; i++) {
-  //   const albumItem = albumItems[i]
-  //   albumItem.albumText.visible = false
-  //   albumItem.songText.visible = false
-  // }
-  // for (let i = 0; i < songItems.length; i++) {
-  //   const songItem = songItems[i]
-  //   songItem.item.fillColor = songItem.color
-  // }
-  // for (let i = 0; i < barItems.length; i++) {
-  //   const barItem = barItems[i]
-  //   barItem.bar.fillColor = barItem.color
-  // }
+  // This resets album highlighting too
+  resetSongAndTitleHighlighting()
+  resetLinkHighlighting()
+  resetPersonHighlighting()
+
+  // Reset other text/fill state
+  for (let i = 0; i < personItems.length; i++) {
+    const personItem = personItems[i]
+    animOpacity(personItem.nameText, 0)
+  }
+  for (let i = 0; i < albumItems.length; i++) {
+    const albumItem = albumItems[i]
+    setVisible(albumItem.albumText, false)
+    setVisible(albumItem.songText, false)
+  }
+  for (let i = 0; i < songItems.length; i++) {
+    const songItem = songItems[i]
+    animFill(songItem.slice, songItem.color)
+  }
+  for (let i = 0; i < barItems.length; i++) {
+    const barItem = barItems[i]
+    animFill(barItem.bar, barItem.color)
+  }
 }
 
 // /*
@@ -1277,8 +1297,7 @@ let currentElem
 
 if (isTouchScreen) {
   // Reset everything when background is clicked
-  svg.on('click', function () {
-    // TODO: Make this work
+  bgRect.on('click', function () {
     resetAll()
   })
   // XXX: Hack to redispatch hover events when dragging finger
