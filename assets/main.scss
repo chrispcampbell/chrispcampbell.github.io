@@ -68,6 +68,7 @@ img {
  */
 .site-header {
   min-height: $spacing-unit * 2.0;
+  border-top: unset;
 }
  
 .site-header-page-title {
