@@ -32,3 +32,6 @@ end
 
 # Performance-booster for watching directories on Windows
 gem "wdm", "~> 0.1.1", :install_if => Gem.win_platform?
+
+# XXX: Require newer ffi to workaround issue with building locally on macOS 12.6
+gem 'ffi', '>= 1.15.2'
