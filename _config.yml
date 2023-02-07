@@ -1,6 +1,9 @@
 title: la bonne soupe
 #url: "http://labonnesoupe.org"
 url: ""
+mastodon:
+  - username: chrispcampbell
+    instance: techhub.social
 twitter_username: chrscmpbll
 github_username:  chrispcampbell
 email: chrispcampbell`at`gmail
