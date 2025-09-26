@@ -438,7 +438,10 @@ function addPerson(cx, cy, personKey) {
 
   let pos
   let anchor
-  if (personKey === 'P' || personKey === 'C') {
+  if (personKey === 'G') {
+    pos = newPoint(cx - 10, cy + 68)
+    anchor = 'start'
+  } else if (personKey === 'P' || personKey === 'C') {
     pos = newPoint(cx - 10, cy + 64)
     anchor = 'end'
   } else {
@@ -517,7 +520,7 @@ function addPersons() {
 
   // Add Gregory in the middle of the ring
   addPerson(viewcx, viewcy, 'G')
-  // setGregoryVisible(false)
+  setGregoryVisible(false)
 }
 
 /*
