@@ -166,7 +166,7 @@ function addPieSlice(song, album, cx, cy, baseSize, sweep, angle, songText, albu
       setVisible(songText, true)
       setVisible(albumText, true)
       highlightAlbum(album)
-      highlightPersonsForSong(song)
+      highlightPersonsForSong(song, album)
       highlightLinksForSong(song)
       event.stopPropagation()
     })
@@ -1081,6 +1081,17 @@ function yearForAlbum(album) {
   return parseInt(yearStr)
 }
 
+function isBackupPersonForSong(personKey, song, album) {
+  if (personKey === 'G') {
+    // Include Gregory as backup on all songs/albums from 2008 or later
+    const year = yearForAlbum(album)
+    return year >= 2008
+  } else {
+    // Otherwise, check if the person is a backup for the song
+    return song.backups.indexOf(personKey) >= 0
+  }
+}
+
 function highlightSongsForPerson(personKey, includeBackups, includeSecondaryAlbums) {
   // Flag the case where no songs on an album are highlighted so we can dim that album
   const albumKeysToHighlight = []
@@ -1101,14 +1112,7 @@ function highlightSongsForPerson(personKey, includeBackups, includeSecondaryAlbu
     const song = songItem.song
     const album = songItem.album
     const albumOK = album.primary || includeSecondaryAlbums
-    const year = yearForAlbum(album)
-    let isBackup
-    if (personKey === 'G') {
-      // Include Gregory as backup on all songs/albumns from 2008 or later
-      isBackup = includeBackups && year >= 2008
-    } else {
-      isBackup = includeBackups && song.backups.indexOf(personKey) >= 0
-    }
+    const isBackup = includeBackups && isBackupPersonForSong(personKey, song, album)
     let opacity
     if (albumOK && song.lead === personKey) {
       includeAlbum(songItem)
@@ -1207,16 +1211,16 @@ function highlightPerson(personKey) {
   }
 }
 
-function highlightPersonsForSong(song) {
+function highlightPersonsForSong(song, album) {
   for (const personItem of personItems) {
     const personKey = personItem.personKey
     let opacity
     if (song.lead === personKey) {
       opacity = 1
-    } else if (song.backups.indexOf(personKey) >= 0) {
-      opacity = 0.7
+    } else if (isBackupPersonForSong(personKey, song, album)) {
+      opacity = 0.5
     } else {
-      opacity = 0.2
+      opacity = 0.1
     }
     animOpacity(personItem.group, opacity)
   }
