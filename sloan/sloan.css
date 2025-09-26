@@ -29,44 +29,44 @@ body {
 }
 
 @media (pointer: coarse) {
-html, body {
-  /* Disable page scrolling on touchscreen devices */
-  overflow-y: hidden;
-  /* Disable image touch highlighting on iPhone */
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
-}
+  html, body {
+    /* Disable page scrolling on touchscreen devices */
+    overflow-y: hidden;
+    /* Disable image touch highlighting on iPhone */
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+  }
 }
 
 .table_content {
-position: relative;
-display: flex;
-flex-direction: column;
-width: 840px;
-margin-left: auto;
-margin-right: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 840px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 label {
-margin-bottom: 4px;
-font-size: 16px;
-color: #777;
+  margin-bottom: 4px;
+  font-size: 16px;
+  color: #777;
 }
 
 input[type="checkbox"] {
-transform: scale(1.5, 1.5);
-margin-right: 10px;
+  transform: scale(1.5, 1.5);
+  margin-right: 10px;
 }
 
 svg {
-width: 1200px;
-top: 0;
-margin-left: -180px;
-margin-top: 8px;
+  width: 1200px;
+  top: 0;
+  margin-left: -180px;
+  margin-top: 8px;
 }
 
 .header {
-display: flex;
-flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .header-title {
