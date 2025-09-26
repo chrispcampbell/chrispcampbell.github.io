@@ -34,6 +34,18 @@ It covers all 13 proper LPs and EPs. Bonus tracks, b-sides, singles: not include
 _[**Update 2016.4.14**: That day arrived; b-sides and rarities are now included, as
 are outtakes from the box sets. Some new charts were added, too.]_
 
+_[**Update 2022.10.23**: Sloan's new album, Steady, was released today.  New album
+means new updates to the Sloan-o-graph!  Now works on phones.  Smoother animations.
+Updated photos.  More readable text.]_
+
+_[**Update 2025.9.26**: Sloan's new album, Based on the Best Seller, was released
+today.  To make room for it, I moved their two EPs to the outside, to replace the
+rarities and outtakes albums.  I also added a new option to highlight Gregory
+Macdonald's contributions.  He's had his hands on every album starting with
+Parallel Play.  I don't know exactly what songs he's on, but it sounds from
+the band like he's been on most, so for now I'm showing him as backup on every
+song since 2008.]_
+
 The pie slices are color-coded according to the primary songwriter and/or lead
 vocalist.
 The length of each pie slice corresponds to the length of the song. The lines
