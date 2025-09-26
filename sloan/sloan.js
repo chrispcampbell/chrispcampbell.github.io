@@ -1095,13 +1095,21 @@ function highlightSongsForPerson(personKey, includeBackups, includeSecondaryAlbu
     const song = songItem.song
     const album = songItem.album
     const albumOK = album.primary || includeSecondaryAlbums
+    const year = yearForAlbum(album)
+    let isBackup
+    if (personKey === 'G') {
+      // Include Gregory as backup on all songs/albumns from 2008 or later
+      isBackup = includeBackups && year >= 2008
+    } else {
+      isBackup = includeBackups && song.backups.indexOf(personKey) >= 0
+    }
     let opacity
     if (albumOK && song.lead === personKey) {
       includeAlbum(songItem)
       opacity = 1.0
-    } else if (albumOK && includeBackups && song.backups.indexOf(personKey) >= 0) {
+    } else if (albumOK && isBackup) {
       includeAlbum(songItem)
-      opacity = 0.7
+      opacity = 0.4
     } else {
       opacity = 0.05
     }
