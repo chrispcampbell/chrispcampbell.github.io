@@ -571,16 +571,19 @@ function addPersonLink(song, album, fromPersonKey, toPersonKey, handleRadius) {
   let handle
   if (fromPersonKey === 'G') {
     // For Gregory (center) to other band members, create curved lines.
-    // Calculate the angle from Gregory to the target person.
+    // Place the handle point halfway between Gregory and the target person.
+    const midX = (fromPersonCenter.x + toPersonCenter.x) / 2
+    const midY = (fromPersonCenter.y + toPersonCenter.y) / 2
+
+    // Calculate the angle from Gregory to the target person
     const dx = toPersonCenter.x - fromPersonCenter.x
     const dy = toPersonCenter.y - fromPersonCenter.y
     const angle = Math.atan2(dy, dx)
 
-    // Create a handle point that's perpendicular to the line and offset by handleRadius.
-    // This creates a nice curved line from center to each person.
+    // Offset the handle point perpendicular to the line by handleRadius
     const perpendicularAngle = angle + Math.PI / 2
-    const handleX = fromPersonCenter.x + Math.cos(perpendicularAngle) * handleRadius
-    const handleY = fromPersonCenter.y + Math.sin(perpendicularAngle) * handleRadius
+    const handleX = midX + Math.cos(perpendicularAngle) * handleRadius
+    const handleY = midY + Math.sin(perpendicularAngle) * handleRadius
     handle = newPoint(handleX, handleY)
   } else if (fromPersonCenter.x == toPersonCenter.x) {
     if (fromPersonCenter.y < toPersonCenter.y) {
@@ -663,7 +666,7 @@ function addPersonLinks() {
         const album = songItem.album
         let handleRadius = (k + 1) * 4
         if (fromPersonKey === 'G') {
-          handleRadius += 80
+          handleRadius += 30
         }
         addPersonLink(song, album, fromPersonKey, toPersonKey, handleRadius)
       }
