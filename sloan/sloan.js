@@ -36,10 +36,12 @@ const persons = {
   A: { name: 'Andrew', color: '#992E2E' },
   C: { name: 'Chris', color: '#2E9999' },
   J: { name: 'Jay', color: '#99992E' },
-  P: { name: 'Patrick', color: '#2E992E' }
+  P: { name: 'Patrick', color: '#2E992E' },
+  G: { name: 'Gregory', color: '#DD1473' }
 }
 
-const personKeys = ['A', 'J', 'C', 'P']
+const primaryPersonKeys = ['A', 'J', 'C', 'P']
+const personKeys = [...primaryPersonKeys, 'G']
 const personRingRadius = 130
 
 const personAngles = {}
@@ -49,6 +51,7 @@ const albumItems = []
 const songItems = []
 const personItems = []
 const personLinkItems = []
+const gregoryPersonLinkItems = []
 const barItems = []
 
 // const enableHighlightAnim = false; //!isTouchScreen;
@@ -60,13 +63,15 @@ const barItems = []
 const primaryAlbumCount = 14
 const secondaryAlbumCount = 4
 
-for (let i = 0; i < personKeys.length; i++) {
-  const personKey = personKeys[i]
-  const degs = (i * 360) / personKeys.length - 90
+for (let i = 0; i < primaryPersonKeys.length; i++) {
+  const personKey = primaryPersonKeys[i]
+  const degs = (i * 360) / primaryPersonKeys.length - 90
   const pt = pointOnArc(viewcx, viewcy, personRingRadius, degs)
   personAngles[personKey] = degs
   personCenters[personKey] = pt
 }
+personAngles['G'] = 0
+personCenters['G'] = newPoint(viewcx, viewcy)
 
 // Create groups to hold the layers; text elements always appear
 // in front of shapes/images
@@ -399,6 +404,15 @@ function setSecondaryAlbumsVisible(visible) {
   }
 }
 
+function setGregoryVisible(visible) {
+  personItems[4].blackoutCircle.attr('visibility', visible ? 'unset' : 'hidden')
+  personItems[4].group.attr('visibility', visible ? 'unset' : 'hidden')
+  for (let i = 0; i < gregoryPersonLinkItems.length; i++) {
+    const personLinkItem = gregoryPersonLinkItems[i]
+    personLinkItem.line.attr('visibility', visible ? 'unset' : 'hidden')
+  }
+}
+
 // Used by index.html
 function showSecondaryAlbums() {
   setSecondaryAlbumsVisible(true)
@@ -408,6 +422,9 @@ function hideSecondaryAlbums() {
 }
 function secondaryAlbumCheckboxClicked(cb) {
   setSecondaryAlbumsVisible(cb.checked)
+}
+function gregoryCheckboxClicked(cb) {
+  setGregoryVisible(cb.checked)
 }
 
 /*
@@ -441,7 +458,12 @@ function addPerson(cx, cy, personKey) {
 
   // Add an opaque circle that blacks out links even when person is dimmed
   const personHaloRadius = personSize / 2 + personHaloWidth
-  shapeGroup.append('circle').attr('cx', cx).attr('cy', cy).attr('r', personHaloRadius).attr('fill', bgColor)
+  const blackoutCircle = shapeGroup
+    .append('circle')
+    .attr('cx', cx)
+    .attr('cy', cy)
+    .attr('r', personHaloRadius)
+    .attr('fill', bgColor)
 
   const group = shapeGroup.append('g')
 
@@ -480,17 +502,22 @@ function addPerson(cx, cy, personKey) {
     personKey: personKey,
     person: person,
     nameText,
+    blackoutCircle,
     group
   }
   personItems.push(personItem)
 }
 
 function addPersons() {
-  for (let i = 0; i < personKeys.length; i++) {
-    const personKey = personKeys[i]
+  for (let i = 0; i < primaryPersonKeys.length; i++) {
+    const personKey = primaryPersonKeys[i]
     const pt = personCenters[personKey]
     addPerson(pt.x, pt.y, personKey)
   }
+
+  // Add Gregory in the middle of the ring
+  addPerson(viewcx, viewcy, 'G')
+  // setGregoryVisible(false)
 }
 
 /*
@@ -556,6 +583,10 @@ function addPersonLink(song, album, fromPersonKey, toPersonKey, handleRadius) {
     if (fromPersonAngle > 0 && toPersonAngle < 0) {
       toPersonAngle += 360
     }
+    // if (fromPersonKey === 'G') {
+    //   fromPersonAngle = 50
+    //   toPersonAngle = 50
+    // }
     const midAngle = fromPersonAngle + (toPersonAngle - fromPersonAngle) / 2
 
     const fromPersonIndex = personKeys.indexOf(fromPersonKey)
@@ -592,11 +623,15 @@ function addPersonLink(song, album, fromPersonKey, toPersonKey, handleRadius) {
     line
   }
   personLinkItems.push(personLinkItem)
+  if (fromPersonKey === 'G') {
+    gregoryPersonLinkItems.push(personLinkItem)
+  }
 }
 
 function addPersonLinks() {
-  for (let i = 0; i < personKeys.length; i++) {
-    const fromPersonKey = personKeys[i]
+  // Add links for the main four
+  for (let i = 0; i < primaryPersonKeys.length; i++) {
+    const fromPersonKey = primaryPersonKeys[i]
     const toPersonKeys = getOtherPersonKeys(fromPersonKey)
     for (let j = 0; j < toPersonKeys.length; j++) {
       const toPersonKey = toPersonKeys[j]
@@ -606,6 +641,28 @@ function addPersonLinks() {
         const song = songItem.song
         const album = songItem.album
         addPersonLink(song, album, fromPersonKey, toPersonKey, (k + 1) * 4)
+      }
+    }
+  }
+
+  // Add links for Gregory.  Add one link from Gregory to another person for each
+  // song they are the primary writer/singer for, for all albums 2008 or later.
+  // (We will assume that he helped on every song from Parallel Play onwards.
+  // This probably isn't entirely accurate, but it's close enough.)
+  let gregoryRadius = 0
+  for (let i = 0; i < albums.length; i++) {
+    const album = albums[i]
+    const year = yearForAlbum(album)
+
+    // Only process albums from 2008 or later
+    if (year >= 2008) {
+      for (let j = 0; j < album.songs.length; j++) {
+        const song = album.songs[j]
+        const leadPersonKey = song.lead
+
+        // Add a link from Gregory to the primary songwriter
+        const radius = (gregoryRadius -= 4)
+        addPersonLink(song, album, 'G', leadPersonKey, radius)
       }
     }
   }
@@ -984,16 +1041,35 @@ function highlightAlbum(album) {
     const opacity = albumItem.album === album ? 1 : 0.1
     animOpacity(albumItem.group, opacity)
   }
+
+  // Dim Gregory when hovering over albums prior to 2008
+  const year = yearForAlbum(album)
+  const gregoryItem = personItems[4]
+  if (year < 2008) {
+    animOpacity(gregoryItem.group, 0.1)
+  }
 }
 
 function resetAlbumHighlighting() {
   for (const albumItem of albumItems) {
     animOpacity(albumItem.group, 1)
   }
+
+  // Restore Gregory's opacity when resetting album highlighting
+  const gregoryItem = personItems[4]
+  animOpacity(gregoryItem.group, 1)
 }
 
 function keyForAlbum(album) {
   return album.title + '::' + album.year
+}
+
+function yearForAlbum(album) {
+  let yearStr = album.year
+  if (yearStr.startsWith('ca. ')) {
+    yearStr = yearStr.substring(4, 8)
+  }
+  return parseInt(yearStr)
 }
 
 function highlightSongsForPerson(personKey, includeBackups, includeSecondaryAlbums) {
@@ -1194,11 +1270,11 @@ function resetAll() {
   }
 }
 
-// /*
-//  *
-//  * SONG GROUPING
-//  *
-//  */
+/*
+ *
+ * SONG GROUPING
+ *
+ */
 
 function getSongsGroupedByPerson(album) {
   const groupingPersonKeys = ['C', 'P', 'J', 'A']

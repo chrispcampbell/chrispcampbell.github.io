@@ -56,7 +56,8 @@ public class GenMask {
             "andrew",
             "chris",
             "jay",
-            "patrick"
+            "patrick",
+            "gregory"
         };
         mask(personNames, 90);
     }
