@@ -542,8 +542,21 @@ function getBackupSongItems(backupPersonKey, leadPersonKey) {
   for (let i = 0; i < songItems.length; i++) {
     const songItem = songItems[i]
     const song = songItem.song
-    if (song.lead === leadPersonKey && song.backups.indexOf(backupPersonKey) >= 0) {
-      backupSongItems.push(songItem)
+    if (backupPersonKey === 'G') {
+      // For Gregory, assume that he was support/backup on every song for all albums
+      // from Parallel Play (2008) or later.  This probably isn't entirely accurate,
+      // but it's close enough.
+      const album = songItem.album
+      const year = yearForAlbum(album)
+      if (year >= 2008) {
+        if (song.lead === leadPersonKey) {
+          backupSongItems.push(songItem)
+        }
+      }
+    } else {
+      if (song.lead === leadPersonKey && song.backups.indexOf(backupPersonKey) >= 0) {
+        backupSongItems.push(songItem)
+      }
     }
   }
   return backupSongItems
@@ -556,7 +569,20 @@ function addPersonLink(song, album, fromPersonKey, toPersonKey, handleRadius) {
   const toPersonCenter = personCenters[toPersonKey]
 
   let handle
-  if (fromPersonCenter.x == toPersonCenter.x) {
+  if (fromPersonKey === 'G') {
+    // For Gregory (center) to other band members, create curved lines.
+    // Calculate the angle from Gregory to the target person.
+    const dx = toPersonCenter.x - fromPersonCenter.x
+    const dy = toPersonCenter.y - fromPersonCenter.y
+    const angle = Math.atan2(dy, dx)
+
+    // Create a handle point that's perpendicular to the line and offset by handleRadius.
+    // This creates a nice curved line from center to each person.
+    const perpendicularAngle = angle + Math.PI / 2
+    const handleX = fromPersonCenter.x + Math.cos(perpendicularAngle) * handleRadius
+    const handleY = fromPersonCenter.y + Math.sin(perpendicularAngle) * handleRadius
+    handle = newPoint(handleX, handleY)
+  } else if (fromPersonCenter.x == toPersonCenter.x) {
     if (fromPersonCenter.y < toPersonCenter.y) {
       // Link goes from top to bottom; curve to the right
       handle = newPoint(fromPersonCenter.x + handleRadius, viewcy)
@@ -583,10 +609,6 @@ function addPersonLink(song, album, fromPersonKey, toPersonKey, handleRadius) {
     if (fromPersonAngle > 0 && toPersonAngle < 0) {
       toPersonAngle += 360
     }
-    // if (fromPersonKey === 'G') {
-    //   fromPersonAngle = 50
-    //   toPersonAngle = 50
-    // }
     const midAngle = fromPersonAngle + (toPersonAngle - fromPersonAngle) / 2
 
     const fromPersonIndex = personKeys.indexOf(fromPersonKey)
@@ -629,9 +651,8 @@ function addPersonLink(song, album, fromPersonKey, toPersonKey, handleRadius) {
 }
 
 function addPersonLinks() {
-  // Add links for the main four
-  for (let i = 0; i < primaryPersonKeys.length; i++) {
-    const fromPersonKey = primaryPersonKeys[i]
+  for (let i = 0; i < personKeys.length; i++) {
+    const fromPersonKey = personKeys[i]
     const toPersonKeys = getOtherPersonKeys(fromPersonKey)
     for (let j = 0; j < toPersonKeys.length; j++) {
       const toPersonKey = toPersonKeys[j]
@@ -640,29 +661,11 @@ function addPersonLinks() {
         const songItem = backupSongItems[k]
         const song = songItem.song
         const album = songItem.album
-        addPersonLink(song, album, fromPersonKey, toPersonKey, (k + 1) * 4)
-      }
-    }
-  }
-
-  // Add links for Gregory.  Add one link from Gregory to another person for each
-  // song they are the primary writer/singer for, for all albums 2008 or later.
-  // (We will assume that he helped on every song from Parallel Play onwards.
-  // This probably isn't entirely accurate, but it's close enough.)
-  let gregoryRadius = 0
-  for (let i = 0; i < albums.length; i++) {
-    const album = albums[i]
-    const year = yearForAlbum(album)
-
-    // Only process albums from 2008 or later
-    if (year >= 2008) {
-      for (let j = 0; j < album.songs.length; j++) {
-        const song = album.songs[j]
-        const leadPersonKey = song.lead
-
-        // Add a link from Gregory to the primary songwriter
-        const radius = (gregoryRadius -= 4)
-        addPersonLink(song, album, 'G', leadPersonKey, radius)
+        let handleRadius = (k + 1) * 4
+        if (fromPersonKey === 'G') {
+          handleRadius += 80
+        }
+        addPersonLink(song, album, fromPersonKey, toPersonKey, handleRadius)
       }
     }
   }
