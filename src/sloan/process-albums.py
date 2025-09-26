@@ -111,7 +111,7 @@ def dumpProcessing():
     print "  }"
     print
 
-print "var albums = " + json.dumps(albums, sort_keys=True, indent=2, cls=ComplexEncoder)
+print "var albums = " + json.dumps(albums, sort_keys=True, indent=2, separators=(',', ': '), cls=ComplexEncoder)
 
   #songs_by_lead = album.songs_by_lead()
   #for key in songs_by_lead.keys():

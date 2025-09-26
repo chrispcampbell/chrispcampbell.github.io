@@ -30,7 +30,6 @@ public class GenMask {
 
     public static void main(String[] args) throws Exception {
         String[] coverNames = new String[] {
-            "peppermint",
             "smeared",
             "twice",
             "onechord",
@@ -40,11 +39,13 @@ public class GenMask {
             "action",
             "never",
             "parallel",
-            "hit",
             "double",
             "commonwealth",
             "twelve",
             "steady",
+            "based",
+            "peppermint",
+            "hit",
             "bsides",
             "twiceout",
             "onechordout"

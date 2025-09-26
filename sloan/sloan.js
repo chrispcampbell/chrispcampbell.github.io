@@ -57,7 +57,7 @@ const barItems = []
 // const sortAnimParams = {};
 // const enableSortAnim = true;
 
-const primaryAlbumCount = 15
+const primaryAlbumCount = 14
 const secondaryAlbumCount = 4
 
 for (let i = 0; i < personKeys.length; i++) {
@@ -133,7 +133,7 @@ function addPieSlice(song, album, cx, cy, baseSize, sweep, angle, songText, albu
   let songSize = baseSize + song.seconds / 5
   if (songSize > 210) {
     // XXX: Hack to make "Forty-eight Portraits" less tall
-    songSize = 210
+    songSize = 150
   } else if (song.title == 'Before I Do') {
     // XXX: Hack to make "Before I Do" not crowd Smeared
     songSize = 115
@@ -209,67 +209,62 @@ function addAlbum(i, album) {
   const textPt = pointOnArc(viewcx, viewcy, albumRingRadius + albumTextOffset, degs)
 
   if (i == 0) {
-    // XXX: Nudge Peppermint to the right
+    // XXX: Nudge Smeared to the right
     textPt.x += 40
     textPt.y += 20
   } else if (i == 1) {
-    // XXX: Smeared
-    textPt.x -= 10
-    textPt.y -= 16
+    // XXX: TR
+    textPt.x += 8
+    textPt.y += 26
   } else if (i == 2) {
-    // XXX: Move text for TR up and to the left
-    textPt.x -= 40
+    // XXX: Move text for OCTA up and to the left
+    textPt.x -= 36
     textPt.y -= 38
   } else if (i == 3) {
-    // XXX: Move text for OCTA down and to the left
-    textPt.x -= 116
+    // XXX: Move text for NB down and to the left
+    textPt.x -= 86
     textPt.y += 70
   } else if (i == 4) {
-    // XXX: Move text for NB down and to the left
-    textPt.x -= 90
-    textPt.y += 40
+    // XXX: Move text for BTB down and to the left
+    textPt.x -= 80
+    textPt.y += 35
   } else if (i == 5) {
-    // XXX: Move BTB text to avoid overlapping with OCTA outtakes
+    // XXX: Move PT text to avoid overlapping with B-sides
     textPt.x -= 75
     textPt.y += 15
   } else if (i == 6) {
-    // XXX: Nudge text for PT
+    // XXX: Nudge text for AP
     textPt.x += 6
     textPt.y -= 20
   } else if (i == 7) {
-    // XXX: Move text up and to the right for the bottom-most album
+    // XXX: Move text up and to the right for Never Hear
     // so that it doesn't crowd the bar charts
-    textPt.x += 32
-    textPt.y -= 28
+    textPt.x -= 10
+    textPt.y -= 20
   } else if (i == 8) {
-    // XXX: Move text to the right to account for shorter songs on
-    // these albums
-    textPt.x -= 4
+    // XXX: Parallel Play
+    textPt.x += 8
     textPt.y -= 28
   } else if (i == 9) {
-    // XXX: Never
-    textPt.x += 52
+    // XXX: XX
+    textPt.x += 42
     textPt.y += 12
   } else if (i == 10) {
-    // XXX: H&R
-    textPt.x += 90
-    textPt.y += 42
+    // XXX: Commonwealth
+    textPt.x += 40
+    textPt.y += 52
   } else if (i == 11) {
-    // XXX: XX
-    textPt.x += 110
+    // XXX: 12
+    textPt.x += 20
     textPt.y += 70
   } else if (i == 12) {
-    // XXX: Nudge text over for Commonwealth
-    textPt.x += 86
-    textPt.y += 106
+    // XXX: Steady
+    textPt.x -= 2
+    textPt.y += 86
   } else if (i == 13) {
-    // XXX: Nudge text for 12
-    textPt.x -= 4
-    textPt.y += 16
-  } else if (i == 14) {
-    // XXX: Nudge text to the right for Steady
-    textPt.x += 46
-    textPt.y -= 4
+    // XXX: Based on the Best Seller
+    textPt.x -= 38
+    textPt.y += 90
   }
 
   const rightJustify = center.x < viewcx && i !== 14
@@ -385,14 +380,14 @@ function addAlbums() {
   const tt = 214
   const tb = 630
 
-  const bs1 = albums[primaryAlbumCount]
-  const bs2 = albums[primaryAlbumCount + 1]
-  const trOut = albums[primaryAlbumCount + 2]
-  const ocOut = albums[primaryAlbumCount + 3]
-  addAlbumAtCenterPoint(bs1, newPoint(cl, ct), newPoint(tl, tt), false)
+  const pep = albums[primaryAlbumCount]
+  const hnr = albums[primaryAlbumCount + 1]
+  const bs1 = albums[primaryAlbumCount + 2]
+  const bs2 = albums[primaryAlbumCount + 3]
+  addAlbumAtCenterPoint(pep, newPoint(cr, ct), newPoint(tr, tt), true)
+  addAlbumAtCenterPoint(bs1, newPoint(cr, cb), newPoint(tr, tb), true)
   addAlbumAtCenterPoint(bs2, newPoint(cl, cb), newPoint(tl, tb), false)
-  addAlbumAtCenterPoint(trOut, newPoint(cr, ct), newPoint(tr, tt), true)
-  addAlbumAtCenterPoint(ocOut, newPoint(cr, cb), newPoint(tr, tb), true)
+  addAlbumAtCenterPoint(hnr, newPoint(cl, ct), newPoint(tl, tt), false)
 
   setSecondaryAlbumsVisible(false)
 }

@@ -1,64 +1,5 @@
 var albums = [
   {
-    "cover": "peppermint",
-    "songs": [
-      {
-        "backups": [],
-        "lead": "C",
-        "seconds": 274,
-        "single": false,
-        "time": "4:34",
-        "title": "Marcus Said"
-      },
-      {
-        "backups": [
-          "P"
-        ],
-        "lead": "C",
-        "seconds": 325,
-        "single": false,
-        "time": "5:25",
-        "title": "Underwhelmed"
-      },
-      {
-        "backups": [],
-        "lead": "J",
-        "seconds": 188,
-        "single": false,
-        "time": "3:08",
-        "title": "Pretty Voice"
-      },
-      {
-        "backups": [],
-        "lead": "C",
-        "seconds": 191,
-        "single": false,
-        "time": "3:11",
-        "title": "Lucky for Me"
-      },
-      {
-        "backups": [
-          "C"
-        ],
-        "lead": "P",
-        "seconds": 217,
-        "single": false,
-        "time": "3:37",
-        "title": "Sugartune"
-      },
-      {
-        "backups": [],
-        "lead": "C",
-        "seconds": 175,
-        "single": false,
-        "time": "2:55",
-        "title": "Torn"
-      }
-    ],
-    "title": "Peppermint EP",
-    "year": "1992"
-  },
-  {
     "cover": "smeared",
     "songs": [
       {
@@ -1327,57 +1268,6 @@ var albums = [
     "year": "2008"
   },
   {
-    "cover": "hit",
-    "songs": [
-      {
-        "backups": [
-          "J"
-        ],
-        "lead": "C",
-        "seconds": 154,
-        "single": true,
-        "time": "2:34",
-        "title": "Take It Upon Yourself"
-      },
-      {
-        "backups": [],
-        "lead": "J",
-        "seconds": 130,
-        "single": false,
-        "time": "2:10",
-        "title": "Midnight Mass"
-      },
-      {
-        "backups": [],
-        "lead": "P",
-        "seconds": 192,
-        "single": false,
-        "time": "3:12",
-        "title": "It Is Never"
-      },
-      {
-        "backups": [
-          "C"
-        ],
-        "lead": "A",
-        "seconds": 122,
-        "single": false,
-        "time": "2:02",
-        "title": "Where Are You Now?"
-      },
-      {
-        "backups": [],
-        "lead": "C",
-        "seconds": 195,
-        "single": false,
-        "time": "3:15",
-        "title": "Oh Dear Diary"
-      }
-    ],
-    "title": "Hit & Run EP",
-    "year": "2009"
-  },
-  {
     "cover": "double",
     "songs": [
       {
@@ -1889,6 +1779,237 @@ var albums = [
     ],
     "title": "Steady",
     "year": "2022"
+  },
+  {
+    "cover": "based",
+    "songs": [
+      {
+        "backups": [
+          "C"
+        ],
+        "lead": "J",
+        "seconds": 194,
+        "single": false,
+        "time": "3:14",
+        "title": "Capitol Cooler"
+      },
+      {
+        "backups": [
+          "C"
+        ],
+        "lead": "P",
+        "seconds": 234,
+        "single": true,
+        "time": "3:54",
+        "title": "Dream Destroyer"
+      },
+      {
+        "backups": [
+          "P"
+        ],
+        "lead": "C",
+        "seconds": 132,
+        "single": false,
+        "time": "2:12",
+        "title": "Open Your Umbrellas"
+      },
+      {
+        "backups": [
+          "C"
+        ],
+        "lead": "A",
+        "seconds": 173,
+        "single": false,
+        "time": "2:53",
+        "title": "Baxter"
+      },
+      {
+        "backups": [
+          "C"
+        ],
+        "lead": "J",
+        "seconds": 145,
+        "single": false,
+        "time": "2:25",
+        "title": "Congratulations"
+      },
+      {
+        "backups": [
+          "P"
+        ],
+        "lead": "C",
+        "seconds": 207,
+        "single": false,
+        "time": "3:27",
+        "title": "Live Forever"
+      },
+      {
+        "backups": [
+          "C"
+        ],
+        "lead": "P",
+        "seconds": 174,
+        "single": false,
+        "time": "2:54",
+        "title": "So Far Down"
+      },
+      {
+        "backups": [
+          "P"
+        ],
+        "lead": "C",
+        "seconds": 205,
+        "single": false,
+        "time": "3:25",
+        "title": "Fortune Teller"
+      },
+      {
+        "backups": [],
+        "lead": "A",
+        "seconds": 262,
+        "single": false,
+        "time": "4:22",
+        "title": "No Damn Fears"
+      },
+      {
+        "backups": [],
+        "lead": "J",
+        "seconds": 162,
+        "single": false,
+        "time": "2:42",
+        "title": "Collect Yourself"
+      },
+      {
+        "backups": [
+          "C"
+        ],
+        "lead": "P",
+        "seconds": 207,
+        "single": false,
+        "time": "3:27",
+        "title": "Here We Go Again"
+      },
+      {
+        "backups": [],
+        "lead": "C",
+        "seconds": 202,
+        "single": false,
+        "time": "3:22",
+        "title": "I Already Know"
+      }
+    ],
+    "title": "Based on the Best Seller",
+    "year": "2025"
+  },
+  {
+    "cover": "peppermint",
+    "songs": [
+      {
+        "backups": [],
+        "lead": "C",
+        "seconds": 274,
+        "single": false,
+        "time": "4:34",
+        "title": "Marcus Said"
+      },
+      {
+        "backups": [
+          "P"
+        ],
+        "lead": "C",
+        "seconds": 325,
+        "single": false,
+        "time": "5:25",
+        "title": "Underwhelmed"
+      },
+      {
+        "backups": [],
+        "lead": "J",
+        "seconds": 188,
+        "single": false,
+        "time": "3:08",
+        "title": "Pretty Voice"
+      },
+      {
+        "backups": [],
+        "lead": "C",
+        "seconds": 191,
+        "single": false,
+        "time": "3:11",
+        "title": "Lucky for Me"
+      },
+      {
+        "backups": [
+          "C"
+        ],
+        "lead": "P",
+        "seconds": 217,
+        "single": false,
+        "time": "3:37",
+        "title": "Sugartune"
+      },
+      {
+        "backups": [],
+        "lead": "C",
+        "seconds": 175,
+        "single": false,
+        "time": "2:55",
+        "title": "Torn"
+      }
+    ],
+    "title": "Peppermint EP",
+    "year": "1992"
+  },
+  {
+    "cover": "hit",
+    "songs": [
+      {
+        "backups": [
+          "J"
+        ],
+        "lead": "C",
+        "seconds": 154,
+        "single": true,
+        "time": "2:34",
+        "title": "Take It Upon Yourself"
+      },
+      {
+        "backups": [],
+        "lead": "J",
+        "seconds": 130,
+        "single": false,
+        "time": "2:10",
+        "title": "Midnight Mass"
+      },
+      {
+        "backups": [],
+        "lead": "P",
+        "seconds": 192,
+        "single": false,
+        "time": "3:12",
+        "title": "It Is Never"
+      },
+      {
+        "backups": [
+          "C"
+        ],
+        "lead": "A",
+        "seconds": 122,
+        "single": false,
+        "time": "2:02",
+        "title": "Where Are You Now?"
+      },
+      {
+        "backups": [],
+        "lead": "C",
+        "seconds": 195,
+        "single": false,
+        "time": "3:15",
+        "title": "Oh Dear Diary"
+      }
+    ],
+    "title": "Hit & Run EP",
+    "year": "2009"
   },
   {
     "cover": "bsides",
