@@ -819,8 +819,8 @@ function addBarCharts() {
 
   function getChartItems(func) {
     const chartItems = []
-    for (let i = 0; i < personKeys.length; i++) {
-      const personKey = personKeys[i]
+    for (let i = 0; i < primaryPersonKeys.length; i++) {
+      const personKey = primaryPersonKeys[i]
       const chartItem = {
         personKey: personKey,
         value: func(personKey)
