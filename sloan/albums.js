@@ -1814,9 +1814,7 @@ var albums = [
         "title": "Open Your Umbrellas"
       },
       {
-        "backups": [
-          "C"
-        ],
+        "backups": [],
         "lead": "A",
         "seconds": 173,
         "single": false,
@@ -1864,7 +1862,10 @@ var albums = [
         "title": "Fortune Teller"
       },
       {
-        "backups": [],
+        "backups": [
+          "C",
+          "P"
+        ],
         "lead": "A",
         "seconds": 262,
         "single": false,
@@ -1872,7 +1873,9 @@ var albums = [
         "title": "No Damn Fears"
       },
       {
-        "backups": [],
+        "backups": [
+          "C"
+        ],
         "lead": "J",
         "seconds": 162,
         "single": false,
@@ -1890,7 +1893,9 @@ var albums = [
         "title": "Here We Go Again"
       },
       {
-        "backups": [],
+        "backups": [
+          "P"
+        ],
         "lead": "C",
         "seconds": 202,
         "single": false,

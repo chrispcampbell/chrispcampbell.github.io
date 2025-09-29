@@ -821,7 +821,7 @@ C,P
 
 No Damn Fears
 4:22
-A,C
+A,C,P
 
 Collect Yourself
 2:42
